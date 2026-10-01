@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PicTo3D | استودیو مدلسازی ۳ بعدی چند زاویه‌ای</title>
+    <title>PicTo3D | استودیو لوح و تندیس ۳ بعدی</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,8 +11,8 @@
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#090d16',
-                        cardBg: 'rgba(15, 23, 42, 0.75)',
+                        darkBg: '#080c14',
+                        cardBg: 'rgba(15, 23, 42, 0.8)',
                         neonCyan: '#00f3ff',
                         neonPurple: '#a855f7'
                     },
@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Three.js Libraries -->
+    <!-- Three.js CDN Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/OBJExporter.js"></script>
@@ -34,16 +34,16 @@
     <style>
         body {
             font-family: 'Vazirmatn', sans-serif;
-            background-color: #090d16;
+            background-color: #080c14;
             color: #f1f5f9;
             overflow-x: hidden;
         }
         .glow-box {
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.12);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.12);
             border: 1px solid rgba(0, 243, 255, 0.25);
         }
         .glass {
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(16px);
         }
         .gradient-text {
@@ -66,98 +66,115 @@
         <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white shadow-lg">
-                    <i class="fa-solid fa-cube text-xl"></i>
+                    <i class="fa-solid fa-gem text-xl"></i>
                 </div>
-                <span class="text-2xl font-black gradient-text tracking-wide">PicTo3D Multi-Angle</span>
+                <span class="text-2xl font-black gradient-text tracking-wide">PicTo3D Studio</span>
             </div>
             <div class="text-xs text-slate-400 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700 flex items-center gap-2">
-                <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i> حذف پس‌زمینه + ساخت مجسمه ۳۶۰ درجه
+                <i class="fa-solid fa-cube text-cyan-400"></i> ساخت لوح و تندیس ۳ بعدی برجسته
             </div>
         </div>
     </header>
 
     <!-- Main Workspace -->
-    <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        <!-- 3D Viewer Canvas -->
-        <div class="lg:col-span-7 xl:col-span-8 bg-slate-900/80 rounded-2xl p-3 glow-box flex flex-col h-[500px] lg:h-[620px] relative overflow-hidden">
-            <div class="absolute top-6 right-6 z-10 bg-slate-900/80 backdrop-filter blur-md px-3 py-1.5 rounded-lg border border-slate-700/80 text-xs text-slate-300 flex items-center gap-2">
-                <i class="fa-solid fa-hand-pointer text-cyan-400"></i> چرخاندن ۳۶۰ درجه: کلیک چپ | زوم: غلتک موس
+        <!-- 3D Viewport -->
+        <div class="lg:col-span-7 xl:col-span-8 bg-slate-900/90 rounded-2xl p-3 glow-box flex flex-col h-[500px] lg:h-[640px] relative overflow-hidden">
+            <!-- Floating Controls -->
+            <div class="absolute top-6 right-6 z-10 flex items-center gap-2">
+                <div class="bg-slate-900/80 backdrop-filter blur-md px-3 py-1.5 rounded-lg border border-slate-700/80 text-xs text-slate-300 flex items-center gap-2">
+                    <i class="fa-solid fa-hand-pointer text-cyan-400"></i> چرخش: کلیک چپ | زوم: غلتک
+                </div>
+                <button onclick="toggleAutoRotate()" id="rotateBtn" class="bg-slate-800/90 hover:bg-slate-700 text-cyan-400 text-xs p-2 rounded-lg border border-slate-700 transition" title="چرخش خودکار">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
             </div>
             
             <div id="canvasContainer" class="w-full h-full relative rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center">
                 <div id="placeholderText" class="text-center p-6 text-slate-500">
-                    <i class="fa-solid fa-shapes text-5xl mb-3 text-cyan-500/30"></i>
-                    <p class="text-sm">عکس‌های زوایای مختلف را آپلود کنید تا مدل ۳ بعدی بدون پس‌زمینه ساخته شود</p>
+                    <i class="fa-solid fa-shapes text-6xl mb-3 text-cyan-500/30 animate-pulse"></i>
+                    <p class="text-sm font-semibold">تصویر خود را بارگذاری کنید تا لوح و تندیس ۳ بعدی آن ساخته شود</p>
                 </div>
                 <canvas id="canvas3d" class="hidden"></canvas>
             </div>
         </div>
 
         <!-- Controls Sidebar -->
-        <div class="lg:col-span-5 xl:col-span-4 flex flex-col gap-5">
+        <div class="lg:col-span-5 xl:col-span-4 flex flex-col gap-4">
             
-            <!-- Multi-Angle Upload Box -->
-            <div class="glass p-5 rounded-2xl border border-slate-800 shadow-xl space-y-3">
-                <h3 class="text-base font-bold flex items-center gap-2 text-slate-200">
-                    <i class="fa-solid fa-camera-retro text-cyan-400"></i> آپلود تصاویر زوایای مختلف
+            <!-- Upload Box -->
+            <div class="glass p-5 rounded-2xl border border-slate-800 shadow-xl">
+                <h3 class="text-sm font-bold mb-3 flex items-center gap-2 text-slate-200">
+                    <i class="fa-solid fa-cloud-arrow-up text-cyan-400"></i> انتخاب تصویر
                 </h3>
-                <p class="text-xs text-slate-400">برای خروجی واقعی‌تر، عکس زوایای مختلف را اضافه کنید:</p>
-
-                <!-- Front Image -->
-                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
-                    <div>
-                        <span class="text-xs font-semibold text-slate-200 block">۱. عکس از روبرو (اصلی)</span>
-                        <span id="frontStatus" class="text-[10px] text-slate-500">لازم برای ساخت صورت</span>
-                    </div>
-                    <label class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs px-3 py-1.5 rounded-lg border border-cyan-500/40 cursor-pointer font-bold transition">
-                        انتخاب
-                        <input type="file" id="imgFront" accept="image/*" class="hidden">
-                    </label>
-                </div>
-
-                <!-- Back Image -->
-                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
-                    <div>
-                        <span class="text-xs font-semibold text-slate-200 block">۲. عکس از پشت سر (اختیاری)</span>
-                        <span id="backStatus" class="text-[10px] text-slate-500">جهت شکل‌دهی کامل به پشت مدل</span>
-                    </div>
-                    <label class="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-xs px-3 py-1.5 rounded-lg border border-purple-500/40 cursor-pointer font-bold transition">
-                        انتخاب
-                        <input type="file" id="imgBack" accept="image/*" class="hidden">
-                    </label>
-                </div>
-
-                <!-- Advice Alert -->
-                <div id="statusAlert" class="bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 text-[11px] p-2.5 rounded-lg flex items-center gap-2">
-                    <i class="fa-solid fa-circle-info text-cyan-400"></i>
-                    <span>لطفاً عکس روبرو را انتخاب کنید.</span>
+                <div id="dropZone" class="border-2 border-dashed border-cyan-500/30 hover:border-cyan-400 rounded-xl p-5 text-center cursor-pointer transition-all bg-slate-900/50 hover:bg-slate-900/90">
+                    <input type="file" id="fileInput" accept="image/*" class="hidden">
+                    <i class="fa-regular fa-image text-3xl text-cyan-400 mb-2"></i>
+                    <p class="text-xs text-slate-300 font-semibold mb-1">عکس مورد نظر را کشیده یا کلیک کنید</p>
+                    <p class="text-[10px] text-slate-500">پشتیبانی از فرمت‌های PNG, JPG, WebP</p>
                 </div>
             </div>
 
-            <!-- Settings & Options -->
+            <!-- Settings -->
             <div class="glass p-5 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs text-slate-400">حذف خودکار پس‌زمینه:</span>
-                    <span class="text-xs text-green-400 font-bold bg-green-500/10 px-2 py-0.5 rounded border border-green-500/30"><i class="fa-solid fa-check ml-1"></i>فعال</span>
+                <h3 class="text-sm font-bold flex items-center gap-2 text-slate-200">
+                    <i class="fa-solid fa-sliders text-cyan-400"></i> تنظیمات حجم و شکل ۳ بعدی
+                </h3>
+
+                <!-- Plaque Shape -->
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1.5">شکل تندیس / لوح پایه:</label>
+                    <select id="shapeSelect" onchange="render3D()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
+                        <option value="plaque">لوح برجسته مستطیلی (3D Plaque)</option>
+                        <option value="medallion">مدال / سکه دایره‌ای (3D Medallion)</option>
+                        <option value="crystal">بلوک کریستالی نئونی (Glass Crystal)</option>
+                    </select>
                 </div>
 
+                <!-- Frame Material Style -->
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1.5">جنس و رنگ قاب پشت:</label>
+                    <select id="styleSelect" onchange="render3D()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
+                        <option value="dark">مشکی استودیویی مات (Studio Dark)</option>
+                        <option value="gold">فلز طلایی (Metallic Gold)</option>
+                        <option value="silver">نقره‌ای آلومینیومی (Silver)</option>
+                    </select>
+                </div>
+
+                <!-- Relief Depth Slider -->
                 <div>
                     <div class="flex justify-between text-xs mb-1">
-                        <span class="text-slate-400">حجم و ضخامت ۳ بعدی:</span>
-                        <span id="volumeVal" class="text-cyan-400 font-bold">20</span>
+                        <span class="text-slate-400">میزان برجستگی تصویر (Relief):</span>
+                        <span id="reliefVal" class="text-cyan-400 font-bold">12</span>
                     </div>
-                    <input type="range" id="volumeSlider" min="10" max="40" value="20" class="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer">
+                    <input type="range" id="reliefSlider" min="2" max="30" value="12" oninput="updateVal('reliefVal', this.value); render3D();" class="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer">
                 </div>
 
-                <!-- Build 3D Model Button -->
-                <button id="buildBtn" onclick="build3DHead()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black py-3 rounded-xl transition shadow-lg text-sm flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-cube"></i> ساخت مدل ۳ بعدی واقعی
-                </button>
+                <!-- Plaque Thickness Slider -->
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-slate-400">ضخامت لوح (Thickness):</span>
+                        <span id="thickVal" class="text-cyan-400 font-bold">8</span>
+                    </div>
+                    <input type="range" id="thickSlider" min="2" max="25" value="8" oninput="updateVal('thickVal', this.value); render3D();" class="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer">
+                </div>
+
+                <!-- Background Removal Toggle -->
+                <div class="pt-2 border-t border-slate-800">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs text-slate-300 font-semibold">حذف هوشمند پس‌زمینه:</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="bgToggle" onchange="render3D()" class="sr-only peer">
+                            <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500"></div>
+                        </label>
+                    </div>
+                    <p class="text-[10px] text-slate-500">در صورت فعال‌سازی، رنگ‌های زمینه تصویر شفاف می‌شوند.</p>
+                </div>
 
                 <!-- Export Button -->
-                <button id="downloadBtn" onclick="exportOBJ()" disabled class="w-full bg-purple-600 hover:bg-purple-500 opacity-50 cursor-not-allowed text-white font-bold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-download"></i> دانلود فایل (.OBJ)
+                <button id="downloadBtn" onclick="exportOBJ()" disabled class="w-full bg-gradient-to-r from-cyan-400 to-purple-600 opacity-50 cursor-not-allowed text-slate-950 font-black py-3 rounded-xl transition shadow-lg text-sm flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-solid fa-download"></i> دانلود مدل ۳ بعدی (.OBJ)
                 </button>
             </div>
 
@@ -165,16 +182,18 @@
     </main>
 
     <footer class="border-t border-slate-800/80 py-4 text-center text-xs text-slate-500">
-        <p>© 2026 PicTo3D Multi-Angle Studio - تمامی حقوق محفوظ است.</p>
+        <p>© 2026 PicTo3D Studio - تمامی حقوق محفوظ است.</p>
     </footer>
 
     <script>
-        let scene, camera, renderer, controls, currentHeadMesh;
-        let imgFrontData = null, imgBackData = null;
+        let scene, camera, renderer, controls, currentGroup;
+        let loadedImage = null;
+        let isAutoRotate = false;
 
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
         const canvas3d = document.getElementById('canvas3d');
         const placeholderText = document.getElementById('placeholderText');
-        const statusAlert = document.getElementById('statusAlert');
         const downloadBtn = document.getElementById('downloadBtn');
 
         function initThree() {
@@ -183,9 +202,9 @@
 
             const container = document.getElementById('canvasContainer');
             camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-            camera.position.set(0, 0, 75);
+            camera.position.set(0, 0, 85);
 
-            renderer = new THREE.WebGLRenderer({ canvas: canvas3d, antialias: true });
+            renderer = new THREE.WebGLRenderer({ canvas: canvas3d, antialias: true, alpha: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
@@ -193,16 +212,16 @@
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
 
-            // Studio Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
             scene.add(ambientLight);
 
-            const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
-            dirLight1.position.set(30, 40, 50);
+            const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.9);
+            dirLight1.position.set(40, 50, 60);
             scene.add(dirLight1);
 
             const dirLight2 = new THREE.DirectionalLight(0x00f3ff, 0.5);
-            dirLight2.position.set(-30, -20, -50);
+            dirLight2.position.set(-40, -30, -50);
             scene.add(dirLight2);
 
             animate();
@@ -210,120 +229,199 @@
 
         function animate() {
             requestAnimationFrame(animate);
-            if (controls) controls.update();
+            if (controls) {
+                controls.autoRotate = isAutoRotate;
+                controls.autoRotateSpeed = 2.0;
+                controls.update();
+            }
             if (renderer && scene && camera) renderer.render(scene, camera);
         }
 
-        document.getElementById('imgFront').addEventListener('change', (e) => loadAngleImg(e, 'front'));
-        document.getElementById('imgBack').addEventListener('change', (e) => loadAngleImg(e, 'back'));
-        document.getElementById('volumeSlider').addEventListener('input', (e) => {
-            document.getElementById('volumeVal').innerText = e.target.value;
-            if (imgFrontData) build3DHead();
+        function toggleAutoRotate() {
+            isAutoRotate = !isAutoRotate;
+            document.getElementById('rotateBtn').classList.toggle('bg-cyan-500/20', isAutoRotate);
+            document.getElementById('rotateBtn').classList.toggle('text-cyan-300', isAutoRotate);
+        }
+
+        window.addEventListener('resize', () => {
+            if (!camera || !renderer) return;
+            const container = document.getElementById('canvasContainer');
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
         });
 
-        function loadAngleImg(e, angle) {
-            const file = e.target.files[0];
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFile);
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-cyan-400'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-cyan-400'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-cyan-400');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFile();
+            }
+        });
+
+        function updateVal(id, val) {
+            document.getElementById(id).innerText = val;
+        }
+
+        function handleFile() {
+            const file = fileInput.files[0];
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = (event) => {
+            reader.onload = (e) => {
                 const img = new Image();
-                img.src = event.target.result;
+                img.src = e.target.result;
                 img.onload = () => {
-                    const processedCanvas = removeBackground(img);
-                    if (angle === 'front') {
-                        imgFrontData = processedCanvas;
-                        document.getElementById('frontStatus').innerText = "✓ آپلود شد";
-                        document.getElementById('frontStatus').className = "text-[10px] text-green-400 font-bold";
-                    }
-                    if (angle === 'back') {
-                        imgBackData = processedCanvas;
-                        document.getElementById('backStatus').innerText = "✓ آپلود شد";
-                        document.getElementById('backStatus').className = "text-[10px] text-green-400 font-bold";
-                    }
-                    updateStatus();
+                    loadedImage = img;
+                    if (!scene) initThree();
+                    placeholderText.classList.add('hidden');
+                    canvas3d.classList.remove('hidden');
+                    render3D();
+
+                    downloadBtn.disabled = false;
+                    downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
                 };
             };
             reader.readAsDataURL(file);
         }
 
-        function removeBackground(img) {
+        function render3D() {
+            if (!loadedImage) return;
+
+            if (currentGroup) {
+                scene.remove(currentGroup);
+                currentGroup.traverse((child) => {
+                    if (child.geometry) child.geometry.dispose();
+                    if (child.material) {
+                        if (Array.isArray(child.material)) child.material.forEach(m => m.dispose());
+                        else child.material.dispose();
+                    }
+                });
+            }
+
+            currentGroup = new THREE.Group();
+
+            const segsX = 120;
+            const aspect = loadedImage.height / loadedImage.width;
+            const segsY = Math.round(segsX * aspect);
+
             const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
+            canvas.width = segsX;
+            canvas.height = segsY;
             const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
+            ctx.drawImage(loadedImage, 0, 0, segsX, segsY);
 
-            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imgData.data;
+            const imgData = ctx.getImageData(0, 0, segsX, segsY);
+            const pixels = imgData.data;
 
-            const bgR = data[0], bgG = data[1], bgB = data[2];
-            const threshold = 60;
+            const isBgRemove = document.getElementById('bgToggle').checked;
+            if (isBgRemove) {
+                const bgR = pixels[0], bgG = pixels[1], bgB = pixels[2];
+                for (let i = 0; i < pixels.length; i += 4) {
+                    const diff = Math.abs(pixels[i] - bgR) + Math.abs(pixels[i+1] - bgG) + Math.abs(pixels[i+2] - bgB);
+                    if (diff < 65) pixels[i+3] = 0;
+                }
+                ctx.putImageData(imgData, 0, 0);
+            }
 
-            for (let i = 0; i < data.length; i += 4) {
-                const r = data[i], g = data[i + 1], b = data[i + 2];
-                const diff = Math.abs(r - bgR) + Math.abs(g - bgG) + Math.abs(b - bgB);
-                if (diff < threshold) {
-                    data[i + 3] = 0;
+            const rawHeights = new Float32Array(segsX * segsY);
+            for (let i = 0; i < pixels.length; i += 4) {
+                if (pixels[i+3] < 50) {
+                    rawHeights[i/4] = 0;
+                } else {
+                    rawHeights[i/4] = (0.299 * pixels[i] + 0.587 * pixels[i+1] + 0.114 * pixels[i+2]) / 255;
                 }
             }
 
-            ctx.putImageData(imgData, 0, 0);
-            return canvas;
-        }
-
-        function updateStatus() {
-            if (imgFrontData && !imgBackData) {
-                statusAlert.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-yellow-400 ml-1"></i> عکس روبرو آپلود شد! پیشنهاد: عکس پشت سر را هم اضافه کنید تا ۳۶۰ درجه کامل شود.`;
-            } else if (imgFrontData && imgBackData) {
-                statusAlert.innerHTML = `<i class="fa-solid fa-circle-check text-green-400 ml-1"></i> تصاویر عالی است! روی "ساخت مدل ۳ بعدی" کلیک کنید.`;
+            // Smooth Box Blur Filter for clean relief
+            const smoothHeights = new Float32Array(segsX * segsY);
+            for (let y = 0; y < segsY; y++) {
+                for (let x = 0; x < segsX; x++) {
+                    let sum = 0, count = 0;
+                    for (let dy = -2; dy <= 2; dy++) {
+                        for (let dx = -2; dx <= 2; dx++) {
+                            const nx = x + dx, ny = y + dy;
+                            if (nx >= 0 && nx < segsX && ny >= 0 && ny < segsY) {
+                                sum += rawHeights[ny * segsX + nx];
+                                count++;
+                            }
+                        }
+                    }
+                    smoothHeights[y * segsX + x] = sum / count;
+                }
             }
-        }
 
-        function build3DHead() {
-            if (!imgFrontData) {
-                alert('لطفاً ابتدا عکس از روبرو را آپلود کنید.');
-                return;
+            const shape = document.getElementById('shapeSelect').value;
+            const style = document.getElementById('styleSelect').value;
+            const reliefMult = parseFloat(document.getElementById('reliefSlider').value) * 0.2;
+            const thickness = parseFloat(document.getElementById('thickSlider').value);
+
+            const worldW = 38;
+            const worldH = 38 * aspect;
+
+            // Front Relief Plane
+            const planeGeom = new THREE.PlaneGeometry(worldW, worldH, segsX - 1, segsY - 1);
+            const pos = planeGeom.attributes.position;
+            for (let i = 0; i < pos.count; i++) {
+                pos.setZ(i, smoothHeights[i] * reliefMult);
             }
+            planeGeom.computeVertexNormals();
 
-            if (!scene) initThree();
-
-            placeholderText.classList.add('hidden');
-            canvas3d.classList.remove('hidden');
-
-            if (currentHeadMesh) scene.remove(currentHeadMesh);
-
-            const volume = parseFloat(document.getElementById('volumeSlider').value);
-
-            // Create Head/Sculpture Geometry
-            const geometry = new THREE.CylinderGeometry(15, 12, 35, 64);
-
-            const frontTex = new THREE.CanvasTexture(imgFrontData);
-            let backTex = imgBackData ? new THREE.CanvasTexture(imgBackData) : frontTex;
-
-            const material = new THREE.MeshStandardMaterial({
+            const frontTex = new THREE.CanvasTexture(canvas);
+            const frontMat = new THREE.MeshStandardMaterial({
                 map: frontTex,
-                roughness: 0.3,
+                roughness: 0.35,
                 metalness: 0.1,
-                transparent: true
+                transparent: true,
+                side: THREE.FrontSide
             });
 
-            currentHeadMesh = new THREE.Mesh(geometry, material);
-            currentHeadMesh.scale.set(1, 1, volume / 20);
-            scene.add(currentHeadMesh);
+            const frontMesh = new THREE.Mesh(planeGeom, frontMat);
+            frontMesh.position.z = thickness / 2 + 0.1;
+            currentGroup.add(frontMesh);
 
-            downloadBtn.disabled = false;
-            downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            // Backing Base (Solid Frame)
+            let frameColor = 0x1e293b, metal = 0.2, rough = 0.5;
+            if (style === 'gold') { frameColor = 0xd4af37; metal = 0.85; rough = 0.25; }
+            else if (style === 'silver') { frameColor = 0xe2e8f0; metal = 0.9; rough = 0.2; }
+
+            const frameMat = new THREE.MeshStandardMaterial({
+                color: frameColor,
+                metalness: metal,
+                roughness: rough
+            });
+
+            let backGeom;
+            if (shape === 'plaque') {
+                backGeom = new THREE.BoxGeometry(worldW + 2, worldH + 2, thickness);
+            } else if (shape === 'medallion') {
+                const rad = Math.max(worldW, worldH) / 1.7;
+                backGeom = new THREE.CylinderGeometry(rad, rad, thickness, 64);
+                backGeom.rotateX(Math.PI / 2);
+            } else if (shape === 'crystal') {
+                backGeom = new THREE.BoxGeometry(worldW + 1, worldH + 1, thickness);
+            }
+
+            const backMesh = new THREE.Mesh(backGeom, frameMat);
+            backMesh.position.z = 0;
+            currentGroup.add(backMesh);
+
+            scene.add(currentGroup);
         }
 
         function exportOBJ() {
-            if (!currentHeadMesh) return;
+            if (!currentGroup) return;
             const exporter = new THREE.OBJExporter();
-            const result = exporter.parse(currentHeadMesh);
+            const result = exporter.parse(currentGroup);
             const blob = new Blob([result], { type: 'text/plain' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = '3d_model_picto3d.obj';
+            link.download = '3d_studio_plaque.obj';
             link.click();
         }
     </script>
