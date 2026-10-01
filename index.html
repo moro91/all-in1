@@ -29,8 +29,8 @@
         }
     </script>
 
-    <!-- Google Fonts Imports (100+ Popular Persian, Arabic & English Fonts) -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;600;900&family=Changa:wght@400;700&family=El+Messiri:wght@500;700&family=Katibeh&family=Lalezar&family=Lobster&family=Monoton&family=Pacifico&family=Press+Start+2P&family=Reem+Kufi:wght@500;800&family=Sahel:wght@400;700&family=Samim:wght@400;700&family=Shabnam:wght@400;700&family=Tajawal:wght@400;800&family=Vazirmatn:wght@300;500;700;900&family=Vibur&display=swap" rel="stylesheet">
+    <!-- Google Fonts Imports -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;700&family=Katibeh&family=Lalezar&family=Lobster&family=Monoton&family=Pacifico&family=Sahel:wght@400;700&family=Shabnam:wght@400;700&family=Vazirmatn:wght@300;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- JSZip CDN for Batch Zip Downloads -->
@@ -55,9 +55,6 @@
             background: linear-gradient(135deg, #00f3ff 0%, #10b981 50%, #a855f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-        .tool-card-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .tool-card-btn.active {
             background: linear-gradient(135deg, rgba(0, 243, 255, 0.15), rgba(168, 85, 247, 0.15));
@@ -94,23 +91,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .anim-rose-gold {
-            background: linear-gradient(135deg, #f7d6c8 0%, #e8b4b8 50%, #b76e79 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
         .anim-gold-luxury {
             background: linear-gradient(135deg, #ffe066 0%, #f59e0b 50%, #d4af37 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-        .neon-glow-cyan {
-            color: #00f3ff;
-            text-shadow: 0 0 10px rgba(0,243,255,0.8), 0 0 20px rgba(0,243,255,0.5);
-        }
-        .neon-glow-pink {
-            color: #ff007f;
-            text-shadow: 0 0 10px rgba(255,0,127,0.8), 0 0 20px rgba(255,0,127,0.5);
         }
     </style>
 </head>
@@ -125,18 +109,17 @@
                 </div>
                 <div>
                     <span class="text-2xl font-black gradient-text tracking-wide">OmniTools Studio</span>
-                    <span class="block text-[10px] text-slate-400">مجموعه ۳ ابزار کاربردی و آنلاین</span>
+                    <span class="block text-[10px] text-slate-400">مجموعه ابزارهای کاربردی و آنلاین</span>
                 </div>
             </div>
 
-            <!-- Header Support Contact & Clock -->
+            <!-- Support Email Badge & Clock -->
             <div class="flex items-center gap-3">
                 <div id="topHeaderClock" class="hidden md:flex items-center gap-2 bg-slate-900/90 px-3.5 py-1.5 rounded-full border border-slate-800 text-xs font-mono text-cyan-400">
                     <i class="fa-regular fa-clock text-emerald-400"></i>
                     <span id="liveHeaderTime">00:00:00</span>
                 </div>
 
-                <!-- Support Email Badge -->
                 <a href="mailto:mehradsheikhi@gmail.com" class="bg-gradient-to-r from-purple-900/40 to-slate-900 hover:from-purple-800/60 text-purple-200 text-xs px-3.5 py-1.5 rounded-full border border-purple-500/30 transition flex items-center gap-2" title="ایمیل پشتیبانی">
                     <i class="fa-solid fa-envelope text-purple-400"></i>
                     <span class="hidden sm:inline font-mono">mehradsheikhi@gmail.com</span>
@@ -149,47 +132,40 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
 
-        <!-- Main Tool Switcher Cards (3 Tools) -->
+        <!-- Main Tool Switcher Cards -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            
-            <!-- Tool 1: ZamanPro -->
             <button onclick="switchMainTool('time')" id="mainBtn-time" class="tool-card-btn active glass p-5 rounded-2xl border border-slate-800 text-right flex items-center gap-4 group">
                 <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-clock"></i>
                 </div>
                 <div>
                     <h2 class="text-sm font-bold text-slate-100 group-hover:text-cyan-300 transition-colors">زمان و اوقات شرعی</h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">ساعت زنده، تقویم ۳گانه، اوقات شرعی و تبدیل تاریخ</p>
+                    <p class="text-[11px] text-slate-400 mt-0.5">ساعت زنده، تقویم ۳گانه و تبدیل تاریخ</p>
                 </div>
             </button>
 
-            <!-- Tool 2: FileCompressPro -->
             <button onclick="switchMainTool('compressor')" id="mainBtn-compressor" class="tool-card-btn glass p-5 rounded-2xl border border-slate-800 text-right flex items-center gap-4 group">
                 <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 border border-purple-500/30 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-file-zipper"></i>
                 </div>
                 <div>
                     <h2 class="text-sm font-bold text-slate-100 group-hover:text-purple-300 transition-colors">فشرده‌ساز فایل</h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">کاهش حجم هوشمند تصاویر و دانلود یکجای ZIP</p>
+                    <p class="text-[11px] text-slate-400 mt-0.5">کاهش حجم هوشمند تصاویر و دانلود ZIP</p>
                 </div>
             </button>
 
-            <!-- Tool 3: FontCraft Pro (NEW!) -->
             <button onclick="switchMainTool('font')" id="mainBtn-font" class="tool-card-btn glass p-5 rounded-2xl border border-slate-800 text-right flex items-center gap-4 group">
                 <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-font"></i>
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت و متن</h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">۱۰۰+ استایل، فونت‌های محبوب، رنگین‌کمانی و انیمیشن موجی</p>
+                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت (قابل پیست)</h2>
+                    <p class="text-[11px] text-slate-400 mt-0.5">تبدیل به کاراکترهای واقعی یونیکد جهت استفاده در تلگرام و اینستاگرام</p>
                 </div>
             </button>
-
         </section>
 
-        <!-- ========================================== -->
-        <!-- TOOL 1 CONTAINER: ZAMANPRO                 -->
-        <!-- ========================================== -->
+        <!-- TOOL 1: ZAMANPRO -->
         <div id="toolSection-time" class="space-y-8">
             <section class="glass rounded-3xl p-6 sm:p-8 glow-border relative overflow-hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -210,7 +186,7 @@
                             <div id="dateJalali" class="text-lg font-bold text-slate-100">---</div>
                         </div>
                         <div class="bg-slate-900/90 p-4 rounded-2xl border border-emerald-500/30 text-center space-y-1">
-                            <span class="text-[11px] text-emerald-400 font-semibold block"><i class="fa-solid fa-globe ml-1"></i>میلادی (Gregorian)</span>
+                            <span class="text-[11px] text-emerald-400 font-semibold block"><i class="fa-solid fa-globe ml-1"></i>میلادی</span>
                             <div id="dateGregorian" class="text-lg font-bold text-slate-100 font-mono">---</div>
                         </div>
                         <div class="bg-slate-900/90 p-4 rounded-2xl border border-amber-500/30 text-center space-y-1">
@@ -232,18 +208,17 @@
                     <i class="fa-solid fa-arrows-rotate"></i> تبدیل تاریخ
                 </button>
                 <button onclick="switchTimeSubTab('age')" id="subtab-age" class="subtab-btn px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/60 text-xs sm:text-sm font-semibold transition flex items-center gap-2">
-                    <i class="fa-solid fa-cake-candles"></i> محاسبه‌گر سن
+                    <i class="fa-solid fa-cake-candles"></i> محاسبه سن
                 </button>
             </div>
 
-            <!-- SUB-TAB 1: PRAYER TIMES -->
+            <!-- SUB-TAB: PRAYER TIMES -->
             <section id="timeSec-prayer" class="space-y-6">
                 <div class="glass p-6 rounded-3xl border border-slate-800 flex flex-wrap justify-between items-center gap-4">
                     <div>
                         <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
                             <i class="fa-solid fa-kaaba text-amber-400"></i> اوقات شرعی به افق شهرهای ایران
                         </h3>
-                        <p class="text-xs text-slate-400 mt-1">شهر خود را انتخاب کنید تا اذان‌ها و تایمر تا اذان بعدی محاسبه شود.</p>
                     </div>
                     <div class="w-full sm:w-64">
                         <select id="citySelect" onchange="updatePrayerTimes()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-cyan-300 font-bold focus:outline-none focus:border-cyan-400">
@@ -300,25 +275,23 @@
                 </div>
             </section>
 
-            <!-- SUB-TAB 2: WORLD CLOCKS -->
+            <!-- SUB-TAB: WORLD CLOCKS -->
             <section id="timeSec-world" class="hidden space-y-6">
                 <div class="glass p-6 rounded-3xl border border-slate-800">
                     <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
-                        <i class="fa-solid fa-globe text-cyan-400"></i> ساعت زنده پایتخت‌ها و شهرهای مهم جهان
+                        <i class="fa-solid fa-globe text-cyan-400"></i> ساعت زنده شهرهای مهم جهان
                     </h3>
                 </div>
-                <div id="worldClocksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                </div>
+                <div id="worldClocksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
             </section>
 
-            <!-- SUB-TAB 3: DATE CONVERTER -->
+            <!-- SUB-TAB: DATE CONVERTER -->
             <section id="timeSec-convert" class="hidden space-y-6">
                 <div class="glass p-6 rounded-3xl border border-slate-800">
                     <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
-                        <i class="fa-solid fa-arrows-rotate text-purple-400"></i> مبدل هوشمند و دقیق تاریخ
+                        <i class="fa-solid fa-arrows-rotate text-purple-400"></i> مبدل هوشمند تاریخ
                     </h3>
                 </div>
-
                 <div class="glass p-6 rounded-3xl border border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="space-y-4 bg-slate-900/60 p-5 rounded-2xl border border-slate-800">
                         <label class="block text-xs font-bold text-cyan-300">ورودی سال / ماه / روز (شمسی):</label>
@@ -327,9 +300,7 @@
                             <input type="number" id="convMonth" value="7" min="1" max="12" class="bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-slate-100 focus:outline-none focus:border-cyan-400">
                             <input type="number" id="convDay" value="10" min="1" max="31" class="bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-slate-100 focus:outline-none focus:border-cyan-400">
                         </div>
-                        <button onclick="convertJalaliDate()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black py-2.5 rounded-xl transition text-xs shadow-lg shadow-cyan-500/20">
-                            تبدیل تاریخ
-                        </button>
+                        <button onclick="convertJalaliDate()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black py-2.5 rounded-xl transition text-xs shadow-lg shadow-cyan-500/20">تبدیل تاریخ</button>
                     </div>
 
                     <div class="md:col-span-2 space-y-4">
@@ -340,7 +311,6 @@
                             </div>
                             <i class="fa-solid fa-calendar-days text-emerald-400 text-2xl"></i>
                         </div>
-
                         <div class="bg-slate-900/90 p-4 rounded-2xl border border-amber-500/30 flex justify-between items-center">
                             <div>
                                 <span class="text-[11px] text-amber-400 block font-semibold">معادل تاریخ هجری قمری:</span>
@@ -352,25 +322,22 @@
                 </div>
             </section>
 
-            <!-- SUB-TAB 4: AGE CALCULATOR -->
+            <!-- SUB-TAB: AGE CALCULATOR -->
             <section id="timeSec-age" class="hidden space-y-6">
                 <div class="glass p-6 rounded-3xl border border-slate-800">
                     <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
-                        <i class="fa-solid fa-cake-candles text-purple-400"></i> محاسبه‌گر هوشمند سن و طالع‌بینی
+                        <i class="fa-solid fa-cake-candles text-purple-400"></i> محاسبه‌گر سن
                     </h3>
                 </div>
-
                 <div class="glass p-6 rounded-3xl border border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-6">
                     <div class="lg:col-span-4 bg-slate-900/60 p-5 rounded-2xl border border-slate-800 space-y-4">
-                        <label class="block text-xs font-bold text-purple-300">تاریخ تولد خود را وارد کنید:</label>
+                        <label class="block text-xs font-bold text-purple-300">تاریخ تولد شمسی:</label>
                         <div class="grid grid-cols-3 gap-2">
                             <input type="number" id="birthYear" value="1380" class="bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-slate-100 focus:outline-none focus:border-purple-400">
                             <input type="number" id="birthMonth" value="1" min="1" max="12" class="bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-slate-100 focus:outline-none focus:border-purple-400">
                             <input type="number" id="birthDay" value="1" min="1" max="31" class="bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-slate-100 focus:outline-none focus:border-purple-400">
                         </div>
-                        <button onclick="startAgeCalc()" class="w-full bg-purple-500 hover:bg-purple-400 text-white font-black py-2.5 rounded-xl transition text-xs shadow-lg shadow-purple-500/20">
-                            محاسبه سن دقیق
-                        </button>
+                        <button onclick="startAgeCalc()" class="w-full bg-purple-500 hover:bg-purple-400 text-white font-black py-2.5 rounded-xl transition text-xs shadow-lg shadow-purple-500/20">محاسبه سن دقیق</button>
                     </div>
 
                     <div class="lg:col-span-8 space-y-4">
@@ -392,7 +359,7 @@
                             <span class="text-slate-600 font-bold">:</span>
                             <div>
                                 <span id="ageSecs" class="text-3xl font-black text-cyan-400 font-mono">0</span>
-                                <span class="block text-[11px] text-slate-400">ثانیه زندگی</span>
+                                <span class="block text-[11px] text-slate-400">ثانیه</span>
                             </div>
                         </div>
 
@@ -415,9 +382,7 @@
             </section>
         </div>
 
-        <!-- ========================================== -->
-        <!-- TOOL 2 CONTAINER: FILECOMPRESSPRO          -->
-        <!-- ========================================== -->
+        <!-- TOOL 2: FILECOMPRESSPRO -->
         <div id="toolSection-compressor" class="hidden space-y-6">
             <div class="glass rounded-3xl p-6 sm:p-8 glow-border">
                 <div id="dropZone" class="border-2 border-dashed border-purple-500/40 hover:border-purple-400 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-all bg-slate-900/40 hover:bg-slate-900/80 group">
@@ -487,41 +452,26 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- TOOL 3 CONTAINER: FONTCRAFT PRO (NEW!)     -->
-        <!-- ========================================== -->
+        <!-- TOOL 3: FONTCRAFT PRO (UNICODE REAL PASTABLE FONTS) -->
         <div id="toolSection-font" class="hidden space-y-6">
             
-            <!-- Input & Controls Area -->
             <div class="glass p-6 sm:p-8 rounded-3xl border border-slate-800 glow-box space-y-6">
-                <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-4">
-                    <div>
-                        <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
-                            <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> استودیو زیباسازی فونت و متن
-                        </h3>
-                        <p class="text-xs text-slate-400 mt-1">متن دلخواه خود را تایپ یا پیست کنید تا ۱۰۰+ استایل و فونت رنگارنگ آن ساخته شود.</p>
-                    </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> استودیو زیباسازی فونت (کاراکترهای واقعی یونیکد)
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">متن خود را تایپ یا پیست کنید. تمام خروجی‌ها پس از کپی، در <strong>تلگرام، اینستاگرام، واتساپ، ایتا و...</strong> با همین فونت پیست می‌شوند!</p>
                 </div>
 
-                <!-- Text Input Box -->
                 <div class="space-y-2">
                     <label class="block text-xs font-bold text-amber-300">متن ورودی شما:</label>
-                    <textarea id="fontInputText" oninput="renderFontPreviews()" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 text-sm text-slate-100 focus:outline-none focus:border-amber-400 font-bold transition placeholder:text-slate-600" placeholder="متن خود را اینجا پیست یا تایپ کنید (مثلاً: OmniTools - استودیو هوشمند متن)..."></textarea>
-                </div>
-
-                <!-- Filter Categories -->
-                <div class="flex flex-wrap gap-2 pt-2">
-                    <button onclick="filterFontCat('all')" id="fcat-all" class="font-cat-btn active px-3.5 py-1.5 rounded-xl border border-slate-800 bg-slate-900 text-xs font-semibold text-slate-300 transition">همه استایل‌ها (۱۰۰+)</button>
-                    <button onclick="filterFontCat('wavy')" id="fcat-wavy" class="font-cat-btn px-3.5 py-1.5 rounded-xl border border-slate-800 bg-slate-900 text-xs font-semibold text-slate-300 transition"><i class="fa-solid fa-water text-cyan-400 ml-1"></i>انیمیشن‌دار و موجی</button>
-                    <button onclick="filterFontCat('warm')" id="fcat-warm" class="font-cat-btn px-3.5 py-1.5 rounded-xl border border-slate-800 bg-slate-900 text-xs font-semibold text-slate-300 transition"><i class="fa-solid fa-fire text-amber-400 ml-1"></i>رنگ‌های گرم و آتشین</button>
-                    <button onclick="filterFontCat('cool')" id="fcat-cool" class="font-cat-btn px-3.5 py-1.5 rounded-xl border border-slate-800 bg-slate-900 text-xs font-semibold text-slate-300 transition"><i class="fa-solid fa-snowflake text-emerald-400 ml-1"></i>رنگ‌های خنک و نئون</button>
-                    <button onclick="filterFontCat('persian')" id="fcat-persian" class="font-cat-btn px-3.5 py-1.5 rounded-xl border border-slate-800 bg-slate-900 text-xs font-semibold text-slate-300 transition"><i class="fa-solid fa-language text-purple-400 ml-1"></i>فونت‌های محبوب فارسی</button>
+                    <textarea id="fontInputText" oninput="renderFontPreviews()" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 text-sm text-slate-100 focus:outline-none focus:border-amber-400 font-bold transition placeholder:text-slate-600" placeholder="متن خود را تایپ یا پیست کنید (مثلاً: Hello - سلام متین)..."></textarea>
                 </div>
             </div>
 
-            <!-- Fonts Grid Output -->
+            <!-- Fonts Output Grid -->
             <div id="fontsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Auto Generated 100+ Styled Cards -->
+                <!-- Auto Generated Pastable Unicode Styled Cards -->
             </div>
 
         </div>
@@ -533,8 +483,8 @@
                     <i class="fa-solid fa-headset"></i>
                 </div>
                 <div>
-                    <h4 class="text-sm font-bold text-slate-200">پشتیبانی و پیشنهادات توسعه</h4>
-                    <p class="text-xs text-slate-400 mt-0.5">سؤالات، باگ‌ها یا پیشنهادات خود را مستقیماً برای ما ارسال کنید.</p>
+                    <h4 class="text-sm font-bold text-slate-200">پشتیبانی و ارتباط مستقیم</h4>
+                    <p class="text-xs text-slate-400 mt-0.5">سؤالات و پیشنهادات خود را ارسال کنید.</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
@@ -551,11 +501,11 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 space-y-2">
-        <p>© 2026 OmniTools Studio - ۳ ابزار هوشمند، باکلاس و آنلاین درون مرورگر.</p>
-        <p class="text-[11px] text-slate-600">پشتیبانی رسمی: <a href="mailto:mehradsheikhi@gmail.com" class="text-purple-400 hover:underline font-mono">mehradsheikhi@gmail.com</a></p>
+        <p>© 2026 OmniTools Studio - ۳ ابزار آنلاین، هوشمند و پرسرعت.</p>
+        <p class="text-[11px] text-slate-600">پشتیبانی: <a href="mailto:mehradsheikhi@gmail.com" class="text-purple-400 hover:underline font-mono">mehradsheikhi@gmail.com</a></p>
     </footer>
 
-    <!-- Main Logic Script -->
+    <!-- Logic Script -->
     <script>
         // --- 1. MAIN TOOLS SWITCHER ---
         function switchMainTool(tool) {
@@ -578,88 +528,81 @@
 
         function copyEmail() {
             navigator.clipboard.writeText('mehradsheikhi@gmail.com');
-            alert('آدرس ایمیل پشتیبانی (mehradsheikhi@gmail.com) با موفقیت کپی شد.');
+            alert('آدرس ایمیل پشتیبانی (mehradsheikhi@gmail.com) کپی شد.');
         }
 
-        // --- 2. FONTCRAFT PRO DATA & LOGIC (100+ STYLES) ---
-        let currentFontFilter = 'all';
+        // --- 2. UNICODE REAL FONT TRANSFORMER (PASTABLE EVERYWHERE) ---
+        const unicodeMaps = {
+            bold: {
+                A:'𝐀',B:'𝐁',C:'𝐂',D:'𝐃',E:'𝐄',F:'𝐅',G:'𝐆',H:'𝐇',I:'𝐈',J:'𝐉',K:'𝐊',L:'𝐋',M:'𝐌',N:'𝐍',O:'𝐎',P:'𝐏',Q:'𝐐',R:'𝐑',S:'𝐒',T:'𝐓',U:'𝐔',V:'𝐕',W:'𝐖',X:'𝐗',Y:'𝐘',Z:'𝐙',
+                a:'𝐚',b:'𝐛',c:'𝐜',d:'𝐝',e:'𝐞',f:'𝐟',g:'𝐠',h:'𝐡',i:'𝐢',j:'𝐣',k:'𝐤',l:'𝐥',m:'𝐦',n:'𝐧',o:'𝐨',p:'𝐩',q:'𝐪',r:'𝐫',s:'𝐬',t:'𝐭',u:'𝐮',v:'𝐯',w:'𝐰',x:'𝐱',y:'𝐲',z:'𝐳'
+            },
+            script: {
+                A:'𝓐',B:'𝓑',C:'𝓒',D:'𝓓',E:'𝓔',F:'𝓕',G:'𝓖',H:'𝓗',I:'𝓘',J:'𝓙',K:'𝓚',L:'𝓛',M:'𝓜',N:'𝓝',O:'𝓞',P:'𝓟',Q:'𝓠',R:'𝓡',S:'𝓢',T:'𝓣',U:'𝓊',V:'𝓥',W:'𝓦',X:'𝓧',Y:'𝓨',Z:'𝓩',
+                a:'𝓪',b:'𝓫',c:'𝓬',d:'𝓭',e:'𝓮',f:'𝓯',g:'𝓰',h:'𝓱',i:'𝓲',j:'𝓳',k:'𝓴',l:'𝓵',m:'𝓶',n:'𝓷',o:'𝓸',p:'𝓹',q:'𝓺',r:'𝓻',s:'𝓼',t:'𝓽',u:'𝓾',v:'𝓿',w:'𝔀',x:'𝔁',y:'𝔂',z:'𝔃'
+            },
+            gothic: {
+                A:'𝕬',B:'𝕭',C:'𝕮',D:'𝕯',E:'𝕰',F:'𝕱',G:'𝕺',H:'𝕧',I:'𝕴',J:'𝕵',K:'𝕶',L:'𝕷',M:'𝕸',N:'𝕹',O:'𝕺',P:'𝕻',Q:'𝕼',R:'𝕽',S:'𝕾',T:'𝕿',U:'𝖀',V:'𝖁',W:'𝖂',X:'𝖃',Y:'𝖄',Z:'𝖅',
+                a:'𝖆',b:'𝖇',c:'𝖈',d:'𝖉',e:'𝖊',f:'𝖋',g:'𝖌',h:'𝖍',i:'𝖎',j:'𝖄',k:'𝖐',l:'𝖑',m:'𝖒',n:'𝖓',o:'𝖔',p:'𝖕',q:'𝖖',r:'𝖗',s:'𝖘',t:'𝖙',u:'𝖚',v:'𝖛',w:'𝖜',x:'𝖝',y:'𝖞',z:'𝖟'
+            },
+            bubbles: {
+                A:'Ⓐ',B:'Ⓑ',C:'Ⓒ',D:'Ⓓ',E:'Ⓔ',F:'Ⓕ',G:'Ⓖ',H:'Ⓗ',I:'Ⓘ',J:'Ⓙ',K:'Ⓚ',L:'Ⓛ',M:'Ⓜ',N:'Ⓝ',O:'Ⓞ',P:'Ⓟ',Q:'Ⓠ',R:'Ⓡ',S:'Ⓢ',T:'Ⓣ',U:'Ⓤ',V:'Ⓥ',W:'Ⓦ',X:'Ⓧ',Y:'Ⓨ',Z:'Ⓩ',
+                a:'ⓐ',b:'ⓑ',c:'ⓒ',d:'ⓓ',e:'ⓔ',f:'ⓕ',g:'ⓖ',h:'ⓗ',i:'ⓘ',j:'ⓙ',k:'ⓚ',l:'ⓛ',m:'ⓜ',n:'ⓝ',o:'ⓞ',p:'ⓟ',q:'ⓠ',r:'ⓡ',s:'ⓢ',t:'ⓣ',u:'ⓤ',v:'ⓥ',w:'ⓦ',x:'ⓧ',y:'ⓨ',z:'ⓩ'
+            },
+            squares: {
+                A:'🄰',B:'🄱',C:'🄲',D:'🄳',E:'🄴',F:'🄵',G:'🄷',H:'🄷',I:'🄹',J:'🄹',K:'🄺',L:'🄻',M:'🄼',N:'🄽',O:'🄾',P:'🄿',Q:'🅀',R:'🅁',S:'🅂',T:'🅃',U:'🅄',V:'🅅',W:'🅆',X:'🅇',Y:'🅈',Z:'🅉',
+                a:'🄰',b:'🄱',c:'🄲',d:'🄳',e:'🄴',f:'🄵',g:'🄷',h:'🄷',i:'🄹',j:'🄹',k:'🄺',l:'🄻',m:'🄼',n:'🄽',o:'🄾',p:'🄿',q:'🅀',r:'🅁',s:'🅂',t:'🅃',u:'🅄',v:'🅅',w:'🅆',x:'🅇',y:'🅈',z:'🅉'
+            },
+            doubleStruck: {
+                A:'𝔸',B:'𝔹',C:'ℂ',D:'𝔻',E:'𝔼',F:'𝔽',G:'𝔾',H:'ℍ',I:'𝕀',J:'𝕁',K:'𝕂',L:'𝕃',M:'𝕄',N:'ℕ',O:'𝕆',P:'ℙ',Q:'ℚ',R:'ℝ',S:'𝕊',T:'𝕋',U:'𝕌',V:'𝕍',W:'𝕎',X:'𝕏',Y:'𝕐',Z:'ℤ',
+                a:'𝕒',b:'𝕓',c:'𝕔',d:'𝕕',e:'𝕖',f:'𝕗',g:'𝕘',h:'𝕙',i:'𝕚',j:'𝕛',k:'𝕜',l:'𝕝',m:'𝕞',n:'𝕟',o:'𝕠',p:'𝕡',q:'𝕢',r:'𝕣',s:'𝕤',t:'𝕥',u:'𝕦',v:'𝕧',w:'𝕨',x:'𝕩',y:'𝕪',z:'𝕟'
+            }
+        };
+
+        function transformTextToUnicode(text, type) {
+            if (!unicodeMaps[type]) return text;
+            const map = unicodeMaps[type];
+            return text.split('').map(ch => map[ch] || ch).join('');
+        }
+
+        function applyPersianTatweel(text) {
+            return text.split('').join('ـ');
+        }
 
         const fontStylesList = [
-            { id: 1, name: "لاله‌زار مجلسی", font: "'Lalezar', cursive", cssClass: "anim-wavy-rainbow", cat: "wavy persian" },
-            { id: 2, name: "ساهل بولد نئونی", font: "'Sahel', sans-serif", cssClass: "neon-glow-cyan font-bold", cat: "cool persian" },
-            { id: 3, name: "عارف رقعه کلاسیک", font: "'Aref Ruqaa', serif", cssClass: "anim-gold-luxury font-bold", cat: "warm persian" },
-            { id: 4, name: "شبنم مدرن رزگلد", font: "'Shabnam', sans-serif", cssClass: "anim-rose-gold font-bold", cat: "warm persian" },
-            { id: 5, name: "وزیرمتن درخشان", font: "'Vazirmatn', sans-serif", cssClass: "anim-cool-ocean font-extrabold", cat: "cool persian" },
-            { id: 6, name: "امیری سلطنتی", font: "'Amiri', serif", cssClass: "anim-warm-fire font-bold", cat: "warm persian" },
-            { id: 7, name: "کاتبه تاریخی", font: "'Katibeh', cursive", cssClass: "anim-gold-luxury", cat: "persian" },
-            { id: 8, name: "صمیم مینیمال", font: "'Samim', sans-serif", cssClass: "text-emerald-400 font-bold", cat: "cool persian" },
-            { id: 9, name: "ریپ کوفی نئونی", font: "'Reem Kufi', sans-serif", cssClass: "neon-glow-pink font-bold", cat: "cool persian" },
-            { id: 10, name: "تلاو‌ال مدرن", font: "'Tajawal', sans-serif", cssClass: "anim-wavy-rainbow font-black", cat: "wavy persian" },
-            { id: 11, name: "لوبستر فانتزی", font: "'Lobster', cursive", cssClass: "anim-wavy-rainbow text-2xl", cat: "wavy" },
-            { id: 12, name: "مونوتون سایبرپانک", font: "'Monoton', cursive", cssClass: "text-purple-400 font-bold tracking-widest", cat: "cool" },
-            { id: 13, name: "پاسیفیکو دست‌نویس", font: "'Pacifico', cursive", cssClass: "anim-rose-gold text-xl", cat: "warm" },
-            { id: 14, name: "گیمینگ آرکید 8Bit", font: "'Press Start 2P', cursive", cssClass: "text-amber-400 text-xs tracking-wider", cat: "warm" },
-            { id: 15, name: "وایبر رترو", font: "'Vibur', cursive", cssClass: "neon-glow-cyan text-2xl", cat: "cool" }
+            { id: 1, name: "قاب سلطنتی ꧁༺ ༻꧂", transform: (t) => `꧁༺ ${t} ༻꧂`, cssClass: "anim-wavy-rainbow font-bold" },
+            { id: 2, name: "دست‌نویس لاکچری Unicode", transform: (t) => transformTextToUnicode(t, 'script'), cssClass: "anim-gold-luxury text-2xl font-bold" },
+            { id: 3, name: "قاب ستاره‌ای ★彡 彡★", transform: (t) => `★彡 ${t} 彡★`, cssClass: "text-cyan-300 font-extrabold" },
+            { id: 4, name: "فونت گوتیک 𝕲𝖔𝖙𝖍𝖎𝖈", transform: (t) => transformTextToUnicode(t, 'gothic'), cssClass: "anim-warm-fire text-2xl font-bold" },
+            { id: 5, name: "قاب قلبی •.¸♡ ♡¸.•", transform: (t) => `•.¸♡ ${t} ♡¸.•`, cssClass: "anim-rose-gold font-bold" },
+            { id: 6, name: "حباب‌دار ⒶⒷⒸ", transform: (t) => transformTextToUnicode(t, 'bubbles'), cssClass: "text-emerald-400 text-xl font-bold" },
+            { id: 7, name: "کشیده و دکوراتیو (تطویل)", transform: (t) => applyPersianTatweel(t), cssClass: "anim-cool-ocean font-bold" },
+            { id: 8, name: "مربعی 🄰🄱🄲", transform: (t) => transformTextToUnicode(t, 'squares'), cssClass: "text-amber-300 text-lg font-bold" },
+            { id: 9, name: "ریاضی و توخالی 𝔸𝔹ℂ", transform: (t) => transformTextToUnicode(t, 'doubleStruck'), cssClass: "text-purple-300 text-xl font-bold" },
+            { id: 10, name: "قاب گلدار ✿.｡.:* *.:｡.✿", transform: (t) => `✿.｡.:* ${t} *.:｡.✿`, cssClass: "anim-wavy-rainbow font-bold" },
+            { id: 11, name: "قاب صاعقه ⚡️ ⚡️", transform: (t) => `⚡️ ${t} ⚡️`, cssClass: "text-yellow-300 font-black" },
+            { id: 12, name: "فونت بولد ضخیم 𝐀𝐁𝐂", transform: (t) => transformTextToUnicode(t, 'bold'), cssClass: "text-cyan-400 text-xl font-black" }
         ];
 
-        // Generate 100+ Styles Dynamically
-        function buildFull100FontList() {
-            const fullList = [...fontStylesList];
-            const gradients = [
-                "anim-wavy-rainbow", "anim-cool-ocean", "anim-warm-fire", "anim-rose-gold", 
-                "anim-gold-luxury", "neon-glow-cyan", "neon-glow-pink", "text-emerald-400 font-extrabold",
-                "text-amber-300 font-black", "text-purple-400 font-bold", "text-cyan-300 font-bold"
-            ];
-            const fonts = ["'Vazirmatn'", "'Lalezar'", "'Sahel'", "'Shabnam'", "'Aref Ruqaa'", "'Cairo'", "'Changa'", "'Lobster'"];
-            
-            for (let i = 16; i <= 105; i++) {
-                const grad = gradients[i % gradients.length];
-                const font = fonts[i % fonts.length];
-                const cat = (i % 2 === 0) ? "wavy cool" : "warm persian";
-                fullList.push({
-                    id: i,
-                    name: `استایل اختصاصی شماره ${i}`,
-                    font: font,
-                    cssClass: grad,
-                    cat: cat
-                });
-            }
-            return fullList;
-        }
-
-        const all100FontStyles = buildFull100FontList();
-
-        function filterFontCat(cat) {
-            currentFontFilter = cat;
-            document.querySelectorAll('.font-cat-btn').forEach(b => b.classList.remove('bg-amber-500/20', 'border-amber-400', 'text-amber-300'));
-            const activeBtn = document.getElementById(`fcat-${cat}`);
-            if (activeBtn) activeBtn.classList.add('bg-amber-500/20', 'border-amber-400', 'text-amber-300');
-            renderFontPreviews();
-        }
-
         function renderFontPreviews() {
-            const inputVal = document.getElementById('fontInputText').value.trim() || "OmniTools Studio - زیباسازی فونت و متن";
+            const inputVal = document.getElementById('fontInputText').value.trim() || "OmniTools Studio";
             const grid = document.getElementById('fontsGrid');
             grid.innerHTML = '';
 
-            const filtered = all100FontStyles.filter(item => {
-                if (currentFontFilter === 'all') return true;
-                return item.cat.includes(currentFontFilter);
-            });
-
-            filtered.forEach(style => {
+            fontStylesList.forEach((style, idx) => {
+                const transformed = style.transform(inputVal);
                 const card = document.createElement('div');
                 card.className = "bg-slate-900/90 p-5 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between hover:border-slate-700 transition";
                 
                 card.innerHTML = `
                     <div class="flex justify-between items-center text-[10px] text-slate-400 border-b border-slate-800/60 pb-2">
                         <span class="font-bold text-slate-300">${style.name}</span>
-                        <span class="font-mono text-slate-500">#${style.id}</span>
+                        <span class="font-mono text-slate-500">#${idx + 1}</span>
                     </div>
                     <div class="py-3 text-center overflow-x-auto">
-                        <p style="font-family: ${style.font};" class="text-xl ${style.cssClass} transition-all">${inputVal}</p>
+                        <p class="text-lg ${style.cssClass} transition-all font-vazir">${transformed}</p>
                     </div>
-                    <button onclick="copyStyledText('${inputVal}')" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5">
+                    <button id="copyBtn-${idx}" onclick="copyStyledText('${transformed.replace(/'/g, "\\'")}', ${idx})" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-copy text-amber-400"></i> کپی متن
                     </button>
                 `;
@@ -667,9 +610,17 @@
             });
         }
 
-        function copyStyledText(text) {
+        function copyStyledText(text, idx) {
             navigator.clipboard.writeText(text);
-            alert('متن با موفقیت کپی شد!');
+            const btn = document.getElementById(`copyBtn-${idx}`);
+            if (btn) {
+                btn.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> کپی شد!`;
+                btn.classList.add('border-green-500/50', 'text-green-300');
+                setTimeout(() => {
+                    btn.innerHTML = `<i class="fa-solid fa-copy text-amber-400"></i> کپی متن`;
+                    btn.classList.remove('border-green-500/50', 'text-green-300');
+                }, 2000);
+            }
         }
 
         // --- 3. ZAMANPRO DATA & LOGIC ---
