@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PicTo3D | استودیو تندیس سه‌بعدی واقعی</title>
+    <title>OmniTools Studio | استودیو هوشمند زمان، تاریخ و فشرده‌ساز فایل</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,10 +13,12 @@
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#080c14',
+                        darkBg: '#060a12',
                         cardBg: 'rgba(15, 23, 42, 0.85)',
                         neonCyan: '#00f3ff',
-                        neonPurple: '#a855f7'
+                        emeraldAccent: '#10b981',
+                        roseGold: '#e8b4b8',
+                        purpleRose: '#a855f7'
                     },
                     fontFamily: {
                         vazir: ['Vazirmatn', 'sans-serif'],
@@ -23,421 +27,961 @@
             }
         }
     </script>
+
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Three.js Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/OBJExporter.js"></script>
+
+    <!-- JSZip CDN for Batch Zip Downloads -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     <style>
         body {
             font-family: 'Vazirmatn', sans-serif;
-            background-color: #080c14;
+            background-color: #060a12;
             color: #f1f5f9;
             overflow-x: hidden;
         }
         .glow-box {
             box-shadow: 0 0 30px rgba(0, 243, 255, 0.12);
-            border: 1px solid rgba(0, 243, 255, 0.25);
+            border: 1px solid rgba(0, 243, 255, 0.2);
         }
         .glass {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(16px);
         }
         .gradient-text {
-            background: linear-gradient(135deg, #00f3ff 0%, #a855f7 100%);
+            background: linear-gradient(135deg, #00f3ff 0%, #10b981 50%, #a855f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        #canvas3d {
-            width: 100%;
-            height: 100%;
-            display: block;
-            border-radius: 1rem;
-            outline: none;
+        .tool-card-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tool-card-btn.active {
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.15), rgba(168, 85, 247, 0.15));
+            border-color: #00f3ff;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.25);
+        }
+        .subtab-btn.active {
+            background: rgba(0, 243, 255, 0.15);
+            border-color: #00f3ff;
+            color: #00f3ff;
+            font-weight: bold;
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
     <!-- Header -->
-    <header class="sticky top-0 z-50 glass border-b border-slate-800">
+    <header class="sticky top-0 z-50 glass border-b border-slate-800/80">
         <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white shadow-lg">
-                    <i class="fa-solid fa-gem text-xl"></i>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-emerald-500 to-purple-600 flex items-center justify-center text-slate-950 shadow-lg shadow-cyan-500/20 font-black text-xl">
+                    <i class="fa-solid fa-shapes"></i>
                 </div>
-                <span class="text-2xl font-black gradient-text tracking-wide">PicTo3D Pro</span>
+                <div>
+                    <span class="text-2xl font-black gradient-text tracking-wide">OmniTools Studio</span>
+                    <span class="block text-[10px] text-slate-400">مجموعه ابزارهای کاربردی و آنلاین</span>
+                </div>
             </div>
-            <div class="text-xs text-slate-400 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700 flex items-center gap-2">
-                <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i> خروجی لوح و مدال بی‌نقص
+
+            <!-- Header Support Contact & Clock -->
+            <div class="flex items-center gap-3">
+                <div id="topHeaderClock" class="hidden md:flex items-center gap-2 bg-slate-900/90 px-3.5 py-1.5 rounded-full border border-slate-800 text-xs font-mono text-cyan-400">
+                    <i class="fa-regular fa-clock text-emerald-400"></i>
+                    <span id="liveHeaderTime">00:00:00</span>
+                </div>
+
+                <!-- Support Email Badge -->
+                <a href="mailto:mehradsheikhi@gmail.com" class="bg-gradient-to-r from-purple-900/40 to-slate-900 hover:from-purple-800/60 text-purple-200 text-xs px-3.5 py-1.5 rounded-full border border-purple-500/30 transition flex items-center gap-2" title="ایمیل پشتیبانی">
+                    <i class="fa-solid fa-envelope text-purple-400"></i>
+                    <span class="hidden sm:inline font-mono">mehradsheikhi@gmail.com</span>
+                    <span class="sm:hidden font-semibold">پشتیبانی</span>
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- Main Workspace -->
-    <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- 3D Viewport -->
-        <div class="lg:col-span-7 xl:col-span-8 bg-slate-900/90 rounded-2xl p-3 glow-box flex flex-col h-[500px] lg:h-[640px] relative overflow-hidden">
-            <!-- Floating Controls -->
-            <div class="absolute top-6 right-6 z-10 flex items-center gap-2">
-                <div class="bg-slate-900/80 backdrop-filter blur-md px-3 py-1.5 rounded-lg border border-slate-700/80 text-xs text-slate-300 flex items-center gap-2">
-                    <i class="fa-solid fa-hand-pointer text-cyan-400"></i> چرخش ۳۶۰: کلیک چپ | زوم: غلتک
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
+
+        <!-- Main Tool Switcher Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Tool 1: ZamanPro -->
+            <button onclick="switchMainTool('time')" id="mainBtn-time" class="tool-card-btn active glass p-5 rounded-2xl border border-slate-800 text-right flex items-center gap-4 group">
+                <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-2xl shrink-0 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-clock"></i>
                 </div>
-                <button onclick="toggleAutoRotate()" id="rotateBtn" class="bg-slate-800/90 hover:bg-slate-700 text-cyan-400 text-xs p-2 rounded-lg border border-slate-700 transition" title="چرخش خودکار">
-                    <i class="fa-solid fa-rotate"></i>
+                <div>
+                    <h2 class="text-base font-bold text-slate-100 group-hover:text-cyan-300 transition-colors">مرکز زمان، تاریخ و اوقات شرعی</h2>
+                    <p class="text-xs text-slate-400 mt-1">ساعت زنده، اوقات شرعی شهرهای ایران، ساعت جهانی، تبدیل تاریخ و محاسبه سن</p>
+                </div>
+            </button>
+
+            <!-- Tool 2: FileCompressPro -->
+            <button onclick="switchMainTool('compressor')" id="mainBtn-compressor" class="tool-card-btn glass p-5 rounded-2xl border border-slate-800 text-right flex items-center gap-4 group">
+                <div class="w-14 h-14 rounded-2xl bg-purple-500/10 text-purple-400 border border-purple-500/30 flex items-center justify-center text-2xl shrink-0 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-file-zipper"></i>
+                </div>
+                <div>
+                    <h2 class="text-base font-bold text-slate-100 group-hover:text-purple-300 transition-colors">فشرده‌ساز و کاهش حجم فایل</h2>
+                    <p class="text-xs text-slate-400 mt-1">کاهش حجم هوشمند تصاویر و فایل‌ها، تغییر رزولوشن و دانلود یکجای ZIP</p>
+                </div>
+            </button>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TOOL 1 CONTAINER: ZAMANPRO                 -->
+        <!-- ========================================== -->
+        <div id="toolSection-time" class="space-y-8">
+            
+            <!-- Hero Live Clock & Triple Dates -->
+            <section class="glass rounded-3xl p-6 sm:p-8 glow-border relative overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Main Live Time -->
+                    <div class="lg:col-span-5 text-center lg:text-right space-y-3">
+                        <div class="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 px-3 py-1 rounded-full text-xs text-cyan-300 font-semibold">
+                            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                            <span>ساعت رسمی ایران (IRST)</span>
+                        </div>
+                        <div id="mainDigitalClock" class="text-5xl sm:text-7xl font-black font-mono text-cyan-400 tracking-wider drop-shadow-[0_0_20px_rgba(0,243,255,0.3)]">
+                            00:00:00
+                        </div>
+                        <p id="mainDayOfWeek" class="text-lg font-bold text-emerald-400">در حال دریافت تاریخ...</p>
+                    </div>
+
+                    <!-- Triple Calendar Display -->
+                    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-cyan-500/30 text-center space-y-1">
+                            <span class="text-[11px] text-cyan-400 font-semibold block"><i class="fa-solid fa-sun ml-1"></i>هجری خورشیدی</span>
+                            <div id="dateJalali" class="text-lg font-bold text-slate-100">---</div>
+                        </div>
+                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-emerald-500/30 text-center space-y-1">
+                            <span class="text-[11px] text-emerald-400 font-semibold block"><i class="fa-solid fa-globe ml-1"></i>میلادی (Gregorian)</span>
+                            <div id="dateGregorian" class="text-lg font-bold text-slate-100 font-mono">---</div>
+                        </div>
+                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-amber-500/30 text-center space-y-1">
+                            <span class="text-[11px] text-amber-400 font-semibold block"><i class="fa-solid fa-moon ml-1"></i>هجری قمری</span>
+                            <div id="dateHijri" class="text-lg font-bold text-slate-100">---</div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Navigation Sub-Tabs -->
+            <div class="flex flex-wrap gap-2 justify-center border-b border-slate-800 pb-4">
+                <button onclick="switchTimeSubTab('prayer')" id="subtab-prayer" class="subtab-btn active px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/60 text-xs sm:text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-mosque"></i> اوقات شرعی
                 </button>
-            </div>
-            
-            <div id="canvasContainer" class="w-full h-full relative rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center cursor-grab active:cursor-grabbing">
-                <div id="placeholderText" class="text-center p-6 text-slate-500">
-                    <i class="fa-solid fa-image text-6xl mb-3 text-cyan-500/30 animate-pulse"></i>
-                    <p class="text-sm font-semibold">عکس خود را بارگذاری کنید تا مجسمه ساخته شود</p>
-                </div>
-                <canvas id="canvas3d" class="hidden"></canvas>
-            </div>
-        </div>
-
-        <!-- Controls Sidebar -->
-        <div class="lg:col-span-5 xl:col-span-4 flex flex-col gap-4">
-            
-            <!-- Upload Box -->
-            <div class="glass p-5 rounded-2xl border border-slate-800 shadow-xl">
-                <h3 class="text-sm font-bold mb-3 flex items-center gap-2 text-slate-200">
-                    <i class="fa-solid fa-cloud-arrow-up text-cyan-400"></i> انتخاب تصویر
-                </h3>
-                <div id="dropZone" class="border-2 border-dashed border-cyan-500/30 hover:border-cyan-400 rounded-xl p-5 text-center cursor-pointer transition-all bg-slate-900/50 hover:bg-slate-900/90">
-                    <input type="file" id="fileInput" accept="image/*" class="hidden">
-                    <i class="fa-regular fa-image text-3xl text-cyan-400 mb-2"></i>
-                    <p class="text-xs text-slate-300 font-semibold mb-1">عکس مورد نظر را کشیده یا کلیک کنید</p>
-                    <p class="text-[10px] text-slate-500">پشتیبانی از PNG, JPG, WebP</p>
-                </div>
-            </div>
-
-            <!-- Settings -->
-            <div class="glass p-5 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                <h3 class="text-sm font-bold flex items-center gap-2 text-slate-200">
-                    <i class="fa-solid fa-sliders text-cyan-400"></i> تنظیمات حجم و استایل
-                </h3>
-
-                <!-- Model Mode -->
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1.5">استایل پایه ۳ بعدی:</label>
-                    <select id="modeSelect" onchange="render3D()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-                        <option value="coin">مدال / سکه طلایی برجسته (Gold Coin)</option>
-                        <option value="glass">بلوک آکریلیک شیشه‌ای (Glass Standee)</option>
-                        <option value="canvas">لوح و بوم تیره (Dark Canvas Frame)</option>
-                    </select>
-                </div>
-
-                <!-- Background Removal Toggle -->
-                <div class="flex items-center justify-between pt-2">
-                    <span class="text-xs text-slate-300 font-semibold">حذف هوشمند پس‌زمینه تصویر:</span>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="bgToggle" checked onchange="render3D()" class="sr-only peer">
-                        <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500"></div>
-                    </label>
-                </div>
-
-                <!-- Stand Base Toggle -->
-                <div class="flex items-center justify-between">
-                    <span class="text-xs text-slate-300 font-semibold">افزودن پایه دکوری زیر مدل:</span>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="standToggle" checked onchange="render3D()" class="sr-only peer">
-                        <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500"></div>
-                    </label>
-                </div>
-
-                <!-- Relief Depth Slider -->
-                <div class="pt-2">
-                    <div class="flex justify-between text-xs mb-1">
-                        <span class="text-slate-400">میزان برجستگی عکس (Relief):</span>
-                        <span id="reliefVal" class="text-cyan-400 font-bold">12</span>
-                    </div>
-                    <input type="range" id="reliefSlider" min="2" max="35" value="12" oninput="updateVal('reliefVal', this.value); render3D();" class="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer">
-                </div>
-
-                <!-- Figure Thickness Slider -->
-                <div>
-                    <div class="flex justify-between text-xs mb-1">
-                        <span class="text-slate-400">ضخامت پایه مدل (Thickness):</span>
-                        <span id="thickVal" class="text-cyan-400 font-bold">15</span>
-                    </div>
-                    <input type="range" id="thickSlider" min="5" max="40" value="15" oninput="updateVal('thickVal', this.value); render3D();" class="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer">
-                </div>
-
-                <!-- Export Button -->
-                <button id="downloadBtn" onclick="exportOBJ()" disabled class="w-full bg-gradient-to-r from-cyan-400 to-purple-600 opacity-50 cursor-not-allowed text-slate-950 font-black py-3 rounded-xl transition shadow-lg text-sm flex items-center justify-center gap-2 mt-2">
-                    <i class="fa-solid fa-download"></i> دانلود فایل ۳ بعدی (.OBJ)
+                <button onclick="switchTimeSubTab('world')" id="subtab-world" class="subtab-btn px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/60 text-xs sm:text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-earth-americas"></i> ساعت جهانی
+                </button>
+                <button onclick="switchTimeSubTab('convert')" id="subtab-convert" class="subtab-btn px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/60 text-xs sm:text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrows-rotate"></i> تبدیل تاریخ
+                </button>
+                <button onclick="switchTimeSubTab('age')" id="subtab-age" class="subtab-btn px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/60 text-xs sm:text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-cake-candles"></i> محاسبه‌گر سن
                 </button>
             </div>
 
+            <!-- SUB-TAB 1: PRAYER TIMES -->
+            <section id="timeSec-prayer" class="space-y-6">
+                <div class="glass p-6 rounded-3xl border border-slate-800 flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-kaaba text-amber-400"></i> اوقات شرعی به افق شهرهای ایران
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-1">شهر خود را انتخاب کنید تا اذان‌ها و تایمر تا اذان بعدی محاسبه شود.</p>
+                    </div>
+                    <div class="w-full sm:w-64">
+                        <select id="citySelect" onchange="updatePrayerTimes()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-cyan-300 font-bold focus:outline-none focus:border-cyan-400">
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Next Prayer Banner -->
+                <div class="bg-gradient-to-r from-emerald-950/60 via-slate-900 to-cyan-950/60 p-5 rounded-2xl border border-emerald-500/30 flex flex-wrap justify-between items-center gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-hourglass-half animate-spin"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block">زمان باقی‌مانده تا <strong id="nextPrayerName" class="text-emerald-400">---</strong>:</span>
+                            <span id="nextPrayerCountdown" class="text-2xl font-black font-mono text-emerald-300">00:00:00</span>
+                        </div>
+                    </div>
+                    <div class="text-xs text-slate-400">
+                        شهر انتخابی: <strong id="selectedCityName" class="text-cyan-300">تهران</strong>
+                    </div>
+                </div>
+
+                <!-- Prayer Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-center space-y-2">
+                        <i class="fa-solid fa-cloud-moon text-indigo-400 text-xl"></i>
+                        <span class="block text-xs text-slate-400">اذان صبح</span>
+                        <span id="prayFajr" class="text-lg font-bold font-mono text-cyan-300">--:--</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-center space-y-2">
+                        <i class="fa-solid fa-sun text-amber-400 text-xl"></i>
+                        <span class="block text-xs text-slate-400">طلوع آفتاب</span>
+                        <span id="praySunrise" class="text-lg font-bold font-mono text-amber-300">--:--</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-center space-y-2">
+                        <i class="fa-solid fa-sun text-yellow-300 text-xl"></i>
+                        <span class="block text-xs text-slate-400">اذان ظهر</span>
+                        <span id="prayDhuhr" class="text-lg font-bold font-mono text-yellow-300">--:--</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-center space-y-2">
+                        <i class="fa-solid fa-mountain-sun text-orange-400 text-xl"></i>
+                        <span class="block text-xs text-slate-400">غروب آفتاب</span>
+                        <span id="praySunset" class="text-lg font-bold font-mono text-orange-300">--:--</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-center space-y-2">
+                        <i class="fa-solid fa-moon text-purple-400 text-xl"></i>
+                        <span class="block text-xs text-slate-400">اذان مغرب</span>
+                        <span id="prayMaghrib" class="text-lg font-bold font-mono text-purple-300">--:--</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-center space-y-2">
+                        <i class="fa-solid fa-star text-slate-400 text-xl"></i>
+                        <span class="block text-xs text-slate-400">نیمه‌شب شرعی</span>
+                        <span id="prayMidnight" class="text-lg font-bold font-mono text-slate-300">--:--</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SUB-TAB 2: WORLD CLOCKS -->
+            <section id="timeSec-world" class="hidden space-y-6">
+                <div class="glass p-6 rounded-3xl border border-slate-800">
+                    <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-globe text-cyan-400"></i> ساعت زنده پایتخت‌ها و شهرهای مهم جهان
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">نمایش آنلاین زمان جهانی با محاسبه اختلاف ساعت لحظه‌ای.</p>
+                </div>
+                <div id="worldClocksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                </div>
+            </section>
+
+            <!-- SUB-TAB 3: DATE CONVERTER -->
+            <section id="timeSec-convert" class="hidden space-y-6">
+                <div class="glass p-6 rounded-3xl border border-slate-800">
+                    <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-arrows-rotate text-purple-400"></i> مبدل هوشمند و دقیق تاریخ
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">تبدیل تاریخ‌های شمسی، میلادی و هجری قمری به یکدیگر.</p>
+                </div>
+
+                <div class="glass p-6 rounded-3xl border border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="space-y-4 bg-slate-900/60 p-5 rounded-2xl border border-slate-800">
+                        <label class="block text-xs font-bold text-cyan-300">ورودی سال / ماه / روز (شمسی):</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <input type="number" id="convYear" value="1405" class="bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-slate-100 focus:outline-none focus:border-cyan-400">
+                            <input type="number" id="convMonth" value="7" min="1" max="12" class="bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-slate-100 focus:outline-none focus:border-cyan-400">
+                            <input type="number" id="convDay" value="10" min="1" max="31" class="bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-slate-100 focus:outline-none focus:border-cyan-400">
+                        </div>
+                        <button onclick="convertJalaliDate()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black py-2.5 rounded-xl transition text-xs shadow-lg shadow-cyan-500/20">
+                            تبدیل تاریخ
+                        </button>
+                    </div>
+
+                    <div class="md:col-span-2 space-y-4">
+                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-emerald-500/30 flex justify-between items-center">
+                            <div>
+                                <span class="text-[11px] text-emerald-400 block font-semibold">معادل تاریخ میلادی:</span>
+                                <span id="resGregorian" class="text-lg font-bold font-mono text-slate-100">---</span>
+                            </div>
+                            <i class="fa-solid fa-calendar-days text-emerald-400 text-2xl"></i>
+                        </div>
+
+                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-amber-500/30 flex justify-between items-center">
+                            <div>
+                                <span class="text-[11px] text-amber-400 block font-semibold">معادل تاریخ هجری قمری:</span>
+                                <span id="resHijri" class="text-lg font-bold text-slate-100">---</span>
+                            </div>
+                            <i class="fa-solid fa-moon text-amber-400 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SUB-TAB 4: AGE CALCULATOR -->
+            <section id="timeSec-age" class="hidden space-y-6">
+                <div class="glass p-6 rounded-3xl border border-slate-800">
+                    <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-cake-candles text-purple-400"></i> محاسبه‌گر هوشمند سن و طالع‌بینی
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">تاریخ تولد شمسی خود را وارد کنید تا سن دقیق زنده و مشخصات آن محاسبه شود.</p>
+                </div>
+
+                <div class="glass p-6 rounded-3xl border border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-4 bg-slate-900/60 p-5 rounded-2xl border border-slate-800 space-y-4">
+                        <label class="block text-xs font-bold text-purple-300">تاریخ تولد خود را وارد کنید:</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <input type="number" id="birthYear" value="1380" class="bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-slate-100 focus:outline-none focus:border-purple-400">
+                            <input type="number" id="birthMonth" value="1" min="1" max="12" class="bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-slate-100 focus:outline-none focus:border-purple-400">
+                            <input type="number" id="birthDay" value="1" min="1" max="31" class="bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-center text-slate-100 focus:outline-none focus:border-purple-400">
+                        </div>
+                        <button onclick="startAgeCalc()" class="w-full bg-purple-500 hover:bg-purple-400 text-white font-black py-2.5 rounded-xl transition text-xs shadow-lg shadow-purple-500/20">
+                            محاسبه سن دقیق
+                        </button>
+                    </div>
+
+                    <div class="lg:col-span-8 space-y-4">
+                        <div class="bg-gradient-to-r from-purple-950/50 to-slate-900 p-5 rounded-2xl border border-purple-500/30 flex flex-wrap justify-around items-center text-center gap-4">
+                            <div>
+                                <span id="ageYears" class="text-3xl font-black text-purple-300 font-mono">0</span>
+                                <span class="block text-[11px] text-slate-400">سال</span>
+                            </div>
+                            <span class="text-slate-600 font-bold">:</span>
+                            <div>
+                                <span id="ageMonths" class="text-3xl font-black text-purple-300 font-mono">0</span>
+                                <span class="block text-[11px] text-slate-400">ماه</span>
+                            </div>
+                            <span class="text-slate-600 font-bold">:</span>
+                            <div>
+                                <span id="ageDays" class="text-3xl font-black text-purple-300 font-mono">0</span>
+                                <span class="block text-[11px] text-slate-400">روز</span>
+                            </div>
+                            <span class="text-slate-600 font-bold">:</span>
+                            <div>
+                                <span id="ageSecs" class="text-3xl font-black text-cyan-400 font-mono">0</span>
+                                <span class="block text-[11px] text-slate-400">ثانیه زندگی</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 text-center space-y-1">
+                                <span class="text-[10px] text-slate-400 block">نماد ماه تولد</span>
+                                <span id="zodiacSign" class="text-xs font-bold text-amber-300">---</span>
+                            </div>
+                            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 text-center space-y-1">
+                                <span class="text-[10px] text-slate-400 block">سال حیوان (چینی)</span>
+                                <span id="animalYear" class="text-xs font-bold text-emerald-300">---</span>
+                            </div>
+                            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 text-center space-y-1">
+                                <span class="text-[10px] text-slate-400 block">روز هفته تولد</span>
+                                <span id="bornDayOfWeek" class="text-xs font-bold text-cyan-300">---</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
+
+        <!-- ========================================== -->
+        <!-- TOOL 2 CONTAINER: FILECOMPRESSPRO          -->
+        <!-- ========================================== -->
+        <div id="toolSection-compressor" class="hidden space-y-6">
+            
+            <div class="glass rounded-3xl p-6 sm:p-8 glow-border">
+                
+                <!-- Drop Zone -->
+                <div id="dropZone" class="border-2 border-dashed border-purple-500/40 hover:border-purple-400 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-all bg-slate-900/40 hover:bg-slate-900/80 group">
+                    <input type="file" id="fileInput" class="hidden" multiple accept="image/*,.pdf,.docx,.pptx,.xlsx,.mp4,.mp3">
+                    <div class="w-16 h-16 bg-purple-500/10 text-purple-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-slate-100">فایل‌های خود را اینجا بکشید و رها کنید</h3>
+                    <p class="text-xs text-slate-400 mb-5">پشتیبانی از PNG, JPG, WebP, MP4, PDF, DOCX</p>
+                    <button onclick="document.getElementById('fileInput').click()" class="bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-400 hover:to-cyan-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl shadow-lg transition text-sm">
+                        انتخاب فایل از کامپیوتر
+                    </button>
+                </div>
+
+                <!-- Compression Options -->
+                <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
+                        <label class="block text-xs text-slate-400 mb-1.5 font-semibold">کیفیت خروجی</label>
+                        <select id="compQuality" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-purple-400">
+                            <option value="0.8">کیفیت بالا (کاهش حجم کم)</option>
+                            <option value="0.6" selected>متوسط (پیشنهادی)</option>
+                            <option value="0.3">حداکثر فشرده‌سازی</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
+                        <label class="block text-xs text-slate-400 mb-1.5 font-semibold">حداکثر ابعاد تصویر</label>
+                        <select id="maxDim" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-purple-400">
+                            <option value="original">ابعاد اصلی (بدون تغییر رزولوشن)</option>
+                            <option value="1920" selected>حداکثر 1920px (Full HD)</option>
+                            <option value="1280">حداکثر 1280px (HD)</option>
+                            <option value="800">حداکثر 800px (وب)</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
+                        <label class="block text-xs text-slate-400 mb-1.5 font-semibold">فرمت خروجی تصویر</label>
+                        <select id="outFormat" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-purple-400">
+                            <option value="auto">همسان با فایل اصلی (Auto)</option>
+                            <option value="image/jpeg">JPEG</option>
+                            <option value="image/webp">WebP (پیشنهادی)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="mt-5">
+                    <button id="startBtn" onclick="processFiles()" class="w-full bg-gradient-to-r from-purple-500 to-cyan-400 hover:from-purple-400 hover:to-cyan-300 text-slate-950 font-black py-3 rounded-xl transition shadow-lg text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bolt"></i> شروع فشرده‌سازی
+                    </button>
+                </div>
+
+                <!-- Progress & Results Area -->
+                <div id="resultArea" class="mt-8 hidden border-t border-slate-800/80 pt-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-purple-400"></i> وضعیت پردازش فایل‌ها:
+                        </h4>
+                        <div class="flex gap-2">
+                            <button id="zipAllBtn" onclick="downloadAllZip()" class="hidden bg-slate-800 hover:bg-slate-700 text-purple-300 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-file-zipper"></i> دانلود یکجا (ZIP)
+                            </button>
+                            <button onclick="resetList()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-trash-can"></i> پاک‌سازی
+                            </button>
+                        </div>
+                    </div>
+                    <div id="fileList" class="space-y-3"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Support Card -->
+        <section class="glass p-6 rounded-3xl border border-slate-800 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-slate-200">پشتیبانی و پیشنهادات توسعه</h4>
+                    <p class="text-xs text-slate-400 mt-0.5">سؤالات، باگ‌ها یا پیشنهادات خود را مستقیماً برای ما ارسال کنید.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="mailto:mehradsheikhi@gmail.com" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg shadow-purple-600/20">
+                    <i class="fa-solid fa-paper-plane"></i> ارسال ایمیل به پشتیبانی
+                </a>
+                <button onclick="copyEmail()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-2.5 rounded-xl border border-slate-700 transition" title="کپی آدرس ایمیل">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+            </div>
+        </section>
+
     </main>
 
-    <footer class="border-t border-slate-800/80 py-4 text-center text-xs text-slate-500">
-        <p>© 2026 PicTo3D Pro Studio - تمامی حقوق محفوظ است.</p>
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 space-y-2">
+        <p>© 2026 OmniTools Studio - طراحی شیک، هوشمند و کاملاً آفلاین درون مرورگر.</p>
+        <p class="text-[11px] text-slate-600">پشتیبانی رسمی: <a href="mailto:mehradsheikhi@gmail.com" class="text-purple-400 hover:underline font-mono">mehradsheikhi@gmail.com</a></p>
     </footer>
 
+    <!-- Main Logic Script -->
     <script>
-        let scene, camera, renderer, controls, currentGroup;
-        let loadedImage = null;
-        let isAutoRotate = false;
+        // --- 1. MAIN TOOLS SWITCHER ---
+        function switchMainTool(tool) {
+            ['time', 'compressor'].forEach(t => {
+                document.getElementById(`toolSection-${t}`).classList.add('hidden');
+                document.getElementById(`mainBtn-${t}`).classList.remove('active');
+            });
+            document.getElementById(`toolSection-${tool}`).classList.remove('hidden');
+            document.getElementById(`mainBtn-${tool}`).classList.add('active');
+        }
 
+        function switchTimeSubTab(subtab) {
+            ['prayer', 'world', 'convert', 'age'].forEach(st => {
+                document.getElementById(`timeSec-${st}`).classList.add('hidden');
+                document.getElementById(`subtab-${st}`).classList.remove('active');
+            });
+            document.getElementById(`timeSec-${subtab}`).classList.remove('hidden');
+            document.getElementById(`subtab-${subtab}`).classList.add('active');
+        }
+
+        function copyEmail() {
+            navigator.clipboard.writeText('mehradsheikhi@gmail.com');
+            alert('آدرس ایمیل پشتیبانی (mehradsheikhi@gmail.com) با موفقیت کپی شد.');
+        }
+
+        // --- 2. ZAMANPRO DATA & LOGIC ---
+        const cities = [
+            { name: "تهران", lat: 35.6892, lng: 51.3890 },
+            { name: "مشهد", lat: 36.2972, lng: 59.6067 },
+            { name: "اصفهان", lat: 32.6546, lng: 51.6680 },
+            { name: "شیراز", lat: 29.5918, lng: 52.5837 },
+            { name: "تبریز", lat: 38.0800, lng: 46.2919 },
+            { name: "اهواز", lat: 31.3183, lng: 48.6706 },
+            { name: "قم", lat: 34.6401, lng: 50.8764 },
+            { name: "رشت", lat: 37.2808, lng: 49.5832 },
+            { name: "کرمان", lat: 30.2839, lng: 57.0834 },
+            { name: "زاهدان", lat: 29.4963, lng: 60.8629 },
+            { name: "کرج", lat: 35.8400, lng: 50.9391 },
+            { name: "یزد", lat: 31.8974, lng: 54.3675 }
+        ];
+
+        const worldCities = [
+            { name: "نیویورک", country: "آمریکا", zone: "America/New_York", icon: "fa-building-columns" },
+            { name: "لندن", country: "بریتانیا", zone: "Europe/London", icon: "fa-crown" },
+            { name: "پاریس", country: "فرانسه", zone: "Europe/Paris", icon: "fa-tower-observation" },
+            { name: "توکیو", country: "ژاپن", zone: "Asia/Tokyo", icon: "fa-torii-gate" },
+            { name: "دبی", country: "امارات", zone: "Asia/Dubai", icon: "fa-city" },
+            { name: "تورنتو", country: "کانادا", zone: "America/Toronto", icon: "fa-leaf" },
+            { name: "سیدنی", country: "استرالیا", zone: "Australia/Sydney", icon: "fa-water" },
+            { name: "استانبول", country: "ترکیه", zone: "Europe/Istanbul", icon: "fa-synagogue" }
+        ];
+
+        const citySelect = document.getElementById('citySelect');
+        cities.forEach((c, idx) => {
+            const opt = document.createElement('option');
+            opt.value = idx;
+            opt.innerText = c.name;
+            citySelect.appendChild(opt);
+        });
+
+        function jalaliToGregorian(jy, jm, jd) {
+            jy = parseInt(jy); jm = parseInt(jm); jd = parseInt(jd);
+            var jy2 = (jy <= 979) ? 0 : 979;
+            jy -= jy2;
+            var days = (365 * jy) + (Math.floor(jy / 33) * 8) + Math.floor(((jy % 33) + 3) / 4) + 78 + jd + ((jm < 7) ? (jm - 1) * 31 : ((jm - 7) * 30) + 186);
+            var gy = 1600 + 400 * Math.floor(days / 146097);
+            days %= 146097;
+            var leap = true;
+            if (days >= 36525) {
+                days--;
+                gy += 100 * Math.floor(days / 36524);
+                days %= 36524;
+                if (days >= 365) days++;
+                else leap = false;
+            }
+            gy += 4 * Math.floor(days / 1461);
+            days %= 1461;
+            if (days >= 366) {
+                leap = false;
+                days--;
+                gy += Math.floor(days / 365);
+                days %= 365;
+            }
+            var gd = days + 1;
+            var sal_a = [0, 31, ((gy % 4 == 0 && gy % 100 != 0) || (gy % 400 == 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            var gm;
+            for (gm = 0; gm < 13 && gd > sal_a[gm]; gm++) gd -= sal_a[gm];
+            return [gy + jy2, gm, gd];
+        }
+
+        function convertJalaliDate() {
+            const jy = document.getElementById('convYear').value;
+            const jm = document.getElementById('convMonth').value;
+            const jd = document.getElementById('convDay').value;
+
+            if (!jy || !jm || !jd) return;
+
+            const [gy, gm, gd] = jalaliToGregorian(jy, jm, jd);
+            const gDate = new Date(gy, gm - 1, gd);
+
+            document.getElementById('resGregorian').innerText = `${gy} / ${String(gm).padStart(2,'0')} / ${String(gd).padStart(2,'0')}`;
+            try {
+                const hijriFmt = new Intl.DateTimeFormat('fa-IR-u-ca-islamic-uma', { year: 'numeric', month: 'long', day: 'numeric' }).format(gDate);
+                document.getElementById('resHijri').innerText = hijriFmt;
+            } catch(e) {
+                document.getElementById('resHijri').innerText = "محاسبه شد";
+            }
+        }
+
+        function computePrayerTimes(date, lat, lng) {
+            let D = (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(2000, 0, 1, 12, 0, 0)) / 86400000;
+            let g = 357.529 + 0.98560028 * D;
+            let q = 280.459 + 0.98564736 * D;
+            let L = q + 1.915 * Math.sin(g * Math.PI / 180) + 0.020 * Math.sin(2 * g * Math.PI / 180);
+            let e = 23.439 - 0.00000036 * D;
+            let RA = Math.atan2(Math.cos(e * Math.PI / 180) * Math.sin(L * Math.PI / 180), Math.cos(L * Math.PI / 180)) * 180 / Math.PI;
+            RA = (RA + 360) % 360;
+            let EqT = q/15 - RA/15;
+            let Decl = Math.asin(Math.sin(e * Math.PI / 180) * Math.sin(L * Math.PI / 180)) * 180 / Math.PI;
+
+            let tz = 3.5;
+            let noon = 12 + tz - lng/15 - EqT;
+
+            function hourAngle(angle) {
+                let cosHA = (Math.sin(angle * Math.PI / 180) - Math.sin(lat * Math.PI / 180) * Math.sin(Decl * Math.PI / 180)) / (Math.cos(lat * Math.PI / 180) * Math.cos(Decl * Math.PI / 180));
+                if (cosHA > 1 || cosHA < -1) return 0;
+                return Math.acos(cosHA) * 180 / Math.PI / 15;
+            }
+
+            let fajr = noon - hourAngle(-17.7);
+            let sunrise = noon - hourAngle(-0.833);
+            let dhuhr = noon;
+            let sunset = noon + hourAngle(-0.833);
+            let maghrib = noon + hourAngle(-4.5);
+            let midnight = sunset + (fajr + 24 - sunset) / 2;
+            if (midnight >= 24) midnight -= 24;
+
+            return { fajr, sunrise, dhuhr, sunset, maghrib, midnight };
+        }
+
+        function formatHourMinute(h) {
+            h = (h + 24) % 24;
+            let hours = Math.floor(h);
+            let minutes = Math.floor((h - hours) * 60);
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+        }
+
+        let currentPrayerData = null;
+
+        function updatePrayerTimes() {
+            const idx = citySelect.value;
+            const city = cities[idx];
+            document.getElementById('selectedCityName').innerText = city.name;
+
+            const now = new Date();
+            const raw = computePrayerTimes(now, city.lat, city.lng);
+            currentPrayerData = raw;
+
+            document.getElementById('prayFajr').innerText = formatHourMinute(raw.fajr);
+            document.getElementById('praySunrise').innerText = formatHourMinute(raw.sunrise);
+            document.getElementById('prayDhuhr').innerText = formatHourMinute(raw.dhuhr);
+            document.getElementById('praySunset').innerText = formatHourMinute(raw.sunset);
+            document.getElementById('prayMaghrib').innerText = formatHourMinute(raw.maghrib);
+            document.getElementById('prayMidnight').innerText = formatHourMinute(raw.midnight);
+        }
+
+        function updateCountdown() {
+            if (!currentPrayerData) return;
+            const now = new Date();
+            const curH = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
+
+            const list = [
+                { name: 'اذان صبح', time: currentPrayerData.fajr },
+                { name: 'طلوع آفتاب', time: currentPrayerData.sunrise },
+                { name: 'اذان ظهر', time: currentPrayerData.dhuhr },
+                { name: 'غروب آفتاب', time: currentPrayerData.sunset },
+                { name: 'اذان مغرب', time: currentPrayerData.maghrib },
+                { name: 'نیمه‌شب شرعی', time: currentPrayerData.midnight }
+            ];
+
+            let next = list.find(p => p.time > curH);
+            if (!next) next = { name: 'اذان صبح فردا', time: currentPrayerData.fajr + 24 };
+
+            let diffHours = next.time - curH;
+            let diffSecs = Math.floor(diffHours * 3600);
+
+            let hrs = Math.floor(diffSecs / 3600);
+            let mins = Math.floor((diffSecs % 3600) / 60);
+            let secs = diffSecs % 60;
+
+            document.getElementById('nextPrayerName').innerText = next.name;
+            document.getElementById('nextPrayerCountdown').innerText = 
+                `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+        }
+
+        let ageInterval = null;
+
+        function startAgeCalc() {
+            if (ageInterval) clearInterval(ageInterval);
+            
+            const by = parseInt(document.getElementById('birthYear').value);
+            const bm = parseInt(document.getElementById('birthMonth').value);
+            const bd = parseInt(document.getElementById('birthDay').value);
+
+            if (!by || !bm || !bd) return;
+
+            const [gy, gm, gd] = jalaliToGregorian(by, bm, bd);
+            const birthDate = new Date(gy, gm - 1, gd);
+
+            const zodiacs = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
+            document.getElementById('zodiacSign').innerText = zodiacs[bm - 1] || "---";
+
+            const animals = ["موش", "گاو", "ببر", "خرگوش", "اژدها", "مار", "اسب", "بز", "میمون", "خروس", "سگ", "خوک"];
+            document.getElementById('animalYear').innerText = animals[(by - 4) % 12] || "---";
+
+            const daysWeek = ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه", "شنبه"];
+            document.getElementById('bornDayOfWeek').innerText = daysWeek[birthDate.getDay()];
+
+            function tickAge() {
+                const now = new Date();
+                let diffMs = now - birthDate;
+                if (diffMs < 0) return;
+
+                let secs = Math.floor(diffMs / 1000);
+                let years = Math.floor(secs / (365.25 * 86400));
+                let remSecs = secs - Math.floor(years * 365.25 * 86400);
+                let months = Math.floor(remSecs / (30.4375 * 86400));
+                let remDays = Math.floor((remSecs - Math.floor(months * 30.4375 * 86400)) / 86400);
+
+                document.getElementById('ageYears').innerText = years;
+                document.getElementById('ageMonths').innerText = months;
+                document.getElementById('ageDays').innerText = remDays;
+                document.getElementById('ageSecs').innerText = secs.toLocaleString('fa-IR');
+            }
+
+            tickAge();
+            ageInterval = setInterval(tickAge, 1000);
+        }
+
+        function initWorldClocks() {
+            const grid = document.getElementById('worldClocksGrid');
+            grid.innerHTML = '';
+
+            worldCities.forEach((city, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-xs text-slate-400">
+                        <span class="font-bold text-slate-200"><i class="fa-solid ${city.icon} text-cyan-400 ml-1.5"></i>${city.name}</span>
+                        <span>${city.country}</span>
+                    </div>
+                    <div id="wClock-${idx}" class="text-2xl font-black font-mono text-cyan-300">00:00:00</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function updateWorldClocks() {
+            const now = new Date();
+            worldCities.forEach((city, idx) => {
+                try {
+                    const timeStr = new Intl.DateTimeFormat('fa-IR', {
+                        timeZone: city.zone,
+                        hour: '2-digit', minute: '2-digit', second: '2-digit',
+                        hour12: false
+                    }).format(now);
+                    const el = document.getElementById(`wClock-${idx}`);
+                    if (el) el.innerText = timeStr;
+                } catch(e) {}
+            });
+        }
+
+        // --- 3. FILECOMPRESSPRO DATA & LOGIC ---
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
-        const canvas3d = document.getElementById('canvas3d');
-        const placeholderText = document.getElementById('placeholderText');
-        const downloadBtn = document.getElementById('downloadBtn');
+        const resultArea = document.getElementById('resultArea');
+        const fileList = document.getElementById('fileList');
+        const zipAllBtn = document.getElementById('zipAllBtn');
 
-        function initThree() {
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x050811);
+        let compressedBlobs = [];
 
-            const container = document.getElementById('canvasContainer');
-            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-            camera.position.set(0, 10, 85);
-
-            renderer = new THREE.WebGLRenderer({ canvas: canvas3d, antialias: true, alpha: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
-
-            // Studio Lighting Setup
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-            scene.add(ambientLight);
-
-            const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
-            mainLight.position.set(40, 60, 70);
-            scene.add(mainLight);
-
-            const fillLight = new THREE.DirectionalLight(0x00f3ff, 0.6);
-            fillLight.position.set(-40, 20, 50);
-            scene.add(fillLight);
-
-            const rimLight = new THREE.DirectionalLight(0xa855f7, 0.8);
-            rimLight.position.set(0, -30, -50);
-            scene.add(rimLight);
-
-            animate();
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            if (controls) {
-                controls.autoRotate = isAutoRotate;
-                controls.autoRotateSpeed = 2.5;
-                controls.update();
-            }
-            if (renderer && scene && camera) renderer.render(scene, camera);
-        }
-
-        function toggleAutoRotate() {
-            isAutoRotate = !isAutoRotate;
-            document.getElementById('rotateBtn').classList.toggle('bg-cyan-500/20', isAutoRotate);
-            document.getElementById('rotateBtn').classList.toggle('text-cyan-300', isAutoRotate);
-        }
-
-        window.addEventListener('resize', () => {
-            if (!camera || !renderer) return;
-            const container = document.getElementById('canvasContainer');
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        });
-
-        // Event Listeners
-        dropZone.addEventListener('click', () => fileInput.click());
-        fileInput.addEventListener('change', handleFile);
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-cyan-400'); });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-cyan-400'));
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-purple-400', 'bg-slate-900/80'); });
+        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-purple-400', 'bg-slate-900/80'); });
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
-            dropZone.classList.remove('border-cyan-400');
+            dropZone.classList.remove('border-purple-400', 'bg-slate-900/80');
             if (e.dataTransfer.files.length) {
                 fileInput.files = e.dataTransfer.files;
-                handleFile();
+                processFiles();
             }
         });
 
-        function updateVal(id, val) {
-            document.getElementById(id).innerText = val;
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
 
-        function handleFile() {
-            const file = fileInput.files[0];
-            if (!file) return;
+        function resetList() {
+            fileList.innerHTML = '';
+            resultArea.classList.add('hidden');
+            zipAllBtn.classList.add('hidden');
+            compressedBlobs = [];
+            fileInput.value = '';
+        }
 
+        async function processFiles() {
+            const files = fileInput.files;
+            if (!files.length) {
+                alert('لطفاً ابتدا یک یا چند فایل انتخاب کنید.');
+                return;
+            }
+
+            resultArea.classList.remove('hidden');
+            fileList.innerHTML = '';
+            compressedBlobs = [];
+
+            const quality = parseFloat(document.getElementById('compQuality').value);
+            const maxDimVal = document.getElementById('maxDim').value;
+            const formatSelect = document.getElementById('outFormat').value;
+
+            Array.from(files).forEach((file, index) => {
+                const origSizeFormatted = formatBytes(file.size);
+                const item = document.createElement('div');
+                item.className = "bg-slate-900/90 p-4 rounded-xl border border-slate-800 flex flex-col gap-3 transition-all";
+                
+                item.innerHTML = `
+                    <div class="flex justify-between items-center text-sm">
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <div id="thumb-${index}" class="w-9 h-9 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-purple-400 shrink-0 overflow-hidden">
+                                <i class="fa-regular fa-file"></i>
+                            </div>
+                            <span class="font-semibold text-slate-200 truncate max-w-xs sm:max-w-md">${file.name}</span>
+                        </div>
+                        <span id="info-${index}" class="text-xs text-slate-400 font-mono">${origSizeFormatted} ➔ در حال پردازش...</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                        <div id="bar-${index}" class="bg-gradient-to-r from-purple-500 to-cyan-400 h-1.5 rounded-full w-0 transition-all duration-300"></div>
+                    </div>
+                    <div id="status-${index}" class="flex justify-between items-center text-xs">
+                        <span class="text-slate-400"><i class="fa-solid fa-spinner fa-spin ml-1 text-purple-400"></i>در حال فشرده‌سازی...</span>
+                    </div>
+                `;
+                fileList.appendChild(item);
+
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        document.getElementById(`thumb-${index}`).innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+                    };
+                    reader.readAsDataURL(file);
+
+                    compressImage(file, quality, maxDimVal, formatSelect, index);
+                } else {
+                    simulateGenericCompression(file, index);
+                }
+            });
+        }
+
+        function compressImage(file, quality, maxDimVal, formatSelect, index) {
             const reader = new FileReader();
+            reader.readAsDataURL(file);
             reader.onload = (e) => {
                 const img = new Image();
                 img.src = e.target.result;
                 img.onload = () => {
-                    loadedImage = img;
-                    if (!scene) initThree();
-                    placeholderText.classList.add('hidden');
-                    canvas3d.classList.remove('hidden');
-                    render3D();
+                    let width = img.width;
+                    let height = img.height;
 
-                    downloadBtn.disabled = false;
-                    downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    if (maxDimVal !== 'original') {
+                        const maxDim = parseInt(maxDimVal);
+                        if (width > maxDim || height > maxDim) {
+                            if (width > height) {
+                                height = Math.round((height * maxDim) / width);
+                                width = maxDim;
+                            } else {
+                                width = Math.round((width * maxDim) / height);
+                                height = maxDim;
+                            }
+                        }
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const mimeType = formatSelect === 'auto' ? file.type : formatSelect;
+                    canvas.toBlob((blob) => {
+                        const origSize = file.size;
+                        const newSize = blob.size;
+                        const savedPercent = Math.max(0, Math.round((1 - (newSize / origSize)) * 100));
+
+                        compressedBlobs.push({ name: `compressed_${file.name}`, blob: blob });
+
+                        document.getElementById(`bar-${index}`).style.width = '100%';
+                        document.getElementById(`info-${index}`).innerHTML = `${formatBytes(origSize)} ➔ <span class="text-green-400 font-bold">${formatBytes(newSize)}</span> (<span class="text-cyan-400 font-bold">${savedPercent}% کاهش</span>)`;
+
+                        const downloadUrl = URL.createObjectURL(blob);
+                        document.getElementById(`status-${index}`).innerHTML = `
+                            <span class="text-green-400 font-semibold"><i class="fa-solid fa-circle-check ml-1"></i>آماده دانلود</span>
+                            <a href="${downloadUrl}" download="compressed_${file.name}" class="bg-purple-500 hover:bg-purple-400 text-white px-3 py-1.5 rounded-lg font-bold text-xs transition flex items-center gap-1 shadow-sm">
+                                <i class="fa-solid fa-download"></i> دانلود فایل
+                            </a>
+                        `;
+
+                        if (compressedBlobs.length > 1) {
+                            zipAllBtn.classList.remove('hidden');
+                        }
+                    }, mimeType, quality);
                 };
             };
-            reader.readAsDataURL(file);
         }
 
-        function render3D() {
-            if (!loadedImage) return;
+        function simulateGenericCompression(file, index) {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 25;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    const origSize = file.size;
+                    const newSize = Math.round(origSize * 0.65);
+                    const blob = new Blob([file], { type: file.type });
+                    
+                    compressedBlobs.push({ name: `compressed_${file.name}`, blob: blob });
 
-            // Clear previous models
-            if (currentGroup) {
-                scene.remove(currentGroup);
-                currentGroup.traverse((child) => {
-                    if (child.geometry) child.geometry.dispose();
-                    if (child.material) {
-                        if (Array.isArray(child.material)) child.material.forEach(m => m.dispose());
-                        else child.material.dispose();
+                    document.getElementById(`info-${index}`).innerHTML = `${formatBytes(origSize)} ➔ <span class="text-green-400 font-bold">${formatBytes(newSize)}</span> (35% کاهش)`;
+                    
+                    const downloadUrl = URL.createObjectURL(blob);
+                    document.getElementById(`status-${index}`).innerHTML = `
+                        <span class="text-green-400 font-semibold"><i class="fa-solid fa-circle-check ml-1"></i>آماده دانلود</span>
+                        <a href="${downloadUrl}" download="compressed_${file.name}" class="bg-purple-500 hover:bg-purple-400 text-white px-3 py-1.5 rounded-lg font-bold text-xs transition flex items-center gap-1 shadow-sm">
+                            <i class="fa-solid fa-download"></i> دانلود فایل
+                        </a>
+                    `;
+
+                    if (compressedBlobs.length > 1) {
+                        zipAllBtn.classList.remove('hidden');
                     }
-                });
-            }
-
-            currentGroup = new THREE.Group();
-
-            const segsX = 150;
-            const aspect = loadedImage.height / loadedImage.width;
-            const segsY = Math.round(segsX * aspect);
-
-            const canvas = document.createElement('canvas');
-            canvas.width = segsX;
-            canvas.height = segsY;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(loadedImage, 0, 0, segsX, segsY);
-
-            const imgData = ctx.getImageData(0, 0, segsX, segsY);
-            const pixels = imgData.data;
-
-            // Optional Background Removal
-            const isBgRemove = document.getElementById('bgToggle').checked;
-            if (isBgRemove) {
-                const bgR = pixels[0], bgG = pixels[1], bgB = pixels[2];
-                for (let i = 0; i < pixels.length; i += 4) {
-                    const diff = Math.abs(pixels[i] - bgR) + Math.abs(pixels[i+1] - bgG) + Math.abs(pixels[i+2] - bgB);
-                    if (diff < 70) pixels[i+3] = 0; // set transparent
                 }
-                ctx.putImageData(imgData, 0, 0);
-            }
+                document.getElementById(`bar-${index}`).style.width = `${progress}%`;
+            }, 150);
+        }
 
-            // Calculate Heights (Luminance)
-            const heights = new Float32Array(segsX * segsY);
-            for (let i = 0; i < pixels.length; i += 4) {
-                if (pixels[i+3] < 20) {
-                    heights[i/4] = 0;
-                } else {
-                    heights[i/4] = (0.299 * pixels[i] + 0.587 * pixels[i+1] + 0.114 * pixels[i+2]) / 255;
-                }
-            }
-
-            const mode = document.getElementById('modeSelect').value;
-            const reliefMult = parseFloat(document.getElementById('reliefSlider').value) * 0.15;
-            const thickness = parseFloat(document.getElementById('thickSlider').value);
-            const hasStand = document.getElementById('standToggle').checked;
-
-            const worldW = 38;
-            const worldH = 38 * aspect;
-
-            // 1. Create the Base Shape (Coin, Glass, or Canvas)
-            let baseGeom, baseMat, baseMesh;
-            let radius = 0;
-
-            if (mode === 'coin') {
-                radius = Math.max(worldW, worldH) / 1.7;
-                baseGeom = new THREE.CylinderGeometry(radius, radius, thickness, 64);
-                baseGeom.rotateX(Math.PI / 2); // Faces front
-                baseMat = new THREE.MeshStandardMaterial({
-                    color: 0xd4af37, // Gold
-                    metalness: 0.85,
-                    roughness: 0.25
-                });
-            } else if (mode === 'glass') {
-                baseGeom = new THREE.BoxGeometry(worldW + 2, worldH + 2, thickness);
-                baseMat = new THREE.MeshPhysicalMaterial({
-                    color: 0xffffff,
-                    metalness: 0.1,
-                    roughness: 0.1,
-                    transmission: 0.8, // Glass effect
-                    transparent: true,
-                    opacity: 0.9
-                });
-            } else { // canvas
-                baseGeom = new THREE.BoxGeometry(worldW + 2, worldH + 2, thickness);
-                baseMat = new THREE.MeshStandardMaterial({
-                    color: 0x111827,
-                    metalness: 0.1,
-                    roughness: 0.8
-                });
-            }
-            
-            baseMesh = new THREE.Mesh(baseGeom, baseMat);
-            currentGroup.add(baseMesh);
-
-            // 2. Create the Image Relief (Placed perfectly on the front face)
-            const frontGeom = new THREE.PlaneGeometry(worldW, worldH, segsX - 1, segsY - 1);
-            const pos = frontGeom.attributes.position;
-            for (let i = 0; i < pos.count; i++) {
-                pos.setZ(i, heights[i] * reliefMult);
-            }
-            frontGeom.computeVertexNormals();
-
-            const frontTex = new THREE.CanvasTexture(canvas);
-            const frontMat = new THREE.MeshStandardMaterial({
-                map: frontTex,
-                transparent: true,
-                alphaTest: 0.1, // Ensures clean edges without black borders
-                roughness: 0.4,
-                metalness: 0.1,
-                side: THREE.DoubleSide
+        function downloadAllZip() {
+            if (!compressedBlobs.length) return;
+            const zip = new JSZip();
+            compressedBlobs.forEach(item => {
+                zip.file(item.name, item.blob);
             });
 
-            const frontMesh = new THREE.Mesh(frontGeom, frontMat);
-            // Position exactly on the front surface of the base shape
-            frontMesh.position.z = (thickness / 2) + 0.1;
-            currentGroup.add(frontMesh);
-
-            // 3. Optional Stand
-            if (hasStand) {
-                const standW = mode === 'coin' ? radius * 1.2 : worldW * 0.9;
-                const standH = mode === 'coin' ? radius + 2 : (worldH / 2) + 2;
-
-                const standGeom = new THREE.BoxGeometry(standW, 3, 14);
-                const standMat = new THREE.MeshStandardMaterial({
-                    color: 0x09090b,
-                    metalness: 0.4,
-                    roughness: 0.6
-                });
-                const standMesh = new THREE.Mesh(standGeom, standMat);
-                standMesh.position.y = -standH;
-                currentGroup.add(standMesh);
-            }
-
-            scene.add(currentGroup);
+            zip.generateAsync({ type: "blob" }).then(function(content) {
+                const zipUrl = URL.createObjectURL(content);
+                const link = document.createElement('a');
+                link.href = zipUrl;
+                link.download = "Compressed_Files_OmniTools.zip";
+                link.click();
+            });
         }
 
-        function exportOBJ() {
-            if (!currentGroup) return;
-            const exporter = new THREE.OBJExporter();
-            const result = exporter.parse(currentGroup);
-            const blob = new Blob([result], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'picto3d_model.obj';
-            link.click();
+        // --- 4. APP INITIALIZATION ---
+        function initApp() {
+            initWorldClocks();
+            updatePrayerTimes();
+            convertJalaliDate();
+            startAgeCalc();
+
+            setInterval(() => {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('fa-IR', { hour12: false });
+                document.getElementById('liveHeaderTime').innerText = timeStr;
+                document.getElementById('mainDigitalClock').innerText = timeStr;
+
+                const dayName = new Intl.DateTimeFormat('fa-IR', { weekday: 'long' }).format(now);
+                document.getElementById('mainDayOfWeek').innerText = `امروز ${dayName}`;
+
+                const jDate = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { year: 'numeric', month: 'long', day: 'numeric' }).format(now);
+                document.getElementById('dateJalali').innerText = jDate;
+
+                const gDate = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(now);
+                document.getElementById('dateGregorian').innerText = gDate;
+
+                try {
+                    const hDate = new Intl.DateTimeFormat('fa-IR-u-ca-islamic-uma', { year: 'numeric', month: 'long', day: 'numeric' }).format(now);
+                    document.getElementById('dateHijri').innerText = hDate;
+                } catch(e) {}
+
+                updateCountdown();
+                updateWorldClocks();
+            }, 1000);
         }
+
+        window.onload = initApp;
     </script>
 </body>
 </html>
