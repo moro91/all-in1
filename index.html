@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PicTo3D | استودیو لوح و تندیس ۳ بعدی</title>
+    <title>PicTo3D | استودیو تندیس سه‌بعدی واقعی</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -12,7 +12,7 @@
                 extend: {
                     colors: {
                         darkBg: '#080c14',
-                        cardBg: 'rgba(15, 23, 42, 0.8)',
+                        cardBg: 'rgba(15, 23, 42, 0.85)',
                         neonCyan: '#00f3ff',
                         neonPurple: '#a855f7'
                     },
@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Three.js CDN Libraries -->
+    <!-- Three.js Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/OBJExporter.js"></script>
@@ -66,12 +66,12 @@
         <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white shadow-lg">
-                    <i class="fa-solid fa-gem text-xl"></i>
+                    <i class="fa-solid fa-cubes text-xl"></i>
                 </div>
-                <span class="text-2xl font-black gradient-text tracking-wide">PicTo3D Studio</span>
+                <span class="text-2xl font-black gradient-text tracking-wide">PicTo3D Figure</span>
             </div>
             <div class="text-xs text-slate-400 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700 flex items-center gap-2">
-                <i class="fa-solid fa-cube text-cyan-400"></i> ساخت لوح و تندیس ۳ بعدی برجسته
+                <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i> تندیس سه‌بعدی دوربُری‌شده واقعی
             </div>
         </div>
     </header>
@@ -84,7 +84,7 @@
             <!-- Floating Controls -->
             <div class="absolute top-6 right-6 z-10 flex items-center gap-2">
                 <div class="bg-slate-900/80 backdrop-filter blur-md px-3 py-1.5 rounded-lg border border-slate-700/80 text-xs text-slate-300 flex items-center gap-2">
-                    <i class="fa-solid fa-hand-pointer text-cyan-400"></i> چرخش: کلیک چپ | زوم: غلتک
+                    <i class="fa-solid fa-hand-pointer text-cyan-400"></i> چرخاندن ۳۶۰ درجه: کلیک چپ | زوم: غلتک
                 </div>
                 <button onclick="toggleAutoRotate()" id="rotateBtn" class="bg-slate-800/90 hover:bg-slate-700 text-cyan-400 text-xs p-2 rounded-lg border border-slate-700 transition" title="چرخش خودکار">
                     <i class="fa-solid fa-rotate"></i>
@@ -94,7 +94,7 @@
             <div id="canvasContainer" class="w-full h-full relative rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center">
                 <div id="placeholderText" class="text-center p-6 text-slate-500">
                     <i class="fa-solid fa-shapes text-6xl mb-3 text-cyan-500/30 animate-pulse"></i>
-                    <p class="text-sm font-semibold">تصویر خود را بارگذاری کنید تا لوح و تندیس ۳ بعدی آن ساخته شود</p>
+                    <p class="text-sm font-semibold">تصویر خود را بارگذاری کنید تا مجسمه سه‌بعدی آن ساخته شود</p>
                 </div>
                 <canvas id="canvas3d" class="hidden"></canvas>
             </div>
@@ -112,7 +112,7 @@
                     <input type="file" id="fileInput" accept="image/*" class="hidden">
                     <i class="fa-regular fa-image text-3xl text-cyan-400 mb-2"></i>
                     <p class="text-xs text-slate-300 font-semibold mb-1">عکس مورد نظر را کشیده یا کلیک کنید</p>
-                    <p class="text-[10px] text-slate-500">پشتیبانی از فرمت‌های PNG, JPG, WebP</p>
+                    <p class="text-[10px] text-slate-500">پشتیبانی از PNG, JPG, WebP</p>
                 </div>
             </div>
 
@@ -122,54 +122,41 @@
                     <i class="fa-solid fa-sliders text-cyan-400"></i> تنظیمات حجم و شکل ۳ بعدی
                 </h3>
 
-                <!-- Plaque Shape -->
+                <!-- Model Mode -->
                 <div>
-                    <label class="block text-xs text-slate-400 mb-1.5">شکل تندیس / لوح پایه:</label>
-                    <select id="shapeSelect" onchange="render3D()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-                        <option value="plaque">لوح برجسته مستطیلی (3D Plaque)</option>
-                        <option value="medallion">مدال / سکه دایره‌ای (3D Medallion)</option>
-                        <option value="crystal">بلوک کریستالی نئونی (Glass Crystal)</option>
+                    <label class="block text-xs text-slate-400 mb-1.5">حالت مدلسازی ۳ بعدی:</label>
+                    <select id="modeSelect" onchange="render3D()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
+                        <option value="cutout">تندیس دوربُری‌شده خالص (Pure 3D Cutout)</option>
+                        <option value="standee">استند آکریلیک حجیم (3D Standee Base)</option>
+                        <option value="coin">مدال / سکه برجسته (3D Relief Coin)</option>
                     </select>
                 </div>
 
-                <!-- Frame Material Style -->
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1.5">جنس و رنگ قاب پشت:</label>
-                    <select id="styleSelect" onchange="render3D()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-                        <option value="dark">مشکی استودیویی مات (Studio Dark)</option>
-                        <option value="gold">فلز طلایی (Metallic Gold)</option>
-                        <option value="silver">نقره‌ای آلومینیومی (Silver)</option>
-                    </select>
+                <!-- Stand Base Option -->
+                <div class="flex items-center justify-between pt-1">
+                    <span class="text-xs text-slate-300 font-semibold">افزودن پایه دکوری زیر مجسمه:</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="standToggle" checked onchange="render3D()" class="sr-only peer">
+                        <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500"></div>
+                    </label>
                 </div>
 
                 <!-- Relief Depth Slider -->
                 <div>
                     <div class="flex justify-between text-xs mb-1">
-                        <span class="text-slate-400">میزان برجستگی تصویر (Relief):</span>
-                        <span id="reliefVal" class="text-cyan-400 font-bold">12</span>
+                        <span class="text-slate-400">برجستگی روبرو (Relief):</span>
+                        <span id="reliefVal" class="text-cyan-400 font-bold">15</span>
                     </div>
-                    <input type="range" id="reliefSlider" min="2" max="30" value="12" oninput="updateVal('reliefVal', this.value); render3D();" class="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer">
+                    <input type="range" id="reliefSlider" min="2" max="35" value="15" oninput="updateVal('reliefVal', this.value); render3D();" class="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer">
                 </div>
 
-                <!-- Plaque Thickness Slider -->
+                <!-- Figure Thickness Slider -->
                 <div>
                     <div class="flex justify-between text-xs mb-1">
-                        <span class="text-slate-400">ضخامت لوح (Thickness):</span>
-                        <span id="thickVal" class="text-cyan-400 font-bold">8</span>
+                        <span class="text-slate-400">ضخامت و حجم مجسمه (Depth):</span>
+                        <span id="thickVal" class="text-cyan-400 font-bold">10</span>
                     </div>
-                    <input type="range" id="thickSlider" min="2" max="25" value="8" oninput="updateVal('thickVal', this.value); render3D();" class="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer">
-                </div>
-
-                <!-- Background Removal Toggle -->
-                <div class="pt-2 border-t border-slate-800">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs text-slate-300 font-semibold">حذف هوشمند پس‌زمینه:</span>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" id="bgToggle" onchange="render3D()" class="sr-only peer">
-                            <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500"></div>
-                        </label>
-                    </div>
-                    <p class="text-[10px] text-slate-500">در صورت فعال‌سازی، رنگ‌های زمینه تصویر شفاف می‌شوند.</p>
+                    <input type="range" id="thickSlider" min="2" max="30" value="10" oninput="updateVal('thickVal', this.value); render3D();" class="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer">
                 </div>
 
                 <!-- Export Button -->
@@ -202,7 +189,7 @@
 
             const container = document.getElementById('canvasContainer');
             camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-            camera.position.set(0, 0, 85);
+            camera.position.set(0, 5, 80);
 
             renderer = new THREE.WebGLRenderer({ canvas: canvas3d, antialias: true, alpha: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
@@ -213,16 +200,16 @@
             controls.dampingFactor = 0.05;
 
             // Lights
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
             scene.add(ambientLight);
 
-            const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.9);
-            dirLight1.position.set(40, 50, 60);
-            scene.add(dirLight1);
+            const mainLight = new THREE.DirectionalLight(0xffffff, 0.9);
+            mainLight.position.set(40, 60, 70);
+            scene.add(mainLight);
 
-            const dirLight2 = new THREE.DirectionalLight(0x00f3ff, 0.5);
-            dirLight2.position.set(-40, -30, -50);
-            scene.add(dirLight2);
+            const rimLight = new THREE.DirectionalLight(0x00f3ff, 0.6);
+            rimLight.position.set(-40, -20, -50);
+            scene.add(rimLight);
 
             animate();
         }
@@ -319,97 +306,96 @@
             const imgData = ctx.getImageData(0, 0, segsX, segsY);
             const pixels = imgData.data;
 
-            const isBgRemove = document.getElementById('bgToggle').checked;
-            if (isBgRemove) {
-                const bgR = pixels[0], bgG = pixels[1], bgB = pixels[2];
-                for (let i = 0; i < pixels.length; i += 4) {
-                    const diff = Math.abs(pixels[i] - bgR) + Math.abs(pixels[i+1] - bgG) + Math.abs(pixels[i+2] - bgB);
-                    if (diff < 65) pixels[i+3] = 0;
-                }
-                ctx.putImageData(imgData, 0, 0);
-            }
-
-            const rawHeights = new Float32Array(segsX * segsY);
+            // Auto Background Mask Processing
+            const bgR = pixels[0], bgG = pixels[1], bgB = pixels[2];
             for (let i = 0; i < pixels.length; i += 4) {
-                if (pixels[i+3] < 50) {
-                    rawHeights[i/4] = 0;
+                const diff = Math.abs(pixels[i] - bgR) + Math.abs(pixels[i+1] - bgG) + Math.abs(pixels[i+2] - bgB);
+                if (diff < 60) pixels[i+3] = 0;
+            }
+            ctx.putImageData(imgData, 0, 0);
+
+            const heights = new Float32Array(segsX * segsY);
+            for (let i = 0; i < pixels.length; i += 4) {
+                if (pixels[i+3] < 30) {
+                    heights[i/4] = 0;
                 } else {
-                    rawHeights[i/4] = (0.299 * pixels[i] + 0.587 * pixels[i+1] + 0.114 * pixels[i+2]) / 255;
+                    heights[i/4] = (0.299 * pixels[i] + 0.587 * pixels[i+1] + 0.114 * pixels[i+2]) / 255;
                 }
             }
 
-            // Smooth Box Blur Filter for clean relief
-            const smoothHeights = new Float32Array(segsX * segsY);
-            for (let y = 0; y < segsY; y++) {
-                for (let x = 0; x < segsX; x++) {
-                    let sum = 0, count = 0;
-                    for (let dy = -2; dy <= 2; dy++) {
-                        for (let dx = -2; dx <= 2; dx++) {
-                            const nx = x + dx, ny = y + dy;
-                            if (nx >= 0 && nx < segsX && ny >= 0 && ny < segsY) {
-                                sum += rawHeights[ny * segsX + nx];
-                                count++;
-                            }
-                        }
-                    }
-                    smoothHeights[y * segsX + x] = sum / count;
-                }
-            }
-
-            const shape = document.getElementById('shapeSelect').value;
-            const style = document.getElementById('styleSelect').value;
-            const reliefMult = parseFloat(document.getElementById('reliefSlider').value) * 0.2;
+            const mode = document.getElementById('modeSelect').value;
+            const reliefMult = parseFloat(document.getElementById('reliefSlider').value) * 0.18;
             const thickness = parseFloat(document.getElementById('thickSlider').value);
+            const hasStand = document.getElementById('standToggle').checked;
 
-            const worldW = 38;
-            const worldH = 38 * aspect;
+            const worldW = 36;
+            const worldH = 36 * aspect;
 
-            // Front Relief Plane
-            const planeGeom = new THREE.PlaneGeometry(worldW, worldH, segsX - 1, segsY - 1);
-            const pos = planeGeom.attributes.position;
-            for (let i = 0; i < pos.count; i++) {
-                pos.setZ(i, smoothHeights[i] * reliefMult);
+            if (mode === 'cutout' || mode === 'standee') {
+                // Front Displaced Mesh
+                const frontGeom = new THREE.PlaneGeometry(worldW, worldH, segsX - 1, segsY - 1);
+                const pos = frontGeom.attributes.position;
+                for (let i = 0; i < pos.count; i++) {
+                    pos.setZ(i, heights[i] * reliefMult);
+                }
+                frontGeom.computeVertexNormals();
+
+                const frontTex = new THREE.CanvasTexture(canvas);
+                const frontMat = new THREE.MeshStandardMaterial({
+                    map: frontTex,
+                    roughness: 0.3,
+                    metalness: 0.1,
+                    transparent: true,
+                    alphaTest: 0.15,
+                    side: THREE.DoubleSide
+                });
+
+                const frontMesh = new THREE.Mesh(frontGeom, frontMat);
+                frontMesh.position.z = thickness / 2;
+                currentGroup.add(frontMesh);
+
+                // Back Solid Shell
+                const backGeom = new THREE.PlaneGeometry(worldW, worldH, segsX - 1, segsY - 1);
+                const backMat = new THREE.MeshStandardMaterial({
+                    map: frontTex,
+                    roughness: 0.5,
+                    metalness: 0.2,
+                    transparent: true,
+                    alphaTest: 0.15,
+                    side: THREE.DoubleSide
+                });
+                const backMesh = new THREE.Mesh(backGeom, backMat);
+                backMesh.position.z = -thickness / 2;
+                currentGroup.add(backMesh);
+
+            } else if (mode === 'coin') {
+                const radius = Math.max(worldW, worldH) / 1.8;
+                const coinGeom = new THREE.CylinderGeometry(radius, radius, thickness, 64);
+                coinGeom.rotateX(Math.PI / 2);
+
+                const tex = new THREE.CanvasTexture(canvas);
+                const coinMat = new THREE.MeshStandardMaterial({
+                    map: tex,
+                    metalness: 0.4,
+                    roughness: 0.3
+                });
+
+                const coinMesh = new THREE.Mesh(coinGeom, coinMat);
+                currentGroup.add(coinMesh);
             }
-            planeGeom.computeVertexNormals();
 
-            const frontTex = new THREE.CanvasTexture(canvas);
-            const frontMat = new THREE.MeshStandardMaterial({
-                map: frontTex,
-                roughness: 0.35,
-                metalness: 0.1,
-                transparent: true,
-                side: THREE.FrontSide
-            });
-
-            const frontMesh = new THREE.Mesh(planeGeom, frontMat);
-            frontMesh.position.z = thickness / 2 + 0.1;
-            currentGroup.add(frontMesh);
-
-            // Backing Base (Solid Frame)
-            let frameColor = 0x1e293b, metal = 0.2, rough = 0.5;
-            if (style === 'gold') { frameColor = 0xd4af37; metal = 0.85; rough = 0.25; }
-            else if (style === 'silver') { frameColor = 0xe2e8f0; metal = 0.9; rough = 0.2; }
-
-            const frameMat = new THREE.MeshStandardMaterial({
-                color: frameColor,
-                metalness: metal,
-                roughness: rough
-            });
-
-            let backGeom;
-            if (shape === 'plaque') {
-                backGeom = new THREE.BoxGeometry(worldW + 2, worldH + 2, thickness);
-            } else if (shape === 'medallion') {
-                const rad = Math.max(worldW, worldH) / 1.7;
-                backGeom = new THREE.CylinderGeometry(rad, rad, thickness, 64);
-                backGeom.rotateX(Math.PI / 2);
-            } else if (shape === 'crystal') {
-                backGeom = new THREE.BoxGeometry(worldW + 1, worldH + 1, thickness);
+            // Optional Trophy Pedestal Base
+            if (hasStand) {
+                const baseGeom = new THREE.BoxGeometry(worldW * 0.8, 4, 14);
+                const baseMat = new THREE.MeshStandardMaterial({
+                    color: 0x111827,
+                    roughness: 0.3,
+                    metalness: 0.8
+                });
+                const baseMesh = new THREE.Mesh(baseGeom, baseMat);
+                baseMesh.position.y = -(worldH / 2) - 2;
+                currentGroup.add(baseMesh);
             }
-
-            const backMesh = new THREE.Mesh(backGeom, frameMat);
-            backMesh.position.z = 0;
-            currentGroup.add(backMesh);
 
             scene.add(currentGroup);
         }
@@ -421,7 +407,7 @@
             const blob = new Blob([result], { type: 'text/plain' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = '3d_studio_plaque.obj';
+            link.download = '3d_figure_picto3d.obj';
             link.click();
         }
     </script>
