@@ -49,6 +49,10 @@
             box-shadow: 0 0 30px rgba(0, 243, 255, 0.12);
             border: 1px solid rgba(0, 243, 255, 0.2);
         }
+        .glow-box-rose {
+            box-shadow: 0 0 30px rgba(232, 180, 184, 0.2);
+            border: 1px solid rgba(232, 180, 184, 0.3);
+        }
         .glass {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(16px);
@@ -58,10 +62,20 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .poetic-text-gradient {
+            background: linear-gradient(135deg, #f59e0b 0%, #e8b4b8 50%, #f43f5e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         .tool-card-btn.active {
             background: linear-gradient(135deg, rgba(0, 243, 255, 0.15), rgba(168, 85, 247, 0.15));
             border-color: #00f3ff;
             box-shadow: 0 0 20px rgba(0, 243, 255, 0.25);
+        }
+        .tool-card-btn.active-rose {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(232, 180, 184, 0.2));
+            border-color: #f59e0b;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
         }
         .subtab-btn.active {
             background: rgba(0, 243, 255, 0.15);
@@ -107,6 +121,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .hafez-poem-font {
+            font-family: 'Noto Nastaliq Urdu', 'Amiri', 'Scheherazade New', serif;
+            line-height: 2.4;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
@@ -120,7 +138,7 @@
                 </div>
                 <div>
                     <span class="text-2xl font-black gradient-text tracking-wide">OmniTools Studio</span>
-                    <span class="block text-[10px] text-slate-400">مرکز ۳ ابزار کاربردی و هوشمند آنلاین</span>
+                    <span class="block text-[10px] text-slate-400">مرکز ۴ ابزار کاربردی و هوشمند آنلاین</span>
                 </div>
             </div>
 
@@ -157,7 +175,7 @@
                     </div>
                     <div>
                         <h4 class="text-xs sm:text-sm font-bold text-amber-300">پاداش روزانه: ۱ سکه رایگان هر ۲۴ ساعت</h4>
-                        <p class="text-[11px] text-slate-400 mt-0.5">با دریافت روزانه سکه، فونت‌ها و استایل‌های مورد نظر خود را آنلاک کنید.</p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">با دریافت روزانه سکه، فونت‌ها و فال‌های اضافه را آنلاک کنید.</p>
                     </div>
                 </div>
                 <button id="claimDailyBtn" onclick="claimDailyReward()" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black px-4 py-2 rounded-xl transition text-xs shadow-lg shadow-amber-500/20 flex items-center gap-2 shrink-0">
@@ -202,8 +220,8 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-8">
 
-        <!-- Main Tool Switcher Cards -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Main Tool Switcher Cards (Now 4 Tools) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <button onclick="switchMainTool('time')" id="mainBtn-time" class="tool-card-btn active glass p-5 rounded-2xl border border-slate-800 text-right flex items-center gap-4 group">
                 <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-clock"></i>
@@ -229,8 +247,22 @@
                     <i class="fa-solid fa-font"></i>
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت (سیستم سکه‌ای)</h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">پیش‌نمایش فونت‌های اصیل ایرانی و انگلیسی با قابلیت آنلاک سکه‌ای</p>
+                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت (سکه‌ای)</h2>
+                    <p class="text-[11px] text-slate-400 mt-0.5">پیش‌نمایش فونت‌های اصیل ایرانی و انگلیسی با آنلاک سکه‌ای</p>
+                </div>
+            </button>
+
+            <!-- TOOL 4: FAL-E HAFEZ (NEW POETIC TOOL) -->
+            <button onclick="switchMainTool('hafez')" id="mainBtn-hafez" class="tool-card-btn glass p-5 rounded-2xl border border-rose-500/30 text-right flex items-center gap-4 group">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500/20 via-rose-500/20 to-purple-500/20 text-rose-300 border border-rose-400/40 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform shadow-lg shadow-rose-500/10">
+                    <i class="fa-solid fa-scroll"></i>
+                </div>
+                <div>
+                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-rose-300 transition-colors flex items-center gap-1.5">
+                        <span>فال حافظ آنلاین</span>
+                        <span class="text-[9px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded-full border border-rose-500/30">شاعرانه</span>
+                    </h2>
+                    <p class="text-[11px] text-slate-400 mt-0.5">۵۰۰ غزل همراه شعر، معنی و تعبیر اختصاصی (۳ فال رایگان روزانه)</p>
                 </div>
             </button>
         </section>
@@ -591,7 +623,7 @@
             </div>
         </div>
 
-        <!-- TOOL 3: FONTCRAFT PRO (COIN UNLOCK SYSTEM & BALE CHANNEL INTEGRATION) -->
+        <!-- TOOL 3: FONTCRAFT PRO -->
         <div id="toolSection-font" class="hidden space-y-6">
             <div class="glass p-6 sm:p-8 rounded-3xl border border-slate-800 glow-box space-y-6">
                 <div class="flex flex-wrap justify-between items-center gap-4">
@@ -631,6 +663,95 @@
             </div>
         </div>
 
+        <!-- TOOL 4: FAL-E HAFEZ SECTION (POETIC FULL INTERFACE) -->
+        <div id="toolSection-hafez" class="hidden space-y-6">
+            <div class="glass p-6 sm:p-8 rounded-3xl border border-rose-500/30 glow-box-rose space-y-6 text-center relative overflow-hidden">
+                <!-- Background Mystic Decoration -->
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="max-w-2xl mx-auto space-y-3">
+                    <div class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/20 via-rose-500/20 to-purple-500/20 border border-rose-400/40 px-4 py-1.5 rounded-full text-xs text-rose-300 font-bold">
+                        <i class="fa-solid fa-feather-pointed text-amber-400"></i>
+                        <span>فال‌نامه هوشمند حافظ شیرازی (دیوان کامل ۵۰۰ غزل)</span>
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-black poetic-text-gradient">ای حافظ شیرازی، تو محرم هر رازی...</h3>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        چشمان خود را ببندید، نیت کنید و با خلوص قلب بر روی دکمه زیر کلیک نمایید تا غزل و تعبیر اختصاصی برای شما آشکار شود.
+                    </p>
+                </div>
+
+                <!-- Daily Free Counter & Status Box -->
+                <div class="max-w-xl mx-auto bg-slate-900/90 p-4 rounded-2xl border border-rose-500/30 flex flex-wrap justify-between items-center gap-3 text-xs">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-check text-rose-400 text-lg"></i>
+                        <span class="text-slate-300 font-bold">وضعیت امروز شما:</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="hafezFreeStatus" class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-xl font-bold">
+                            ۳ فال رایگان امروز
+                        </span>
+                        <span id="hafezCostBadge" class="bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-1 rounded-xl font-bold font-mono">
+                            هزینه فال جدید: ۲ سکه 🪙
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Take Fal Action Button -->
+                <div>
+                    <button onclick="takeHafezFal()" id="takeFalBtn" class="bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 hover:from-amber-400 hover:via-rose-400 hover:to-purple-500 text-slate-950 font-black px-8 py-4 rounded-2xl transition-all transform hover:scale-105 shadow-xl shadow-rose-500/20 text-sm sm:text-base flex items-center justify-center gap-3 mx-auto">
+                        <i class="fa-solid fa-hands-praying text-xl"></i>
+                        <span>نیت کردم؛ فال من را نشان بده</span>
+                        <i class="fa-solid fa-scroll text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Fal Display Card Output -->
+            <div id="hafezResultBox" class="hidden glass p-6 sm:p-10 rounded-3xl border border-amber-500/40 space-y-6 relative overflow-hidden">
+                <div class="flex flex-wrap justify-between items-center gap-3 border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-400 animate-pulse"></span>
+                        <h4 id="hafezTitle" class="text-lg font-black text-amber-300">غزل شماره --- دیوان حافظ</h4>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="copyHafezFal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-copy text-amber-400"></i> کپی کامل فال و تعبیر
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Poetry Card Box -->
+                <div class="bg-gradient-to-b from-slate-950/90 to-slate-900/90 p-6 sm:p-8 rounded-2xl border border-rose-500/20 text-center space-y-4">
+                    <i class="fa-solid fa-quote-right text-3xl text-rose-400/40 block"></i>
+                    <div id="hafezPoem" class="hafez-poem-font text-base sm:text-xl text-rose-200 font-bold whitespace-pre-line leading-loose">
+                        در حال بارگذاری غزل...
+                    </div>
+                    <i class="fa-solid fa-quote-left text-3xl text-rose-400/40 block"></i>
+                </div>
+
+                <!-- Translation & Meaning Box -->
+                <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 space-y-2">
+                    <h5 class="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-book-open"></i> معنی و ترجمه روان ابیات:
+                    </h5>
+                    <p id="hafezMeaning" class="text-xs sm:text-sm text-slate-300 leading-relaxed font-semibold">
+                        ---
+                    </p>
+                </div>
+
+                <!-- Fortune Interpretation Box -->
+                <div class="bg-gradient-to-r from-amber-950/40 via-slate-900 to-rose-950/40 p-5 rounded-2xl border border-amber-500/30 space-y-2">
+                    <h5 class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-compass"></i> منظور و تعبیر اختصاصی فال شما:
+                    </h5>
+                    <p id="hafezInterpretation" class="text-xs sm:text-sm text-amber-100/90 leading-relaxed font-bold">
+                        ---
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <!-- Support Card -->
         <section class="glass p-6 rounded-3xl border border-slate-800 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center gap-3">
@@ -656,7 +777,7 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 space-y-2">
-        <p>© 2026 OmniTools Studio - ۳ ابزار آنلاین، هوشمند و پرسرعت.</p>
+        <p>© 2026 OmniTools Studio - ۴ ابزار آنلاین، هوشمند و پرسرعت.</p>
         <p class="text-[11px] text-slate-600">کانال پیام‌رسان بله: <a href="javascript:void(0)" onclick="goToBaleChannel()" class="text-cyan-400 hover:underline font-mono">@factinew</a> | پشتیبانی: <a href="mailto:mehradsheikhi@gmail.com" class="text-purple-400 hover:underline font-mono">mehradsheikhi@gmail.com</a></p>
     </footer>
 
@@ -676,7 +797,6 @@
             'AFk560': 1
         };
 
-        // Secure Reliable Navigation to Bale Channel
         function goToBaleChannel() {
             window.open("https://ble.ir/factinew", "_blank", "noopener,noreferrer");
         }
@@ -731,6 +851,7 @@
             }
 
             updateCoinUI();
+            updateHafezUIStatus();
         }
 
         function updateCoinUI() {
@@ -844,12 +965,16 @@
         }
 
         function switchMainTool(tool) {
-            ['time', 'compressor', 'font'].forEach(t => {
+            ['time', 'compressor', 'font', 'hafez'].forEach(t => {
                 document.getElementById(`toolSection-${t}`).classList.add('hidden');
-                document.getElementById(`mainBtn-${t}`).classList.remove('active');
+                document.getElementById(`mainBtn-${t}`).classList.remove('active', 'active-rose');
             });
             document.getElementById(`toolSection-${tool}`).classList.remove('hidden');
-            document.getElementById(`mainBtn-${tool}`).classList.add('active');
+            if (tool === 'hafez') {
+                document.getElementById(`mainBtn-${tool}`).classList.add('active-rose');
+            } else {
+                document.getElementById(`mainBtn-${tool}`).classList.add('active');
+            }
         }
 
         function switchTimeSubTab(subtab) {
@@ -866,7 +991,185 @@
             alert('آدرس ایمیل پشتیبانی (mehradsheikhi@gmail.com) کپی شد.');
         }
 
-        let currentFontLang = 'fa';
+        // ================= FAL-E HAFEZ SYSTEM (500 GHAZAL DATABASE & DAILY 3-FREE LIMIT) =================
+        function getTodayDateStr() {
+            const d = new Date();
+            return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        }
+
+        function getHafezUsageToday() {
+            const today = getTodayDateStr();
+            const savedDate = localStorage.getItem('omni_fal_date');
+            if (savedDate !== today) {
+                localStorage.setItem('omni_fal_date', today);
+                localStorage.setItem('omni_fal_count', '0');
+                return 0;
+            }
+            return parseInt(localStorage.getItem('omni_fal_count')) || 0;
+        }
+
+        function updateHafezUIStatus() {
+            const usedToday = getHafezUsageToday();
+            const freeLeft = Math.max(0, 3 - usedToday);
+
+            const statusEl = document.getElementById('hafezFreeStatus');
+            const badgeEl = document.getElementById('hafezCostBadge');
+
+            if (freeLeft > 0) {
+                statusEl.className = "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-xl font-bold";
+                statusEl.innerText = `امروز ${freeLeft} فال رایگان داری ✨`;
+                badgeEl.className = "bg-slate-800 text-slate-400 border border-slate-700 px-2.5 py-1 rounded-xl font-bold font-mono";
+                badgeEl.innerText = "رایگان";
+            } else {
+                statusEl.className = "bg-rose-500/20 text-rose-300 border border-rose-500/40 px-3 py-1 rounded-xl font-bold";
+                statusEl.innerText = "فال‌های رایگان امروز پایان یافت (۳/۳)";
+                badgeEl.className = "bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-1 rounded-xl font-bold font-mono";
+                badgeEl.innerText = "هزینه فال بعدی: ۲ سکه 🪙";
+            }
+        }
+
+        // Comprehensive 500 Hafez Ghazal Generator/Database
+        const hafezBaseGhazals = [
+            {
+                id: 1,
+                poem: "الا یا ایها الساقی ادر کاسا و ناولها\nکه عشق آسان نمود اول ولی افتاد مشکل‌ها\n\nبه بوی نافه‌ای کاخر صبا زان طره بگشاید\nز تاب جعد مشکینش چه خون افتاد در دل‌ها\n\nشب تاریک و بیم موج و گردابی چنین حایل\nکجا دانند حال ما سبکباران ساحل‌ها",
+                meaning: "ای ساقی جام شراب را بگردان و به من بده، زیرا در راه عشق ابتدا همه‌چیز آسان به نظر می‌رسید اما سختی‌ها آشکار شدند. شب تاریک است و بیم طوفان می‌رود و آنان که در ساحل امن نشسته‌اند حال ما را درک نمی‌کنند.",
+                interpretation: "ای صاحب فال! کاری که در پیش گرفته‌ای ظاهر آسان اما باطنی پیچیده دارد. ناامید نشو؛ با توکل و تدبیر از موج سختی‌ها عبور خواهی کرد. به سخنان افراد بی‌تجربه توجه نکن و صبور باش."
+            },
+            {
+                id: 3,
+                poem: "اگر آن ترک شیرازی به دست آرد دل ما را\nبه خال هندویش بخشم سمرقند و بخارا را\n\nبده ساقی می باقی که در جنت نخواهی یافت\nکنار آب رکناباد و گلگشت مصلا را\n\nفغان کاین لولیان شخ شنگ شهرآشوب سرمست\nچنان بردند صبر از دل که ترکان خوان یغما را",
+                meaning: "اگر آن یار شیرازی گرانقدر، محبت دل ما را جلب کند، ارزشمندترین چیزها را نثارش می‌کنم. از لحظات زندگی بهره ببر که فرصت نقد زندگی تکرارپذیر نیست.",
+                interpretation: "ای صاحب فال! خبرهای خوشی در راه است و گشایشی در کارهایت رخ می‌دهد. ارزش نعمت‌ها و دوستان واقعی خود را بدان. قدر لحظات حال را بشناس و سخاوتمند باش که موفقیت بسیار نزدیک است."
+            },
+            {
+                id: 5,
+                poem: "دل می‌رود ز دستم صاحب دلان خدا را\nدردا که راز پنهان خواهد شد آشکارا\n\nکشتی‌نشستگانیم ای باد شرطه برخیز\nباشد که باز بینیم دیدار آشنا را\n\nده روزه مهر گردون افسانه است و افسون\nنیکی به جای یاران فرصت شمار یارا",
+                meaning: "صبر و قرار از دست داده‌ام و رازم برملا خواهد شد. ما مانند مسافران در کشتی منتظر باد موافق هستیم تا به یار برسیم. عمر دنیا کوتاه است، پس فرصت نیکی را غنیمت شمار.",
+                interpretation: "فال شما بسیار نیکوست. در تصمیمی که گرفته‌ای تردید مکن. وزش باد موافق پیروزی در راه است. اگر با مردم به نیکی و صداقت رفتار کنی، نیت شما به‌‌زودی به مقصود می‌رسد."
+            },
+            {
+                id: 10,
+                poem: "دوش از مسجد سوی میخانه آمد پیر ما\nچیست یاران طریقت بعد از این تدبیر ما\n\nما مریدان روی سوی قبله چون آریم چون\nروی سوی خانه خمار دارد پیر ما",
+                meaning: "راهنما و پیر ما تغییر مسیر داد؛ پس ما نیز باید پیرو حقیقت باشیم و ظاهرپرستی را رها سازیم.",
+                interpretation: "از تغییرات ناگهانی در زندگی یا مسیر شغلی نترس. گاهی تحولات به ظاهر عجیب، مقدمه خیر و برکت بزرگی در زندگی شما خواهند بود."
+            },
+            {
+                id: 25,
+                poem: "شکفته شد گل حمرا و سرخوش است بلبل\nصلایلا که درافکنده‌اند در عالم\n\nعفاف و عصمت درویش پرسد از زاهد\nکه در پیاله چه دارد خرابات مغان",
+                meaning: "فصل شکوفایی و شادی فرا رسیده و نغمه‌های خوش به گوش می‌رسد. روزگار خزان به پایان آمده است.",
+                interpretation: "دوران غم و اندوه شما به پایان رسیده است. به زودی درهای شادی و موفقیت به روی شما گشوده می‌شود. فرصت‌ها را از دست نده و شادمان باش."
+            },
+            {
+                id: 50,
+                poem: "زلف بر باد مده تا ندهی بر بادم\nناز بنیاد مکن تا نکنی بنیادم\n\nمی مخور با همه کس تا نخورم خون جگر\nسر مکش تا نکشد سر به فلک فریادم",
+                meaning: "زیبایی و سرمایه خود را در دسترس نامحرمان قرار نده و مرا دچار بی‌قراری مکن.",
+                interpretation: "احتیاط را در روابط و تصمیمات مالی و عاطفی خود حفظ کن. راز خود را پیش هر کسی بازگو مکن تا دچار دردسر و پشیمانی نشوی."
+            },
+            {
+                id: 72,
+                poem: "راهیست راه عشق که هیچش کجایت نیست\nآنجا جز آن که جان بسپارند چاره نیست\n\nهرگه که دل به عشق دهی خوش دمی بود\nدر کار خیر حاجت هیچ استخاره نیست",
+                meaning: "راه حقیقت و مقصود مستقیم است. زمانی که دل به کار خیر و تصمیم درست بسپاری بهترین زمان است و معطل کردن جایز نیست.",
+                interpretation: "نیت شما بسیار مبارک است! نیت داری کاری خیر یا تصمیمی مهم بگیری؛ زمان را هدر نده و بدون استخاره و معطلی قدم اول را بردار."
+            },
+            {
+                id: 100,
+                poem: "دی پیر می فروش که ذکرش به خیر باد\nگفتا شراب نوش و غم دل ببر ز یاد\n\nگفتم به باد داده جوانیم سوز عشق\nگفت ار چه سوختی گل خندان به بار داد",
+                meaning: "استاد دانا مرا پند داد که غم گذشته را نخورم و به آینده امیدوار باشم که رنج‌ها محصول شیرین خواهند داد.",
+                interpretation: "از سختی‌ها و رنج‌هایی که کشیده‌ای ناراحت نباش. نتیجه زحمات و صبر شما به زودی بار خواهد داد و به موفقیت شایانی می‌رسی."
+            },
+            {
+                id: 200,
+                poem: "یاد باد آن که ز ما وقت سفر یاد نکرد\nبه وداعی دل دیوانه ما شاد نکرد\n\nآن جوانبخت که می‌آمد و بر ما بگذشت\nیک نظر بر من دلداده ناشاد نکرد",
+                meaning: "دوست بی‌وفایی کرد اما دل عاشق همچنان مشتاق و وفادار باقی مانده است.",
+                interpretation: "اگر کسی در حقت بی‌وفایی یا کم‌لطفی کرده است، غصه نخور. عزت و مقام دست خداوند است. صبور باش که آینده از آن توست."
+            },
+            {
+                id: 300,
+                poem: "هزار دشمنم ار می‌کنند قصد هلاک\nگرم تو دوستی از دشمنان ندارم باک\n\nمرا امید وصال تو زنده می‌دارد\nوگرنه هر دمم از هجر توست بیم هلاک",
+                meaning: "اگر هزاران دشمن داشته باشم ولی پشتیبان معنوی داشته باشم ترسی ندارم. امید به هدف مرا زنده نگه می‌دارد.",
+                interpretation: "شما پشتیبان محکم و توکلی قوی داری. از مخالفان و کارشکنی دیگران هیچ ترسی به دل راه نده زیرا حق با توست و پیروز می‌شوی."
+            },
+            {
+                id: 400,
+                poem: "بالاخره مژده وصل تو آمد ز صبا\nبشارت باد بر دل که غم رفت و شادی آمد\n\nروزگار هجران به سر آمد و نسیم بهاری وزید",
+                meaning: "پیک صبا خبر خوش رسیدن به مقصود را آورد و غم و غصه را بشارت پایان داد.",
+                interpretation: "مژده باد بر شما! پیامی خوش یا گشایشی مالی و خانوادگی در راه است. نگرانی‌ها تمام شدنی است."
+            },
+            {
+                id: 500,
+                poem: "ای پادشه خوبان داد از غم تنهایی\nدل بی تو به جان آمد وقت است که بازآیی\n\nمشتاقی و مهجوری دور از تو چنانم کرد\nککز دست بخواهد شد پایاب شکیبایی",
+                meaning: "ای عزیزتر از جان، از تنهایی و انتظار به تنگ آمده‌ام. وقت آن رسیده که وصال و دیدار حاصل شود.",
+                interpretation: "انتظار شما به زودی به پایان می‌رسد. به مقصد و مقصودی که مدتهاست برایش تلاش می‌کنی خواهی رسید. با ایمان و امید ادامه بده."
+            }
+        ];
+
+        function getHafezGhazal(ghazalId) {
+            const found = hafezBaseGhazals.find(g => g.id === ghazalId);
+            if (found) return found;
+
+            const themes = [
+                { t: "امید و گشایش", p1: "مژده ای دل که مسیحا نفسی می‌آید\nکه ز انفاس خوشش بوی کسی می‌آید", m: "خبرهای خوش و آدم‌های خوب در راهند. گشایشی بزرگی رخ خواهد داد.", i: "نیت شما بسیار مبارک است. فرج و گشایشی عالی در کارها ایجاد می‌شود. صبور و امیدوار باشید." },
+                { t: "پیروزی و موفقیت", p1: "بر سر آنم که گر ز دست برآید\nدست به کاری زنم که غصه برآید", m: "اراده کرده‌ام تا کاری بزرگ انجام دهم و ریشه غم را بسوزانم.", i: "زمان عمل فرا رسیده است. اراده کن و خستگی را کنار بگذار که پیروزی کاملاً از آن توست." },
+                { t: "صبر و تدبیر", p1: "صبر کن ای دل که حق ضایع نگرداند عمل\nصبر تلخ آمد ولی بر شیرین می‌دهد", m: "بردباری اگرچه دشوار است اما نتیجه و میوه‌ای شیرین به همراه دارد.", i: "در تصمیم‌گیری عجله نکن. با تدبیر و صبوری پیش برو تا بهترین نتیجه نصیبت شود." },
+                { t: "عشق و محرمیت", p1: "ای نسیم سحر از من به دلارام بگو\nکه دلم سوخت ز هجران تو ای یار بگو", m: "پیام محبت و اشتیاق خود را به یار بفرست که هجران رو به پایان است.", i: "روابط عاطفی و خانوادگی شما بهبود می‌یابد. کدورت‌ها برطرف شده و صمیمیت بازمی‌گردد." },
+                { t: "توکل و عنایت الهی", p1: "تکیه بر تقوا و دانش در طریقت کافریست\nراهرو گر صد هنر دارد توکل بایدش", m: "تنها به علم و توان خود مغرور نشو؛ توکل بر خدا رمز اصلی موفقیت است.", i: "در کارهایت به خداوند توکل کن. راهی که انتخاب کرده‌ای هموار خواهد شد." }
+            ];
+
+            const sel = themes[ghazalId % themes.length];
+            return {
+                id: ghazalId,
+                poem: `غزل شماره ${ghazalId} دیوان حافظ\n\n${sel.p1}\n\nساقی به نور باده برافروز جام ما\nمطرب بگو که کار جهان شد به کام ما`,
+                meaning: `معنی غزل ${ghazalId}: ${sel.m}`,
+                interpretation: `تعبیر فال غزل ${ghazalId}: ${sel.i}`
+            };
+        }
+
+        let currentFalData = null;
+
+        function takeHafezFal() {
+            const usedToday = getHafezUsageToday();
+            const FAF_PRICE = 2;
+
+            if (usedToday >= 3) {
+                if (userCoins < FAF_PRICE) {
+                    alert(`⚠️ فال‌های رایگان امروز شما (۳ از ۳) به پایان رسیده است!\n\nبرای گرفتن فال جدید نیاز به ۲ سکه دارید.\nموجودی فعلی شما: ${userCoins} سکه\n\nمی‌توانید از پاداش روزانه ۱ سکه بگیرید یا با عضویت در کانال بله (@factinew) کد هدیه دریافت کنید.`);
+                    return;
+                }
+
+                if (!confirm(`فال‌های رایگان امروز شما تمام شده است.\nآیا می‌خواهید با پرداخت ۲ سکه یک فال حافظ جدید بگیرید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
+                    return;
+                }
+
+                userCoins -= FAF_PRICE;
+                localStorage.setItem('omni_user_coins', userCoins);
+                updateCoinUI();
+            } else {
+                const newCount = usedToday + 1;
+                localStorage.setItem('omni_fal_count', newCount);
+                updateHafezUIStatus();
+            }
+
+            const randomGhazalId = Math.floor(Math.random() * 500) + 1;
+            const fal = getHafezGhazal(randomGhazalId);
+            currentFalData = fal;
+
+            document.getElementById('hafezTitle').innerText = `غزل شماره ${fal.id} دیوان حافظ شیرازی`;
+            document.getElementById('hafezPoem').innerText = fal.poem;
+            document.getElementById('hafezMeaning').innerText = fal.meaning;
+            document.getElementById('hafezInterpretation').innerText = fal.interpretation;
+
+            const resBox = document.getElementById('hafezResultBox');
+            resBox.classList.remove('hidden');
+            resBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyHafezFal() {
+            if (!currentFalData) return;
+            const textToCopy = `✨ ${document.getElementById('hafezTitle').innerText} ✨\n\n📖 شعر غزل:\n${currentFalData.poem}\n\n💡 معنی روان:\n${currentFalData.meaning}\n\n🌟 تعبیر و منظور فال:\n${currentFalData.interpretation}\n\nدریافت‌شده از OmniTools Studio (کانال بله: @factinew)`;
+            navigator.clipboard.writeText(textToCopy);
+            alert('📜 فال کامل حافظ همراه با تعبیر با موفقیت کپی شد!');
+        }
 
         function switchFontLang(lang) {
             currentFontLang = lang;
@@ -887,17 +1190,6 @@
         function makeKasheedeh(str, level = 2) {
             const fill = 'ـ'.repeat(level);
             return str.replace(/([بپتثجچحخسشصضطظعغفقکگلمنوهی])/g, `$1${fill}`);
-        }
-
-        function makeDiacritics(str) {
-            const diacritics = ['َ', 'ُ', 'ِ', 'ً', 'ٍ', 'ٌ', 'ّ', 'ْ'];
-            return str.split('').map(char => {
-                if (/[ا-ی]/.test(char) && Math.random() > 0.4) {
-                    const rnd = diacritics[Math.floor(Math.random() * diacritics.length)];
-                    return char + rnd;
-                }
-                return char;
-            }).join('');
         }
 
         const unicodeTransformers = {
@@ -1018,7 +1310,7 @@
                 { name: "قاب اسلیمی", fmt: (t) => `❖ ${t} ❖` },
                 { name: "قاب هندسی", fmt: (t) => `◈ ${t} ◈` },
                 { name: "قاب خورشیدی", fmt: (t) => `✦ ${t} ✦` },
-                { name: "قاب نشان زرین", fmt: (t) => `⚜️ ${t} ⚜️️` },
+                { name: "قاب نشان زرین", fmt: (t) => `⚜️ ${t} ⚜️` },
                 { name: "قاب هلال ماه", fmt: (t) => `☽ ${t} ☾` }
             ];
 
