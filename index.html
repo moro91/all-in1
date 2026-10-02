@@ -836,7 +836,7 @@
             alert('آدرس ایمیل پشتیبانی (mehradsheikhi@gmail.com) کپی شد.');
         }
 
-        // --- 2. FONTCRAFT PRO LOGIC (100 ENGLISH UNICODE & PERSIAN WEBFONTS WITH DECORATIVE FRAMES) ---
+        // --- 2. FONTCRAFT PRO LOGIC (100 ENGLISH UNICODE & PERSIAN WEBFONTS WITH UNICODE TRANSFORMERS) ---
         let currentFontLang = 'fa';
 
         function switchFontLang(lang) {
@@ -847,12 +847,29 @@
 
             const inputEl = document.getElementById('fontInputText');
             if (lang === 'fa' && (!inputEl.value || inputEl.value === 'OmniTools Studio')) {
-                inputEl.value = 'سلام متین؛ به استودیو هوشمند خوش آمدید!';
+                inputEl.value = 'سلام؛ به استودیو خوش آمدید!';
             } else if (lang === 'en' && (!inputEl.value || inputEl.value.includes('سلام'))) {
                 inputEl.value = 'OmniTools Studio';
             }
 
             renderFontPreviews();
+        }
+
+        // --- Persian Character Extensions (Kasheedeh & Diacritics) ---
+        function makeKasheedeh(str, level = 2) {
+            const fill = 'ـ'.repeat(level);
+            return str.replace(/([بپتثجچحخسشصضطظعغفقکگلمنوهی])/g, `$1${fill}`);
+        }
+
+        function makeDiacritics(str) {
+            const diacritics = ['َ', 'ُ', 'ِ', 'ً', 'ٍ', 'ٌ', 'ّ', 'ْ'];
+            return str.split('').map(char => {
+                if (/[ا-ی]/.test(char) && Math.random() > 0.4) {
+                    const rnd = diacritics[Math.floor(Math.random() * diacritics.length)];
+                    return char + rnd;
+                }
+                return char;
+            }).join('');
         }
 
         const unicodeTransformers = {
@@ -917,26 +934,26 @@
         };
 
         const persianFontList = [
-            { name: "فونت وزیرمتن (Vazirmatn)", fontFamily: "'Vazirmatn', sans-serif", css: "text-cyan-400 text-2xl font-black", fmt: (t) => `꧁༺ ${t} ༻꧂` },
-            { name: "فونت لاله‌زار (Lalezar)", fontFamily: "'Lalezar', cursive", css: "anim-gold-luxury text-2xl font-normal", fmt: (t) => `👑 ${t} 👑` },
-            { name: "فونت نستعلیق (Nastaliq)", fontFamily: "'Noto Nastaliq Urdu', 'Amiri', serif", css: "text-amber-300 text-2xl font-normal leading-loose", fmt: (t) => `★彡 ${t} 彡★` },
-            { name: "فونت کاتبه (Katibeh)", fontFamily: "'Katibeh', cursive", css: "anim-wavy-rainbow text-3xl font-normal", fmt: (t) => `•.¸♡ ${t} ♡¸.•` },
-            { name: "فونت امیری (Amiri)", fontFamily: "'Amiri', serif", css: "text-emerald-400 text-2xl font-bold", fmt: (t) => `⚡️ ${t} ⚡️` },
-            { name: "فونت عارف رقعه (Aref Ruqaa)", fontFamily: "'Aref Ruqaa', serif", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `✿.｡.:* ${t} *.:｡.✿` },
-            { name: "فونت شبنم (Shabnam)", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `【 ${t} 】` },
-            { name: "فونت ساحل (Sahel)", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", css: "text-indigo-300 text-2xl font-bold", fmt: (t) => `『 ${t} 』` },
-            { name: "فونت صمیم (Samim)", fontFamily: "'Samim', 'Vazirmatn', sans-serif", css: "text-teal-300 text-2xl font-bold", fmt: (t) => `༺ ${t} ༻` },
-            { name: "فونت قاهره (Cairo)", fontFamily: "'Cairo', sans-serif", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️ ${t} ♦️️` },
-            { name: "فونت کوفی (Reem Kufi)", fontFamily: "'Reem Kufi', sans-serif", css: "text-yellow-300 text-2xl font-bold", fmt: (t) => `✨ ${t} ✨` },
-            { name: "فونت لطیف (Lateef)", fontFamily: "'Lateef', cursive", css: "text-emerald-300 text-3xl font-normal", fmt: (t) => `⚔️ ${t} ⚔️` },
-            { name: "فونت شهرزاد (Scheherazade)", fontFamily: "'Scheherazade New', serif", css: "text-amber-200 text-2xl font-bold", fmt: (t) => `🌹 ${t} 🌹` },
-            { name: "فونت چنگا (Changa)", fontFamily: "'Changa', sans-serif", css: "anim-cool-ocean text-2xl font-extrabold", fmt: (t) => `꧁𓊈 ${t} 𓊉꧂` },
-            { name: "فونت لیمونادا (Lemonada)", fontFamily: "'Lemonada', cursive", css: "anim-wavy-rainbow text-xl font-bold", fmt: (t) => `🎵 ${t} 🎵` },
-            { name: "فونت تجول (Tajawal)", fontFamily: "'Tajawal', sans-serif", css: "text-slate-100 text-2xl font-bold", fmt: (t) => `❖ ${t} ❖` },
-            { name: "فونت المسیری (El Messiri)", fontFamily: "'El Messiri', sans-serif", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `◈ ${t} ◈` },
-            { name: "فونت مارهی (Marhey)", fontFamily: "'Marhey', cursive", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `✦ ${t} ✦` },
-            { name: "فونت کوفام (Kufam)", fontFamily: "'Kufam', sans-serif", css: "text-purple-400 text-2xl font-bold", fmt: (t) => `⚜️ ${t} ⚜️` },
-            { name: "فونت هرمتان (Harmattan)", fontFamily: "'Harmattan', sans-serif", css: "text-emerald-400 text-2xl font-bold", fmt: (t) => `☽ ${t} ☾` }
+            { name: "فونت کشیده استاندارد (قابل پیست در بله)", fontFamily: "'Vazirmatn', sans-serif", css: "text-cyan-400 text-2xl font-black", fmt: (t) => makeKasheedeh(t, 2) },
+            { name: "فونت فوق کشیده شاهانه", fontFamily: "'Lalezar', cursive", css: "anim-gold-luxury text-2xl font-normal", fmt: (t) => `꧁༺ ${makeKasheedeh(t, 4)} ༻꧂` },
+            { name: "فونت کشیده همراه با اعراب", fontFamily: "'Noto Nastaliq Urdu', 'Amiri', serif", css: "text-amber-300 text-2xl font-normal leading-loose", fmt: (t) => makeDiacritics(makeKasheedeh(t, 2)) },
+            { name: "فونت وزیرمتن با قاب گلدار", fontFamily: "'Vazirmatn', sans-serif", css: "text-cyan-400 text-2xl font-black", fmt: (t) => `✿.｡.:* ${t} *.:｡.✿` },
+            { name: "فونت لاله‌زار با تاج شاهی", fontFamily: "'Lalezar', cursive", css: "anim-gold-luxury text-2xl font-normal", fmt: (t) => `👑 ${t} 👑` },
+            { name: "فونت کاتبه با قاب ستاره‌ای", fontFamily: "'Katibeh', cursive", css: "anim-wavy-rainbow text-3xl font-normal", fmt: (t) => `★彡 ${t} 彡★` },
+            { name: "فونت امیری با صاعقه", fontFamily: "'Amiri', serif", css: "text-emerald-400 text-2xl font-bold", fmt: (t) => `⚡️ ${makeKasheedeh(t, 2)} ⚡️` },
+            { name: "فونت عارف رقعه با قلبی", fontFamily: "'Aref Ruqaa', serif", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `•.¸♡ ${t} ♡¸.•` },
+            { name: "فونت شبنم با کادر مربع", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `【 ${makeKasheedeh(t, 2)} 】` },
+            { name: "فونت ساحل با قاب گوشه‌ای", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", css: "text-indigo-300 text-2xl font-bold", fmt: (t) => `『 ${t} 』` },
+            { name: "فونت صمیم با موجی", fontFamily: "'Samim', 'Vazirmatn', sans-serif", css: "text-teal-300 text-2xl font-bold", fmt: (t) => `༺ ${makeKasheedeh(t, 3)} ༻` },
+            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️ ${t} ♦️` },
+            { name: "فونت کوفی با ستاره درخشان", fontFamily: "'Reem Kufi', sans-serif", css: "text-yellow-300 text-2xl font-bold", fmt: (t) => `✨ ${makeKasheedeh(t, 2)} ✨` },
+            { name: "فونت لطیف با شمشیر", fontFamily: "'Lateef', cursive", css: "text-emerald-300 text-3xl font-normal", fmt: (t) => `⚔️ ${t} ⚔️` },
+            { name: "فونت شهرزاد با گل رز", fontFamily: "'Scheherazade New', serif", css: "text-amber-200 text-2xl font-bold", fmt: (t) => `🌹 ${makeKasheedeh(t, 2)} 🌹` },
+            { name: "فونت چنگا با بال آفرینش", fontFamily: "'Changa', sans-serif", css: "anim-cool-ocean text-2xl font-extrabold", fmt: (t) => `꧁𓊈 ${t} 𓊉꧂` },
+            { name: "فونت لیمونادا با نت موسیقی", fontFamily: "'Lemonada', cursive", css: "anim-wavy-rainbow text-xl font-bold", fmt: (t) => `🎵 ${t} 🎵` },
+            { name: "فونت تجول با قاب اسلیمی", fontFamily: "'Tajawal', sans-serif", css: "text-slate-100 text-2xl font-bold", fmt: (t) => `❖ ${makeKasheedeh(t, 2)} ❖` },
+            { name: "فونت المسیری با هندسی", fontFamily: "'El Messiri', sans-serif", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `◈ ${t} ◈` },
+            { name: "فونت مارهی با خورشیدی", fontFamily: "'Marhey', cursive", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `✦ ${makeKasheedeh(t, 2)} ✦` }
         ];
 
         // --- Build 100 English Unicode Styles ---
@@ -996,7 +1013,7 @@
 
         function renderFontPreviews() {
             const rawVal = document.getElementById('fontInputText').value;
-            const inputVal = rawVal.trim() || (currentFontLang === 'fa' ? "سلام متین؛ به استودیو هوشمند خوش آمدید!" : "OmniTools Studio");
+            const inputVal = rawVal.trim() || (currentFontLang === 'fa' ? "سلام؛ به استودیو خوش آمدید!" : "OmniTools Studio");
             const grid = document.getElementById('fontsGrid');
             grid.innerHTML = '';
 
@@ -1032,7 +1049,7 @@
                     if (isUnlocked) {
                         const btn = document.createElement('button');
                         btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
-                        btn.innerHTML = `<i class="fa-solid fa-copy text-amber-400"></i> کپی متن زیباسازی شده`;
+                        btn.innerHTML = `<i class="fa-solid fa-copy text-amber-400"></i> کپی متن (آماده پیست در بله)`;
                         btn.addEventListener('click', () => doCopy(formattedText, btn));
                         actionDiv.appendChild(btn);
                     } else {
