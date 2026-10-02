@@ -90,6 +90,20 @@
             color: #fbbf24;
             font-weight: bold;
         }
+        .typing-correct {
+            color: #10b981;
+            background-color: rgba(16, 185, 129, 0.15);
+        }
+        .typing-incorrect {
+            color: #f43f5e;
+            background-color: rgba(244, 63, 94, 0.25);
+            text-decoration: underline;
+        }
+        .typing-active {
+            border-bottom: 2px solid #00f3ff;
+            background-color: rgba(0, 243, 255, 0.2);
+            animation: pulse 1s infinite;
+        }
         @keyframes wavyRainbow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -141,7 +155,7 @@
                     <i class="fa-solid fa-user-shield"></i>
                 </div>
                 <h2 class="text-xl font-black gradient-text">ورود / ثبت‌نام در OmniTools Studio</h2>
-                <p class="text-xs text-slate-400">جهت استفاده کامل از تمامی ۴ ابزار، حساب خود را بسازید.</p>
+                <p class="text-xs text-slate-400">جهت استفاده کامل از تمامی ابزارها، حساب خود را بسازید.</p>
             </div>
 
             <!-- Step Dots -->
@@ -207,7 +221,7 @@
                 </div>
                 <div>
                     <span class="text-2xl font-black gradient-text tracking-wide">OmniTools Studio</span>
-                    <span class="block text-[10px] text-slate-400">مرکز ۴ ابزار کاربردی و هوشمند آنلاین</span>
+                    <span class="block text-[10px] text-slate-400">مرکز ۵ ابزار کاربردی و هوشمند آنلاین</span>
                 </div>
             </div>
 
@@ -251,7 +265,7 @@
                     </div>
                     <div>
                         <h4 class="text-xs sm:text-sm font-bold text-amber-300">پاداش روزانه: ۱ سکه رایگان هر ۲۴ ساعت</h4>
-                        <p class="text-[11px] text-slate-400 mt-0.5">با دریافت روزانه سکه، فونت‌ها و فال‌های اضافه را آنلاک کنید.</p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">با دریافت روزانه سکه، فونت‌ها، فال‌ها و امتحانات را آنلاک کنید.</p>
                     </div>
                 </div>
                 <button id="claimDailyBtn" onclick="claimDailyReward()" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black px-4 py-2 rounded-xl transition text-xs shadow-lg shadow-amber-500/20 flex items-center gap-2 shrink-0">
@@ -297,47 +311,60 @@
     <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-8">
 
         <!-- Main Tool Switcher Cards -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <button onclick="switchMainTool('time')" id="mainBtn-time" class="tool-card-btn active glass p-5 rounded-2xl border border-slate-800 text-right flex items-center gap-4 group">
-                <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+        <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5">
+            <button onclick="switchMainTool('time')" id="mainBtn-time" class="tool-card-btn active glass p-4 rounded-2xl border border-slate-800 text-right flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-clock"></i>
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-cyan-300 transition-colors">زمان و اوقات شرعی</h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">ساعت زنده، ۳۱ شهر ایران، تقویم ۳گانه و تبدیل تاریخ</p>
+                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-cyan-300 transition-colors">زمان و اوقات شرعی</h2>
+                    <p class="text-[10px] text-slate-400 mt-0.5">ساعت زنده، ۳۱ شهر و تبدیل تاریخ</p>
                 </div>
             </button>
 
-            <button onclick="switchMainTool('compressor')" id="mainBtn-compressor" class="tool-card-btn glass p-5 rounded-2xl border border-slate-800 text-right flex items-center gap-4 group">
-                <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 border border-purple-500/30 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+            <button onclick="switchMainTool('compressor')" id="mainBtn-compressor" class="tool-card-btn glass p-4 rounded-2xl border border-slate-800 text-right flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/30 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-file-zipper"></i>
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-purple-300 transition-colors">فشرده‌ساز فایل</h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">کاهش حجم هوشمند تصاویر و دانلود ZIP</p>
+                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-purple-300 transition-colors">فشرده‌ساز فایل</h2>
+                    <p class="text-[10px] text-slate-400 mt-0.5">کاهش حجم تصویر و فایل‌ها</p>
                 </div>
             </button>
 
-            <button onclick="switchMainTool('font')" id="mainBtn-font" class="tool-card-btn glass p-5 rounded-2xl border border-slate-800 text-right flex items-center gap-4 group">
-                <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+            <button onclick="switchMainTool('font')" id="mainBtn-font" class="tool-card-btn glass p-4 rounded-2xl border border-slate-800 text-right flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-font"></i>
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت (سکه‌ای)</h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">پیش‌نمایش فونت‌های اصیل ایرانی و انگلیسی با آنلاک سکه‌ای</p>
+                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت</h2>
+                    <p class="text-[10px] text-slate-400 mt-0.5">استایل‌های فارسی و انگلیسی</p>
                 </div>
             </button>
 
-            <button onclick="switchMainTool('hafez')" id="mainBtn-hafez" class="tool-card-btn glass p-5 rounded-2xl border border-rose-500/30 text-right flex items-center gap-4 group">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500/20 via-rose-500/20 to-purple-500/20 text-rose-300 border border-rose-400/40 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform shadow-lg shadow-rose-500/10">
+            <button onclick="switchMainTool('hafez')" id="mainBtn-hafez" class="tool-card-btn glass p-4 rounded-2xl border border-rose-500/30 text-right flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500/20 via-rose-500/20 to-purple-500/20 text-rose-300 border border-rose-400/40 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform shadow-lg shadow-rose-500/10">
                     <i class="fa-solid fa-scroll"></i>
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-rose-300 transition-colors flex items-center gap-1.5">
-                        <span>فال حافظ آنلاین</span>
-                        <span class="text-[9px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded-full border border-rose-500/30">شاعرانه</span>
+                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-rose-300 transition-colors flex items-center gap-1">
+                        <span>فال حافظ</span>
+                        <span class="text-[8px] bg-rose-500/20 text-rose-300 px-1 py-0.5 rounded-full">آنلاین</span>
                     </h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">۵۰۰ غزل همراه شعر، معنی و تعبیر اختصاصی (۳ فال رایگان روزانه)</p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">۵۰۰ غزل همراه معنی و تعبیر</p>
+                </div>
+            </button>
+
+            <button onclick="switchMainTool('typing')" id="mainBtn-typing" class="tool-card-btn glass p-4 rounded-2xl border border-emerald-500/30 text-right flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-keyboard"></i>
+                </div>
+                <div>
+                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-emerald-300 transition-colors flex items-center gap-1">
+                        <span>تست سرعت تایپ</span>
+                        <span class="text-[8px] bg-emerald-500/20 text-emerald-300 px-1 py-0.5 rounded-full">جدید</span>
+                    </h2>
+                    <p class="text-[10px] text-slate-400 mt-0.5">۴ سطح فارسی و انگلیسی (WPM)</p>
                 </div>
             </button>
         </section>
@@ -821,6 +848,144 @@
             </div>
         </div>
 
+        <!-- TOOL 5: TYPING SPEED TEST SECTION -->
+        <div id="toolSection-typing" class="hidden space-y-6">
+            <div class="glass p-6 sm:p-8 rounded-3xl border border-emerald-500/30 glow-box space-y-6">
+                
+                <!-- Header Controls & Level Selector -->
+                <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-5">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-keyboard text-emerald-400"></i> تست هوشمند سرعت و دقت تایپ
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-1">سرعت خود را با معیار کلمه در دقیقه (WPM) در ۴ سطح مختلف بسنجید.</p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3">
+                        <!-- Language Switcher -->
+                        <div class="flex items-center gap-1 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800">
+                            <button onclick="setTypingLang('fa')" id="typingLangBtn-fa" class="px-3 py-1.5 rounded-xl text-xs font-bold transition bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                                فارسی
+                            </button>
+                            <button onclick="setTypingLang('en')" id="typingLangBtn-en" class="px-3 py-1.5 rounded-xl text-xs font-bold transition text-slate-400 border border-transparent hover:text-slate-200">
+                                English
+                            </button>
+                        </div>
+
+                        <!-- Status Badge -->
+                        <div class="flex items-center gap-2 text-xs">
+                            <span id="typingFreeStatus" class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-xl font-bold">
+                                ۳ امتحان رایگان امروز
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Level Buttons Selector -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <button onclick="setTypingLevel('beginner')" id="typingLvlBtn-beginner" class="p-3.5 rounded-2xl border border-emerald-500/50 bg-emerald-500/10 text-emerald-300 font-bold text-xs transition flex flex-col items-center gap-1">
+                        <i class="fa-solid fa-seedling text-lg"></i>
+                        <span>۱. مبتدی (Beginner)</span>
+                        <span class="text-[10px] text-slate-400 font-normal">کلمات ساده و ۳۰ ثانیه</span>
+                    </button>
+                    <button onclick="setTypingLevel('amateur')" id="typingLvlBtn-amateur" class="p-3.5 rounded-2xl border border-slate-800 bg-slate-900/60 text-slate-300 font-bold text-xs transition flex flex-col items-center gap-1 hover:border-slate-700">
+                        <i class="fa-solid fa-running text-lg"></i>
+                        <span>۲. آماتور (Amateur)</span>
+                        <span class="text-[10px] text-slate-400 font-normal">جملات روان و ۶۰ ثانیه</span>
+                    </button>
+                    <button onclick="setTypingLevel('pro')" id="typingLvlBtn-pro" class="p-3.5 rounded-2xl border border-slate-800 bg-slate-900/60 text-slate-300 font-bold text-xs transition flex flex-col items-center gap-1 hover:border-slate-700">
+                        <i class="fa-solid fa-fire text-lg"></i>
+                        <span>۳. حرفه‌ای (Professional)</span>
+                        <span class="text-[10px] text-slate-400 font-normal">متن با اعداد و علائم</span>
+                    </button>
+                    <button onclick="setTypingLevel('master')" id="typingLvlBtn-master" class="p-3.5 rounded-2xl border border-slate-800 bg-slate-900/60 text-slate-300 font-bold text-xs transition flex flex-col items-center gap-1 hover:border-slate-700">
+                        <i class="fa-solid fa-crown text-lg"></i>
+                        <span>۴. استادکار (Master)</span>
+                        <span class="text-[10px] text-slate-400 font-normal">متن تخصصی و ادبی چالش‌دار</span>
+                    </button>
+                </div>
+
+                <!-- Live Metrics Display Bar -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                    <div class="bg-slate-900/90 p-3 rounded-2xl border border-slate-800 space-y-1">
+                        <span class="text-[10px] text-slate-400 block">زمان باقی‌مانده</span>
+                        <span id="typingTimerDisplay" class="text-xl sm:text-2xl font-black font-mono text-cyan-300">60</span>
+                        <span class="text-[10px] text-slate-500 block">ثانیه</span>
+                    </div>
+                    <div class="bg-slate-900/90 p-3 rounded-2xl border border-slate-800 space-y-1">
+                        <span class="text-[10px] text-slate-400 block">سرعت تایپ (WPM)</span>
+                        <span id="typingWpmDisplay" class="text-xl sm:text-2xl font-black font-mono text-emerald-400">0</span>
+                        <span class="text-[10px] text-slate-500 block">کلمه در دقیقه</span>
+                    </div>
+                    <div class="bg-slate-900/90 p-3 rounded-2xl border border-slate-800 space-y-1">
+                        <span class="text-[10px] text-slate-400 block">دقت تایپ</span>
+                        <span id="typingAccuracyDisplay" class="text-xl sm:text-2xl font-black font-mono text-purple-300">100%</span>
+                        <span class="text-[10px] text-slate-500 block">درصد درست</span>
+                    </div>
+                    <div class="bg-slate-900/90 p-3 rounded-2xl border border-slate-800 space-y-1">
+                        <span class="text-[10px] text-slate-400 block">تعداد خطا</span>
+                        <span id="typingMistakesDisplay" class="text-xl sm:text-2xl font-black font-mono text-rose-400">0</span>
+                        <span class="text-[10px] text-slate-500 block">اشتباه</span>
+                    </div>
+                </div>
+
+                <!-- Typing Test Interactive Box -->
+                <div class="space-y-4">
+                    <!-- Target Text Display -->
+                    <div id="typingTextDisplay" class="bg-slate-950 p-6 rounded-2xl border border-slate-800 text-lg sm:text-xl font-semibold leading-relaxed tracking-wide select-none min-h-[120px] flex flex-wrap items-center justify-start gap-0.5">
+                        در حال بارگذاری متن امتحان...
+                    </div>
+
+                    <!-- Input Field -->
+                    <div class="relative">
+                        <textarea id="typingInput" oninput="handleTypingInput()" placeholder="برای شروع تایپ اینجا کلیک کرده و شروع به نوشتن کنید..." disabled class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 text-sm sm:text-base text-slate-100 focus:outline-none focus:border-emerald-400 transition font-medium resize-none placeholder:text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed" rows="3"></textarea>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap gap-3 justify-between items-center">
+                        <button id="startTypingBtn" onclick="initiateTypingTest()" class="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-black px-6 py-3 rounded-2xl transition shadow-lg shadow-emerald-500/20 text-xs sm:text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i>
+                            <span id="startTypingBtnText">شروع امتحان جدید</span>
+                        </button>
+
+                        <button onclick="resetTypingState()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-4 py-3 rounded-2xl transition text-xs border border-slate-700 flex items-center gap-1.5">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                            <span>راه‌اندازی مجدد</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Typing Result Modal / Card -->
+                <div id="typingResultModal" class="hidden bg-gradient-to-r from-emerald-950/80 via-slate-900 to-cyan-950/80 border border-emerald-500/40 p-6 rounded-3xl space-y-4 text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mx-auto">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h4 class="text-xl font-black text-emerald-300" id="typingResultRankTitle">نتیجه امتحان سرعت تایپ شما</h4>
+                    <p class="text-xs text-slate-300" id="typingResultFeedback">عالی بود! شما عملکرد بسیار خوبی داشتید.</p>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl mx-auto pt-2">
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block">سرعت نهايی</span>
+                            <span id="resFinalWpm" class="text-lg font-bold text-emerald-400 font-mono">0 WPM</span>
+                        </div>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block">حروف در دقیقه</span>
+                            <span id="resFinalCpm" class="text-lg font-bold text-cyan-300 font-mono">0 CPM</span>
+                        </div>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block">میزان دقت</span>
+                            <span id="resFinalAccuracy" class="text-lg font-bold text-purple-300 font-mono">0%</span>
+                        </div>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block">تعداد خطا</span>
+                            <span id="resFinalMistakes" class="text-lg font-bold text-rose-400 font-mono">0</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <!-- Support Card -->
         <section class="glass p-6 rounded-3xl border border-slate-800 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center gap-3">
@@ -846,7 +1011,7 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 space-y-2">
-        <p>© 2026 OmniTools Studio - ۴ ابزار آنلاین، هوشمند و پرسرعت.</p>
+        <p>© 2026 OmniTools Studio - ۵ ابزار آنلاین، هوشمند و پرسرعت.</p>
         <p class="text-[11px] text-slate-600">کانال پیام‌رسان بله: <a href="javascript:void(0)" onclick="goToBaleChannel()" class="text-cyan-400 hover:underline font-mono">@factinew</a> | پشتیبانی: <a href="mailto:mehradsheikhi@gmail.com" class="text-purple-400 hover:underline font-mono">mehradsheikhi@gmail.com</a></p>
     </footer>
 
@@ -1015,6 +1180,7 @@
 
             updateCoinUI();
             updateHafezUIStatus();
+            updateTypingUIStatus();
         }
 
         function updateCoinUI() {
@@ -1128,7 +1294,7 @@
         }
 
         function switchMainTool(tool) {
-            ['time', 'compressor', 'font', 'hafez'].forEach(t => {
+            ['time', 'compressor', 'font', 'hafez', 'typing'].forEach(t => {
                 document.getElementById(`toolSection-${t}`).classList.add('hidden');
                 document.getElementById(`mainBtn-${t}`).classList.remove('active', 'active-rose');
             });
@@ -1247,10 +1413,10 @@
             if (found) return found;
 
             const themes = [
-                { t: "امید و گشایش", p1: "مژده ای دل که مسیحا نفسی می‌آید\nکه ز انفاس خوشش بوی کسی می‌‌آید", m: "خبرهای خوش و آدم‌های خوب در راهند. گشایشی بزرگی رخ خواهد داد.", i: "نیت شما بسیار مبارک است. فرج و گشایشی عالی در کارها ایجاد می‌شود. صبور و امیدوار باشید." },
-                { t: "پیروزی و موفقیت", p1: "بر سر آنم که گر ز دست برآید\nدست به کاری زنم که غصه برآید", m: "اراده کرده‌‌ام تا کاری بزرگ انجام دهم و ریشه غم را بسوزانم.", i: "زمان عمل فرا رسیده است. اراده کن و خستگی را کنار بگذار که پیروزی کاملاً از آن توست." },
+                { t: "امید و گشایش", p1: "مژده ای دل که مسیحا نفسی می‌آید\nکه ز انفاس خوشش بوی کسی می‌آید", m: "خبرهای خوش و آدم‌های خوب در راهند. گشایشی بزرگی رخ خواهد داد.", i: "نیت شما بسیار مبارک است. فرج و گشایشی عالی در کارها ایجاد می‌شود. صبور و امیدوار باشید." },
+                { t: "پیروزی و موفقیت", p1: "بر سر آنم که گر ز دست برآید\nدست به کاری زنم که غصه برآید", m: "اراده کرده‌ام تا کاری بزرگ انجام دهم و ریشه غم را بسوزانم.", i: "زمان عمل فرا رسیده است. اراده کن و خستگی را کنار بگذار که پیروزی کاملاً از آن توست." },
                 { t: "صبر و تدبیر", p1: "صبر کن ای دل که حق ضایع نگرداند عمل\nصبر تلخ آمد ولی بر شیرین می‌دهد", m: "بردباری اگرچه دشوار است اما نتیجه و میوه‌ای شیرین به همراه دارد.", i: "در تصمیم‌گیری عجله نکن. با تدبیر و صبوری پیش برو تا بهترین نتیجه نصیبت شود." },
-                { t: "عشق و محرمیت", p1: "ای نسیم سحر از من به دلارام بگو\nکه دلم سوخت ز هجران تو ای یار بگو", m: "پیام محبت و اشتیاق خود را به یار بفرست که هجران رو به پایان است.", i: "روابط عاطفی و خانوادگی شما بهبود می‌یابد. کدورت‌ها برطرف شده و صمیمیت بازمی‌گردد." },
+                { t: "عشق و محرمیت", p1: "ای نسیم سحر از من به دلارام بگو\nکه دلم سوخت ز هجران تو ای یار بگو", m: "پیام محبت و اشتیاق خود را به یار بفرست که هجران رو به پایان است.", i: "روابط عاطفی و خانوادگی شما بهبود می‌یابد. کدورت‌ها برطرف شده و صمیمیت بازمی‌‌گردد." },
                 { t: "توکل و عنایت الهی", p1: "تکیه بر تقوا و دانش در طریقت کافریست\nراهرو گر صد هنر دارد توکل بایدش", m: "تنها به علم و توان خود مغرور نشو؛ توکل بر خدا رمز اصلی موفقیت است.", i: "در کارهایت به خداوند توکل کن. راهی که انتخاب کرده‌ای هموار خواهد شد." }
             ];
 
@@ -1307,6 +1473,283 @@
             const textToCopy = `✨ ${document.getElementById('hafezTitle').innerText} ✨\n\n📖 شعر غزل:\n${currentFalData.poem}\n\n💡 معنی روان:\n${currentFalData.meaning}\n\n🌟 تعبیر و منظور فال:\n${currentFalData.interpretation}\n\nدریافت‌شده از OmniTools Studio (کانال بله: @factinew)`;
             navigator.clipboard.writeText(textToCopy);
             alert('📜 فال کامل حافظ همراه با تعبیر با موفقیت کپی شد!');
+        }
+
+        // ================= TOOL 5: TYPING SPEED TEST SYSTEM =================
+        let typingLang = 'fa';
+        let typingLevel = 'beginner';
+        let typingTimer = null;
+        let typingTimeLeft = 30;
+        let isTypingActive = false;
+        let currentTargetText = "";
+
+        const typingTextBank = {
+            fa: {
+                beginner: [
+                    "سلام به همه دوستان عزیزم به سایت هوشمند خوش آمدیدامروز روز بسیار خوبی برای یادگیری است",
+                    "تایپ سریع باعث صرفه جویی در زمان می شود تمرین روزانه رمز موفقیت شما در این مسیر است",
+                    "با تلاش و تمرین مداوم می توانید سرعت تایپ خود را در چند هفته به طور شگفت انگیزی افزایش دهید"
+                ],
+                amateur: [
+                    "تایپ سریع و دقیق یکی از مهارت‌های کلیدی در دنیای دیجیتال امروز است. تمرین روزانه باعث افزایش سرعت و کاهش خطاهای شما می‌شود.",
+                    "امروزه استفاده از ابزارهای آنلاین به ما کمک می‌کند تا کارهای روزمره خود را با سرعت و دقت بیشتری انجام دهیم و وقت خود را مدیریت کنیم."
+                ],
+                pro: [
+                    "در سال‌های اخیر، فناوری هوش مصنوعی و پردازش زبان طبیعی تحول عظیمی در صنعت نرم‌افزار ایجاد کرده است. آیا می‌دانید در سال ۲۰۲۶ بیش از ۸۵٪ از نرم‌افزارها هوشمند شده‌اند؟",
+                    "برای یادگیری برنامه نویسی و مهارت‌های کامپیوتری، تسلط بر تایپ ده انگشتی با حداقل ۵۰ کلمه در دقیقه یک مزیت بزرگ محسوب می‌شود."
+                ],
+                master: [
+                    "ز هوشیاران عالم هر که را دیدم غمی دارد! ای خوشا دیوانه کز دوست و دشمن بی‌خبر باشد. سال ۱۴۰۵ خورشیدی همراه با تکنولوژی‌های نوین آغاز گردید؛ آیا می‌توانید با دقت ۹۹٪ تایپ کنید؟",
+                    "جهان چون خط و خال و چشم و ابروست، که هر چیزی به جای خویش نیکوست! تلاش، استقامت و تمرینِ بی‌وقفه تنها راه رسیدن به قله‌های موفقیت است."
+                ]
+            },
+            en: {
+                beginner: [
+                    "hello world welcome to speed typing test practice every day to become a master",
+                    "fast typing saves a lot of time and makes your daily work much easier and fun",
+                    "practice makes perfect keep typing every single day and you will see amazing results"
+                ],
+                amateur: [
+                    "Fast and accurate typing is an essential skill in the modern digital era. Daily practice improves both your speed and accuracy.",
+                    "Using smart online tools helps us complete daily tasks faster and manage our valuable time more effectively."
+                ],
+                pro: [
+                    "Artificial intelligence and natural language processing have transformed software development in 2026. Over 85% of modern apps use AI technology!",
+                    "Mastering touch typing with at least 60 words per minute gives you a massive advantage in programming and technical work."
+                ],
+                master: [
+                    "To be or not to be, that is the question: whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune! Can you type at 99% accuracy in 2026?",
+                    "Success is not final, failure is not fatal: it is the courage to continue that counts. Keep pushing your limits every single day!"
+                ]
+            }
+        };
+
+        function getTypingUsageToday() {
+            const today = getTodayDateStr();
+            const savedDate = localStorage.getItem('omni_typing_date');
+            if (savedDate !== today) {
+                localStorage.setItem('omni_typing_date', today);
+                localStorage.setItem('omni_typing_count', '0');
+                return 0;
+            }
+            return parseInt(localStorage.getItem('omni_typing_count')) || 0;
+        }
+
+        function updateTypingUIStatus() {
+            const usedToday = getTypingUsageToday();
+            const freeLeft = Math.max(0, 3 - usedToday);
+            const statusEl = document.getElementById('typingFreeStatus');
+
+            if (freeLeft > 0) {
+                statusEl.className = "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-xl font-bold text-xs";
+                statusEl.innerText = `امروز ${freeLeft} امتحان رایگان داری ✨`;
+            } else {
+                statusEl.className = "bg-amber-500/20 text-amber-300 border border-amber-500/40 px-3 py-1.5 rounded-xl font-bold text-xs";
+                statusEl.innerText = "امتحانات رایگان تمام شد (هزینه بعدی: ۲ سکه 🪙)";
+            }
+        }
+
+        function setTypingLang(lang) {
+            typingLang = lang;
+            document.getElementById('typingLangBtn-fa').className = lang === 'fa' ? "px-3 py-1.5 rounded-xl text-xs font-bold transition bg-emerald-500/20 text-emerald-300 border border-emerald-500/40" : "px-3 py-1.5 rounded-xl text-xs font-bold transition text-slate-400 border border-transparent hover:text-slate-200";
+            document.getElementById('typingLangBtn-en').className = lang === 'en' ? "px-3 py-1.5 rounded-xl text-xs font-bold transition bg-emerald-500/20 text-emerald-300 border border-emerald-500/40" : "px-3 py-1.5 rounded-xl text-xs font-bold transition text-slate-400 border border-transparent hover:text-slate-200";
+            
+            const displayBox = document.getElementById('typingTextDisplay');
+            displayBox.dir = lang === 'fa' ? 'rtl' : 'ltr';
+            document.getElementById('typingInput').dir = lang === 'fa' ? 'rtl' : 'ltr';
+
+            resetTypingState();
+        }
+
+        function setTypingLevel(lvl) {
+            typingLevel = lvl;
+            const levels = ['beginner', 'amateur', 'pro', 'master'];
+            levels.forEach(l => {
+                const btn = document.getElementById(`typingLvlBtn-${l}`);
+                if (l === lvl) {
+                    btn.className = "p-3.5 rounded-2xl border border-emerald-500/50 bg-emerald-500/10 text-emerald-300 font-bold text-xs transition flex flex-col items-center gap-1";
+                } else {
+                    btn.className = "p-3.5 rounded-2xl border border-slate-800 bg-slate-900/60 text-slate-300 font-bold text-xs transition flex flex-col items-center gap-1 hover:border-slate-700";
+                }
+            });
+
+            resetTypingState();
+        }
+
+        function loadRandomTypingText() {
+            const list = typingTextBank[typingLang][typingLevel];
+            currentTargetText = list[Math.floor(Math.random() * list.length)];
+            
+            const displayBox = document.getElementById('typingTextDisplay');
+            displayBox.innerHTML = '';
+
+            Array.from(currentTargetText).forEach((char, idx) => {
+                const span = document.createElement('span');
+                span.id = `char-${idx}`;
+                span.innerText = char;
+                displayBox.appendChild(span);
+            });
+            if (displayBox.children[0]) {
+                displayBox.children[0].classList.add('typing-active');
+            }
+        }
+
+        function initiateTypingTest() {
+            const usedToday = getTypingUsageToday();
+            const TEST_PRICE = 2;
+
+            if (usedToday >= 3) {
+                if (userCoins < TEST_PRICE) {
+                    alert(`⚠️ امتحانات رایگان امروز شما (۳ از ۳) به پایان رسیده است!\n\nبرای شرکت در امتحان جدید نیاز به ۲ سکه دارید.\nموجودی فعلی شما: ${userCoins} سکه\n\nمی‌توانید از پاداش روزانه سکه بگیرید یا با کد هدیه موجودی خود را افزایش دهید.`);
+                    return;
+                }
+
+                if (!confirm(`امتحانات رایگان امروز شما به پایان رسیده است.\nآیا می‌خواهید با پرداخت ۲ سکه یک امتحان جدید بدهید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
+                    return;
+                }
+
+                userCoins -= TEST_PRICE;
+                localStorage.setItem('omni_user_coins', userCoins);
+                updateCoinUI();
+            } else {
+                const newCount = usedToday + 1;
+                localStorage.setItem('omni_typing_count', newCount);
+                updateTypingUIStatus();
+            }
+
+            resetTypingState();
+            const inputEl = document.getElementById('typingInput');
+            inputEl.disabled = false;
+            inputEl.focus();
+
+            isTypingActive = true;
+            typingTimeLeft = typingLevel === 'beginner' ? 30 : 60;
+            document.getElementById('typingTimerDisplay').innerText = typingTimeLeft;
+            document.getElementById('typingResultModal').classList.add('hidden');
+
+            typingTimer = setInterval(() => {
+                typingTimeLeft--;
+                document.getElementById('typingTimerDisplay').innerText = typingTimeLeft;
+                if (typingTimeLeft <= 0) {
+                    finishTypingTest();
+                }
+            }, 1000);
+        }
+
+        function handleTypingInput() {
+            if (!isTypingActive) return;
+
+            const inputVal = document.getElementById('typingInput').value;
+            const targetChars = Array.from(currentTargetText);
+            let mistakes = 0;
+            let correctChars = 0;
+
+            targetChars.forEach((char, idx) => {
+                const span = document.getElementById(`char-${idx}`);
+                if (!span) return;
+
+                span.className = '';
+
+                if (idx < inputVal.length) {
+                    if (inputVal[idx] === char) {
+                        span.classList.add('typing-correct');
+                        correctChars++;
+                    } else {
+                        span.classList.add('typing-incorrect');
+                        mistakes++;
+                    }
+                } else if (idx === inputVal.length) {
+                    span.classList.add('typing-active');
+                }
+            });
+
+            document.getElementById('typingMistakesDisplay').innerText = mistakes;
+
+            const totalTyped = inputVal.length;
+            const accuracy = totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 100;
+            document.getElementById('typingAccuracyDisplay').innerText = `${accuracy}%`;
+
+            const durationSec = (typingLevel === 'beginner' ? 30 : 60) - typingTimeLeft;
+            const minutesPassed = durationSec > 0 ? durationSec / 60 : 1 / 60;
+            const wpm = Math.round((correctChars / 5) / minutesPassed);
+            document.getElementById('typingWpmDisplay').innerText = Math.max(0, wpm);
+
+            if (inputVal.length >= currentTargetText.length) {
+                finishTypingTest();
+            }
+        }
+
+        function finishTypingTest() {
+            clearInterval(typingTimer);
+            isTypingActive = false;
+            
+            const inputEl = document.getElementById('typingInput');
+            inputEl.disabled = true;
+
+            const inputVal = inputEl.value;
+            let correctChars = 0;
+            let mistakes = 0;
+
+            Array.from(currentTargetText).forEach((char, idx) => {
+                if (idx < inputVal.length) {
+                    if (inputVal[idx] === char) correctChars++;
+                    else mistakes++;
+                }
+            });
+
+            const totalTime = typingLevel === 'beginner' ? 30 : 60;
+            const actualTimeSpent = totalTime - typingTimeLeft || 1;
+            const minutesSpent = actualTimeSpent / 60;
+
+            const finalWpm = Math.round((correctChars / 5) / minutesSpent);
+            const finalCpm = Math.round(correctChars / minutesSpent);
+            const finalAccuracy = inputVal.length > 0 ? Math.round((correctChars / inputVal.length) * 100) : 0;
+
+            document.getElementById('resFinalWpm').innerText = `${finalWpm} WPM`;
+            document.getElementById('resFinalCpm').innerText = `${finalCpm} CPM`;
+            document.getElementById('resFinalAccuracy').innerText = `${finalAccuracy}%`;
+            document.getElementById('resFinalMistakes').innerText = mistakes;
+
+            let rankTitle = "نتیجه امتحان تایپ شما";
+            let feedback = "";
+
+            if (finalWpm >= 60) {
+                rankTitle = "🏆 فوق‌العاده! سطح: استادکار واقعی";
+                feedback = "سرعت تایپ شما شگفت‌انگیز است و جزو ۱۰ درصد برتر تایپیست‌ها هستید!";
+            } else if (finalWpm >= 40) {
+                rankTitle = "🔥 بسیار عالی! سطح: حرفه‌ای";
+                feedback = "سرعت و دقت شما عالی است. با کمی تمرین دیگر می‌توانید به سطح استادکار برسید.";
+            } else if (finalWpm >= 20) {
+                rankTitle = "👍 خوب! سطح: آماتور";
+                feedback = "عملکرد مناسبی داشتید. تمرین روزانه باعث افزایش فوق‌العاده سرعت شما خواهد شد.";
+            } else {
+                rankTitle = "🌱 شروع خوب! سطح: مبتدی";
+                feedback = "تمرین را ادامه دهید. تایپ ده انگشتی نیاز به صبوری و تمرین روزانه دارد.";
+            }
+
+            document.getElementById('typingResultRankTitle').innerText = rankTitle;
+            document.getElementById('typingResultFeedback').innerText = feedback;
+
+            const modal = document.getElementById('typingResultModal');
+            modal.classList.remove('hidden');
+            modal.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetTypingState() {
+            clearInterval(typingTimer);
+            isTypingActive = false;
+
+            const inputEl = document.getElementById('typingInput');
+            inputEl.value = '';
+            inputEl.disabled = true;
+
+            document.getElementById('typingTimerDisplay').innerText = typingLevel === 'beginner' ? 30 : 60;
+            document.getElementById('typingWpmDisplay').innerText = '0';
+            document.getElementById('typingAccuracyDisplay').innerText = '100%';
+            document.getElementById('typingMistakesDisplay').innerText = '0';
+
+            document.getElementById('typingResultModal').classList.add('hidden');
+            loadRandomTypingText();
         }
 
         function switchFontLang(lang) {
@@ -1403,7 +1846,7 @@
             { name: "فونت شبنم با کادر مربع", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", fontCleanName: "Shabnam", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `【 ${makeKasheedeh(t, 2)} 】` },
             { name: "فونت ساحل با قاب گوشه‌ای", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", fontCleanName: "Sahel", css: "text-indigo-300 text-2xl font-bold", fmt: (t) => `『 ${t} 』` },
             { name: "فونت صمیم با موجی", fontFamily: "'Samim', 'Vazirmatn', sans-serif", fontCleanName: "Samim", css: "text-teal-300 text-2xl font-bold", fmt: (t) => `༺ ${makeKasheedeh(t, 2)} ༻` },
-            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", fontCleanName: "Cairo", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️️ ${t} ♦` },
+            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", fontCleanName: "Cairo", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦ ${t} ♦` },
             { name: "فونت کوفی با ستاره درخشان", fontFamily: "'Reem Kufi', sans-serif", fontCleanName: "Reem Kufi", css: "text-yellow-300 text-2xl font-bold", fmt: (t) => `✨ ${makeKasheedeh(t, 2)} ✨` },
             { name: "فونت لطیف با شمشیر", fontFamily: "'Lateef', cursive", fontCleanName: "Lateef", css: "text-emerald-300 text-3xl font-normal", fmt: (t) => `⚔️ ${t} ⚔️` },
             { name: "فونت شهرزاد با گل رز", fontFamily: "'Scheherazade New', serif", fontCleanName: "Scheherazade New", css: "text-amber-200 text-2xl font-bold", fmt: (t) => `🌹 ${makeKasheedeh(t, 2)} 🌹` },
@@ -1434,7 +1877,7 @@
                 { name: "قاب تاج شاهانه", fmt: (t) => `👑 ${t} 👑` },
                 { name: "قاب ستاره‌ای", fmt: (t) => `★彡 ${t} 彡★` },
                 { name: "قاب قلبی", fmt: (t) => `•.¸♡ ${t} ♡¸.•` },
-                { name: "قاب صاعقه", fmt: (t) => `⚡️ ${t} ⚡️` },
+                { name: "قاب صاعقه", fmt: (t) => `⚡️ ${t} ⚡️️` },
                 { name: "قاب گلدار", fmt: (t) => `✿.｡.:* ${t} *.:｡.✿` },
                 { name: "قاب ژاپنی", fmt: (t) => `【 ${t} 】` },
                 { name: "قاب گوشه‌ای", fmt: (t) => `『 ${t} 』` },
@@ -1899,7 +2342,7 @@
             if (animalIdx < 0) animalIdx += 12;
             document.getElementById('animalYear').innerText = animals[animalIdx] || "---";
 
-            const daysWeek = ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌‌شنبه", "جمعه", "شنبه"];
+            const daysWeek = ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه", "شنبه"];
             document.getElementById('bornDayOfWeek').innerText = daysWeek[birthDate.getDay()];
 
             function tickAge() {
@@ -2212,6 +2655,7 @@
             convertJalaliDate();
             startAgeCalc();
             renderFontPreviews();
+            loadRandomTypingText();
 
             setInterval(() => {
                 const now = new Date();
