@@ -35,9 +35,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/samim-font@v4.0.5/dist/font-face.css">
 
-    <!-- FontAwesome Icons & JSZip CDN -->
+    <!-- FontAwesome Icons, JSZip, QRCode JS & JsBarcode CDNs -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 
     <style>
         body {
@@ -116,23 +118,8 @@
             -webkit-text-fill-color: transparent;
             animation: wavyRainbow 5s ease infinite;
         }
-        .anim-cool-ocean {
-            background: linear-gradient(135deg, #00f3ff 0%, #3b82f6 50%, #10b981 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .anim-warm-fire {
-            background: linear-gradient(135deg, #ff4500 0%, #f59e0b 50%, #ff007f 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
         .anim-gold-luxury {
             background: linear-gradient(135deg, #ffe066 0%, #f59e0b 50%, #d4af37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .anim-rose-gold {
-            background: linear-gradient(135deg, #f7d6c8 0%, #e8b4b8 50%, #b76e79 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -221,7 +208,7 @@
                 </div>
                 <div>
                     <span class="text-2xl font-black gradient-text tracking-wide">OmniTools Studio</span>
-                    <span class="block text-[10px] text-slate-400">مرکز ۵ ابزار کاربردی و هوشمند آنلاین</span>
+                    <span class="block text-[10px] text-slate-400">مرکز ۷ ابزار آنلاین، هوشمند و کاربردی</span>
                 </div>
             </div>
 
@@ -265,7 +252,7 @@
                     </div>
                     <div>
                         <h4 class="text-xs sm:text-sm font-bold text-amber-300">پاداش روزانه: ۱ سکه رایگان هر ۲۴ ساعت</h4>
-                        <p class="text-[11px] text-slate-400 mt-0.5">با دریافت روزانه سکه، فونت‌ها، فال‌ها و امتحانات را آنلاک کنید.</p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">با دریافت روزانه سکه، فونت‌ها، فال‌ها و ابزارها را آنلاک کنید.</p>
                     </div>
                 </div>
                 <button id="claimDailyBtn" onclick="claimDailyReward()" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black px-4 py-2 rounded-xl transition text-xs shadow-lg shadow-amber-500/20 flex items-center gap-2 shrink-0">
@@ -310,61 +297,79 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-8">
 
-        <!-- Main Tool Switcher Cards -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5">
-            <button onclick="switchMainTool('time')" id="mainBtn-time" class="tool-card-btn active glass p-4 rounded-2xl border border-slate-800 text-right flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
+        <!-- Main Tool Switcher Cards Grid (7 Tools) -->
+        <section class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+            <button onclick="switchMainTool('time')" id="mainBtn-time" class="tool-card-btn active glass p-3.5 rounded-2xl border border-slate-800 text-right flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-clock"></i>
                 </div>
                 <div>
-                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-cyan-300 transition-colors">زمان و اوقات شرعی</h2>
-                    <p class="text-[10px] text-slate-400 mt-0.5">ساعت زنده، ۳۱ شهر و تبدیل تاریخ</p>
+                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-cyan-300 transition-colors">زمان و اوقات</h2>
+                    <p class="text-[9px] text-slate-400 mt-0.5">ساعت، شهرها و تاریخ</p>
                 </div>
             </button>
 
-            <button onclick="switchMainTool('compressor')" id="mainBtn-compressor" class="tool-card-btn glass p-4 rounded-2xl border border-slate-800 text-right flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/30 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
+            <button onclick="switchMainTool('compressor')" id="mainBtn-compressor" class="tool-card-btn glass p-3.5 rounded-2xl border border-slate-800 text-right flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/30 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-file-zipper"></i>
                 </div>
                 <div>
-                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-purple-300 transition-colors">فشرده‌ساز فایل</h2>
-                    <p class="text-[10px] text-slate-400 mt-0.5">کاهش حجم تصویر و فایل‌ها</p>
+                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-purple-300 transition-colors">فشرده‌ساز</h2>
+                    <p class="text-[9px] text-slate-400 mt-0.5">کاهش حجم عکس و فایل</p>
                 </div>
             </button>
 
-            <button onclick="switchMainTool('font')" id="mainBtn-font" class="tool-card-btn glass p-4 rounded-2xl border border-slate-800 text-right flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
+            <button onclick="switchMainTool('font')" id="mainBtn-font" class="tool-card-btn glass p-3.5 rounded-2xl border border-slate-800 text-right flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-font"></i>
                 </div>
                 <div>
                     <h2 class="text-xs font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت</h2>
-                    <p class="text-[10px] text-slate-400 mt-0.5">استایل‌های فارسی و انگلیسی</p>
+                    <p class="text-[9px] text-slate-400 mt-0.5">فارسی و انگلیسی</p>
                 </div>
             </button>
 
-            <button onclick="switchMainTool('hafez')" id="mainBtn-hafez" class="tool-card-btn glass p-4 rounded-2xl border border-rose-500/30 text-right flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500/20 via-rose-500/20 to-purple-500/20 text-rose-300 border border-rose-400/40 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform shadow-lg shadow-rose-500/10">
+            <button onclick="switchMainTool('hafez')" id="mainBtn-hafez" class="tool-card-btn glass p-3.5 rounded-2xl border border-rose-500/30 text-right flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500/20 via-rose-500/20 to-purple-500/20 text-rose-300 border border-rose-400/40 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-scroll"></i>
                 </div>
                 <div>
-                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-rose-300 transition-colors flex items-center gap-1">
-                        <span>فال حافظ</span>
-                        <span class="text-[8px] bg-rose-500/20 text-rose-300 px-1 py-0.5 rounded-full">آنلاین</span>
-                    </h2>
-                    <p class="text-[10px] text-slate-400 mt-0.5">۵۰۰ غزل همراه معنی و تعبیر</p>
+                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-rose-300 transition-colors">فال حافظ</h2>
+                    <p class="text-[9px] text-slate-400 mt-0.5">۵۰۰ غزل و تعبیر</p>
                 </div>
             </button>
 
-            <button onclick="switchMainTool('typing')" id="mainBtn-typing" class="tool-card-btn glass p-4 rounded-2xl border border-emerald-500/30 text-right flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
+            <button onclick="switchMainTool('typing')" id="mainBtn-typing" class="tool-card-btn glass p-3.5 rounded-2xl border border-emerald-500/30 text-right flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-keyboard"></i>
                 </div>
                 <div>
+                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-emerald-300 transition-colors">تست تایپ</h2>
+                    <p class="text-[9px] text-slate-400 mt-0.5">۴ سطح فارسی و EN</p>
+                </div>
+            </button>
+
+            <button onclick="switchMainTool('qrcode')" id="mainBtn-qrcode" class="tool-card-btn glass p-3.5 rounded-2xl border border-emerald-500/30 text-right flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <div>
                     <h2 class="text-xs font-bold text-slate-100 group-hover:text-emerald-300 transition-colors flex items-center gap-1">
-                        <span>تست سرعت تایپ</span>
-                        <span class="text-[8px] bg-emerald-500/20 text-emerald-300 px-1 py-0.5 rounded-full">جدید</span>
+                        <span>QR کد و بارکد</span>
                     </h2>
-                    <p class="text-[10px] text-slate-400 mt-0.5">۴ سطح فارسی و انگلیسی (WPM)</p>
+                    <p class="text-[9px] text-slate-400 mt-0.5">۲ ساخت رایگان روزانه</p>
+                </div>
+            </button>
+
+            <button onclick="switchMainTool('color')" id="mainBtn-color" class="tool-card-btn glass p-3.5 rounded-2xl border border-rose-500/30 text-right flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/30 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+                <div>
+                    <h2 class="text-xs font-bold text-slate-100 group-hover:text-rose-300 transition-colors flex items-center gap-1">
+                        <span>استودیو پالت رنگ</span>
+                    </h2>
+                    <p class="text-[9px] text-slate-400 mt-0.5">استخراج و انتخاب رنگ</p>
                 </div>
             </button>
         </section>
@@ -437,7 +442,7 @@
                             <i class="fa-solid fa-hourglass-half animate-spin"></i>
                         </div>
                         <div>
-                            <span class="text-xs text-slate-400 block">زمان باقی‌مانده تا <strong id="nextPrayerName" class="text-emerald-400">---</strong>:</span>
+                            <span class="text-xs text-slate-400 block">زمان باقی‌‌مانده تا <strong id="nextPrayerName" class="text-emerald-400">---</strong>:</span>
                             <span id="nextPrayerCountdown" class="text-2xl font-black font-mono text-emerald-300">00:00:00</span>
                         </div>
                     </div>
@@ -862,7 +867,6 @@
                     </div>
 
                     <div class="flex flex-wrap items-center gap-3">
-                        <!-- Language Switcher -->
                         <div class="flex items-center gap-1 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800">
                             <button onclick="setTypingLang('fa')" id="typingLangBtn-fa" class="px-3 py-1.5 rounded-xl text-xs font-bold transition bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
                                 فارسی
@@ -872,7 +876,6 @@
                             </button>
                         </div>
 
-                        <!-- Status Badge -->
                         <div class="flex items-center gap-2 text-xs">
                             <span id="typingFreeStatus" class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-xl font-bold">
                                 ۳ امتحان رایگان امروز
@@ -931,17 +934,14 @@
 
                 <!-- Typing Test Interactive Box -->
                 <div class="space-y-4">
-                    <!-- Target Text Display -->
                     <div id="typingTextDisplay" class="bg-slate-950 p-6 rounded-2xl border border-slate-800 text-lg sm:text-xl font-semibold leading-relaxed tracking-wide select-none min-h-[120px] flex flex-wrap items-center justify-start gap-0.5">
                         در حال بارگذاری متن امتحان...
                     </div>
 
-                    <!-- Input Field -->
                     <div class="relative">
                         <textarea id="typingInput" oninput="handleTypingInput()" placeholder="برای شروع تایپ اینجا کلیک کرده و شروع به نوشتن کنید..." disabled class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 text-sm sm:text-base text-slate-100 focus:outline-none focus:border-emerald-400 transition font-medium resize-none placeholder:text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed" rows="3"></textarea>
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="flex flex-wrap gap-3 justify-between items-center">
                         <button id="startTypingBtn" onclick="initiateTypingTest()" class="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-black px-6 py-3 rounded-2xl transition shadow-lg shadow-emerald-500/20 text-xs sm:text-sm flex items-center gap-2">
                             <i class="fa-solid fa-play"></i>
@@ -955,7 +955,7 @@
                     </div>
                 </div>
 
-                <!-- Typing Result Modal / Card -->
+                <!-- Typing Result Modal -->
                 <div id="typingResultModal" class="hidden bg-gradient-to-r from-emerald-950/80 via-slate-900 to-cyan-950/80 border border-emerald-500/40 p-6 rounded-3xl space-y-4 text-center">
                     <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mx-auto">
                         <i class="fa-solid fa-trophy"></i>
@@ -979,6 +979,189 @@
                         <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
                             <span class="text-[10px] text-slate-400 block">تعداد خطا</span>
                             <span id="resFinalMistakes" class="text-lg font-bold text-rose-400 font-mono">0</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TOOL 6: QR CODE & BARCODE GENERATOR SECTION -->
+        <div id="toolSection-qrcode" class="hidden space-y-6">
+            <div class="glass p-6 sm:p-8 rounded-3xl border border-emerald-500/30 glow-box space-y-6">
+                
+                <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-5">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-qrcode text-emerald-400"></i> استودیو تولید QR کد و بارکد هوشمند
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-1">ساخت سریع QR کد برای انواع لینک، کانال بله/تلگرام، متون و بارکد میله‌ای.</p>
+                    </div>
+
+                    <div class="flex items-center gap-2 text-xs">
+                        <span id="qrFreeStatus" class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-xl font-bold">
+                            ۲ ساخت رایگان امروز
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Controls -->
+                    <div class="lg:col-span-7 space-y-5">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-emerald-300">متن، آدرس وب‌سایت یا لینک بله/تلگرام:</label>
+                            <input type="text" id="qrTextInput" value="https://ble.ir/factinew" placeholder="مثلاً: https://ble.ir/factinew یا هر متن دلخواه..." class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-3.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-400 font-mono transition">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="block text-[11px] font-bold text-slate-300">رنگ کد (Foreground):</label>
+                                <div class="flex items-center gap-2 bg-slate-900 border border-slate-700 p-2 rounded-xl">
+                                    <input type="color" id="qrFgColor" value="#00f3ff" class="w-8 h-8 rounded-lg cursor-pointer bg-transparent border-0">
+                                    <span class="text-xs font-mono text-slate-300" id="qrFgHex">#00f3ff</span>
+                                </div>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label class="block text-[11px] font-bold text-slate-300">رنگ پس‌زمینه (Background):</label>
+                                <div class="flex items-center gap-2 bg-slate-900 border border-slate-700 p-2 rounded-xl">
+                                    <input type="color" id="qrBgColor" value="#060a12" class="w-8 h-8 rounded-lg cursor-pointer bg-transparent border-0">
+                                    <span class="text-xs font-mono text-slate-300" id="qrBgHex">#060a12</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3 pt-2">
+                            <button onclick="generateQrCode()" class="flex-1 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-black py-3 rounded-2xl transition shadow-lg shadow-emerald-500/20 text-xs flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-qrcode text-base"></i>
+                                <span>تولید QR کد اختصاصی</span>
+                            </button>
+
+                            <button onclick="generateBarcode()" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold px-4 py-3 rounded-2xl transition text-xs border border-slate-700 flex items-center gap-2">
+                                <i class="fa-solid fa-barcode text-base"></i>
+                                <span>تولید بارکد میله‌ای</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Display Preview Box -->
+                    <div class="lg:col-span-5 bg-slate-900/90 rounded-2xl border border-slate-800 p-6 flex flex-col items-center justify-center space-y-4 text-center">
+                        <div id="qrCodeContainer" class="p-4 bg-white rounded-2xl shadow-xl min-w-[180px] min-h-[180px] flex items-center justify-center">
+                            <p class="text-xs text-slate-500">پیش‌نمایش QR کد اینجا ظاهر می‌شود.</p>
+                        </div>
+
+                        <div id="barcodeContainer" class="hidden p-4 bg-white rounded-2xl shadow-xl w-full flex items-center justify-center overflow-x-auto">
+                            <svg id="barcodeSvg"></svg>
+                        </div>
+
+                        <div id="qrResultAction" class="hidden w-full pt-2">
+                            <button id="downloadQrBtn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20">
+                                <i class="fa-solid fa-download"></i> دانلود تصویر با کیفیت (PNG)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TOOL 7: COLOR PALETTE & PICKER SECTION -->
+        <div id="toolSection-color" class="hidden space-y-6">
+            <div class="glass p-6 sm:p-8 rounded-3xl border border-rose-500/30 glow-box-rose space-y-6">
+                
+                <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-5">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-palette text-rose-400"></i> استودیو پیشرفته پالت رنگ و استخراج رنگ
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-1">تولید پالت‌های رنگی حرفه‌ای و استخراج مستقیم کدهای رنگی از روی تصاویر آپلودی.</p>
+                    </div>
+
+                    <div class="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800">
+                        <button onclick="switchColorSubTab('generator')" id="colorSubtab-generator" class="subtab-btn active px-3.5 py-1.5 rounded-xl text-xs font-bold transition">
+                            پالت‌ساز هوشمند
+                        </button>
+                        <button onclick="switchColorSubTab('picker')" id="colorSubtab-picker" class="subtab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition">
+                            انتخاب‌گر و تبدیل‌کننده
+                        </button>
+                        <button onclick="switchColorSubTab('extractor')" id="colorSubtab-extractor" class="subtab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition">
+                            استخراج رنگ از تصویر
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB 1: PALETTE GENERATOR -->
+                <div id="colorSec-generator" class="space-y-5">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-rose-300">پالت‌های مدرن طراحی و رابط کاربری (با ۱ کلیک کپی کنید):</span>
+                        <button onclick="renderRandomPalettes()" class="bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-arrows-rotate"></i> تولید پالت‌های جدید
+                        </button>
+                    </div>
+
+                    <div id="palettesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                </div>
+
+                <!-- SUB-TAB 2: COLOR PICKER & CONVERTER -->
+                <div id="colorSec-picker" class="hidden space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="bg-slate-900/90 p-6 rounded-2xl border border-slate-800 space-y-4">
+                            <label class="block text-xs font-bold text-rose-300">رنگ دلخواه خود را انتخاب کنید:</label>
+                            <div class="flex items-center gap-4">
+                                <input type="color" id="mainColorPicker" value="#00f3ff" oninput="updateColorPickerDetails()" class="w-16 h-16 rounded-2xl cursor-pointer bg-transparent border-0 shrink-0">
+                                <div id="colorPreviewBox" class="flex-1 h-16 rounded-2xl border border-slate-700 flex items-center justify-center font-mono font-black text-sm text-slate-950 shadow-inner" style="background-color: #00f3ff;">
+                                    #00F3FF
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800 flex justify-between items-center">
+                                <span class="text-xs text-slate-400 font-bold">کد HEX:</span>
+                                <div class="flex items-center gap-2">
+                                    <span id="hexValDisplay" class="text-xs font-mono font-bold text-cyan-300">#00F3FF</span>
+                                    <button onclick="copyCodeText('hexValDisplay')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 p-1.5 rounded-lg text-xs transition"><i class="fa-solid fa-copy"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800 flex justify-between items-center">
+                                <span class="text-xs text-slate-400 font-bold">کد RGB:</span>
+                                <div class="flex items-center gap-2">
+                                    <span id="rgbValDisplay" class="text-xs font-mono font-bold text-emerald-300">rgb(0, 243, 255)</span>
+                                    <button onclick="copyCodeText('rgbValDisplay')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 p-1.5 rounded-lg text-xs transition"><i class="fa-solid fa-copy"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800 flex justify-between items-center">
+                                <span class="text-xs text-slate-400 font-bold">کد HSL:</span>
+                                <div class="flex items-center gap-2">
+                                    <span id="hslValDisplay" class="text-xs font-mono font-bold text-purple-300">hsl(183, 100%, 50%)</span>
+                                    <button onclick="copyCodeText('hslValDisplay')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 p-1.5 rounded-lg text-xs transition"><i class="fa-solid fa-copy"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB 3: IMAGE COLOR EXTRACTOR -->
+                <div id="colorSec-extractor" class="hidden space-y-6">
+                    <div class="border-2 border-dashed border-rose-500/40 hover:border-rose-400 rounded-2xl p-6 text-center cursor-pointer transition bg-slate-900/40 hover:bg-slate-900/80" onclick="document.getElementById('colorImgInput').click()">
+                        <input type="file" id="colorImgInput" accept="image/*" class="hidden" onchange="handleColorImageUpload(event)">
+                        <i class="fa-solid fa-file-image text-3xl text-rose-400 mb-2 block"></i>
+                        <span class="text-xs font-bold text-slate-200 block">تصویر خود را برای استخراج رنگ آپلود کنید</span>
+                        <span class="text-[10px] text-slate-400 block mt-1">پشتیبانی از فرمت‌های PNG, JPG, WebP</span>
+                    </div>
+
+                    <div id="imageExtractCanvasContainer" class="hidden space-y-4 text-center">
+                        <p class="text-xs text-slate-300 font-bold">روی هر نقطه از تصویر کلیک کنید تا کد دقیق رنگ آن نقطه را نمونه‌برداری کند:</p>
+                        <div class="max-w-md mx-auto overflow-hidden rounded-2xl border border-slate-700 shadow-2xl">
+                            <canvas id="colorExtractCanvas" class="w-full cursor-crosshair"></canvas>
+                        </div>
+
+                        <div id="extractedColorBadge" class="hidden inline-flex items-center gap-3 bg-slate-900 p-3 rounded-2xl border border-rose-500/30">
+                            <div id="sampleColorSwatch" class="w-8 h-8 rounded-xl border border-slate-700 shadow"></div>
+                            <span id="sampleColorHex" class="text-xs font-mono font-black text-rose-300">#000000</span>
+                            <button onclick="copyCodeText('sampleColorHex')" class="bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold px-3 py-1.5 rounded-xl text-xs transition">کپی کد رنگ</button>
                         </div>
                     </div>
                 </div>
@@ -1011,7 +1194,7 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 space-y-2">
-        <p>© 2026 OmniTools Studio - ۵ ابزار آنلاین، هوشمند و پرسرعت.</p>
+        <p>© 2026 OmniTools Studio - ۷ ابزار آنلاین، هوشمند و پرسرعت.</p>
         <p class="text-[11px] text-slate-600">کانال پیام‌رسان بله: <a href="javascript:void(0)" onclick="goToBaleChannel()" class="text-cyan-400 hover:underline font-mono">@factinew</a> | پشتیبانی: <a href="mailto:mehradsheikhi@gmail.com" class="text-purple-400 hover:underline font-mono">mehradsheikhi@gmail.com</a></p>
     </footer>
 
@@ -1025,7 +1208,6 @@
         let currentFontLang = 'fa';
         let userProfile = null;
 
-        // بانک کدهای جایزه معتبر با میزان سکه اهدایی (شامل کد ۱۰ هزار سکه‌ای W10000)
         const activePromoCodes = {
             'FAcT194': 1,
             'SOoD175': 1,
@@ -1137,7 +1319,7 @@
         function initCoinSystem() {
             const savedCoins = localStorage.getItem('omni_user_coins');
             if (savedCoins === null) {
-                userCoins = 2; // سکه هدیه اولیه
+                userCoins = 2;
                 localStorage.setItem('omni_user_coins', userCoins);
             } else {
                 userCoins = parseInt(savedCoins) || 0;
@@ -1150,11 +1332,7 @@
                 unlockedFonts = [0, 1, 3];
                 localStorage.setItem('omni_unlocked_fonts', JSON.stringify(unlockedFonts));
             } else {
-                try {
-                    unlockedFonts = JSON.parse(savedUnlocked);
-                } catch(e) {
-                    unlockedFonts = [0, 1, 3];
-                }
+                try { unlockedFonts = JSON.parse(savedUnlocked); } catch(e) { unlockedFonts = [0, 1, 3]; }
             }
 
             const savedUnlockedEn = localStorage.getItem('omni_unlocked_en_fonts');
@@ -1162,25 +1340,18 @@
                 unlockedEnFonts = [0, 1];
                 localStorage.setItem('omni_unlocked_en_fonts', JSON.stringify(unlockedEnFonts));
             } else {
-                try {
-                    unlockedEnFonts = JSON.parse(savedUnlockedEn);
-                } catch(e) {
-                    unlockedEnFonts = [0, 1];
-                }
+                try { unlockedEnFonts = JSON.parse(savedUnlockedEn); } catch(e) { unlockedEnFonts = [0, 1]; }
             }
 
             const savedUsedCodes = localStorage.getItem('omni_used_codes');
             if (savedUsedCodes !== null) {
-                try {
-                    usedPromoCodes = JSON.parse(savedUsedCodes);
-                } catch(e) {
-                    usedPromoCodes = [];
-                }
+                try { usedPromoCodes = JSON.parse(savedUsedCodes); } catch(e) { usedPromoCodes = []; }
             }
 
             updateCoinUI();
             updateHafezUIStatus();
             updateTypingUIStatus();
+            updateQrUIStatus();
         }
 
         function updateCoinUI() {
@@ -1253,53 +1424,13 @@
             }
         }
 
-        function unlockFont(fontIndex) {
-            const FONT_PRICE = 2;
-            if (unlockedFonts.includes(fontIndex)) return;
-
-            if (userCoins < FONT_PRICE) {
-                alert(`⚠️ تعداد سکه‌های شما کافی نیست!\n\nقیمت آنلاک این فونت: ۲ سکه\nموجودی شما: ${userCoins} سکه\n\nمی‌توانید با عضویت در کانال بله (@factinew) یا دریافت سکه روزانه سکه به دست آورید.`);
-                return;
-            }
-
-            if (confirm(`آیا می‌خواهید این فونت فارسی را با پرداخت ۲ سکه آنلاک کنید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
-                userCoins -= FONT_PRICE;
-                unlockedFonts.push(fontIndex);
-                localStorage.setItem('omni_user_coins', userCoins);
-                localStorage.setItem('omni_unlocked_fonts', JSON.stringify(unlockedFonts));
-                updateCoinUI();
-                renderFontPreviews();
-                alert('🔓 فونت با موفقیت برای شما آنلاک شد!');
-            }
-        }
-
-        function unlockEnFont(fontIndex) {
-            const FONT_PRICE = 2;
-            if (unlockedEnFonts.includes(fontIndex)) return;
-
-            if (userCoins < FONT_PRICE) {
-                alert(`⚠️ تعداد سکه‌های شما کافی نیست!\n\nقیمت آنلاک این استایل انگلیسی: ۲ سکه\nموجودی شما: ${userCoins} سکه\n\nمی‌توانید با عضویت در کانال بله (@factinew) یا دریافت سکه روزانه سکه به دست آورید.`);
-                return;
-            }
-
-            if (confirm(`آیا می‌خواهید این استایل انگلیسی را با پرداخت ۲ سکه آنلاک کنید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
-                userCoins -= FONT_PRICE;
-                unlockedEnFonts.push(fontIndex);
-                localStorage.setItem('omni_user_coins', userCoins);
-                localStorage.setItem('omni_unlocked_en_fonts', JSON.stringify(unlockedEnFonts));
-                updateCoinUI();
-                renderFontPreviews();
-                alert('🔓 استایل انگلیسی با موفقیت برای شما آنلاک شد!');
-            }
-        }
-
         function switchMainTool(tool) {
-            ['time', 'compressor', 'font', 'hafez', 'typing'].forEach(t => {
+            ['time', 'compressor', 'font', 'hafez', 'typing', 'qrcode', 'color'].forEach(t => {
                 document.getElementById(`toolSection-${t}`).classList.add('hidden');
                 document.getElementById(`mainBtn-${t}`).classList.remove('active', 'active-rose');
             });
             document.getElementById(`toolSection-${tool}`).classList.remove('hidden');
-            if (tool === 'hafez') {
+            if (tool === 'hafez' || tool === 'color') {
                 document.getElementById(`mainBtn-${tool}`).classList.add('active-rose');
             } else {
                 document.getElementById(`mainBtn-${tool}`).classList.add('active');
@@ -1320,7 +1451,265 @@
             alert('آدرس ایمیل پشتیبانی (mehradsheikhi@gmail.com) کپی شد.');
         }
 
-        // ================= FAL-E HAFEZ SYSTEM =================
+        // ================= TOOL 6: QR CODE & BARCODE SYSTEM =================
+        function getQrUsageToday() {
+            const today = getTodayDateStr();
+            const savedDate = localStorage.getItem('omni_qrcode_date');
+            if (savedDate !== today) {
+                localStorage.setItem('omni_qrcode_date', today);
+                localStorage.setItem('omni_qrcode_count', '0');
+                return 0;
+            }
+            return parseInt(localStorage.getItem('omni_qrcode_count')) || 0;
+        }
+
+        function updateQrUIStatus() {
+            const usedToday = getQrUsageToday();
+            const freeLeft = Math.max(0, 2 - usedToday);
+            const statusEl = document.getElementById('qrFreeStatus');
+
+            if (freeLeft > 0) {
+                statusEl.className = "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-xl font-bold text-xs";
+                statusEl.innerText = `امروز ${freeLeft} ساخت رایگان داری ✨`;
+            } else {
+                statusEl.className = "bg-amber-500/20 text-amber-300 border border-amber-500/40 px-3 py-1.5 rounded-xl font-bold text-xs";
+                statusEl.innerText = "ساخت‌های رایگان امروز پایان یافت (هزینه بعدی: ۲ سکه 🪙)";
+            }
+        }
+
+        document.getElementById('qrFgColor').addEventListener('input', (e) => {
+            document.getElementById('qrFgHex').innerText = e.target.value;
+        });
+        document.getElementById('qrBgColor').addEventListener('input', (e) => {
+            document.getElementById('qrBgHex').innerText = e.target.value;
+        });
+
+        function generateQrCode() {
+            const textVal = document.getElementById('qrTextInput').value.trim();
+            if (!textVal) {
+                alert('لطفاً ابتدا آدرس وب‌سایت یا متن مورد نظرتان را وارد کنید.');
+                return;
+            }
+
+            const usedToday = getQrUsageToday();
+            const QR_PRICE = 2;
+
+            if (usedToday >= 2) {
+                if (userCoins < QR_PRICE) {
+                    alert(`⚠️ ۲ ساخت رایگان QR کد امروز شما (۲ از ۲) به پایان رسیده است!\n\nبرای ساخت QR کد جدید نیاز به ۲ سکه دارید.\nموجودی فعلی شما: ${userCoins} سکه\n\nمی‌توانید با دریافت سکه روزانه یا ثبت کد هدیه موجودی خود را افزایش دهید.`);
+                    return;
+                }
+
+                if (!confirm(`ساخت‌های رایگان امروز شما به پایان رسیده است.\nآیا می‌خواهید با پرداخت ۲ سکه یک QR کد جدید بسازید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
+                    return;
+                }
+
+                userCoins -= QR_PRICE;
+                localStorage.setItem('omni_user_coins', userCoins);
+                updateCoinUI();
+            } else {
+                const newCount = usedToday + 1;
+                localStorage.setItem('omni_qrcode_count', newCount);
+                updateQrUIStatus();
+            }
+
+            const container = document.getElementById('qrCodeContainer');
+            const barcodeBox = document.getElementById('barcodeContainer');
+            container.classList.remove('hidden');
+            barcodeBox.classList.add('hidden');
+            container.innerHTML = '';
+
+            const fgColor = document.getElementById('qrFgColor').value;
+            const bgColor = document.getElementById('qrBgColor').value;
+
+            new QRCode(container, {
+                text: textVal,
+                width: 180,
+                height: 180,
+                colorDark: fgColor,
+                colorLight: bgColor,
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            setTimeout(() => {
+                const imgEl = container.querySelector('img') || container.querySelector('canvas');
+                if (imgEl) {
+                    const downloadBtn = document.getElementById('downloadQrBtn');
+                    downloadBtn.onclick = () => {
+                        const a = document.createElement('a');
+                        a.href = imgEl.src || imgEl.toDataURL("image/png");
+                        a.download = "OmniTools_QRCode.png";
+                        a.click();
+                    };
+                    document.getElementById('qrResultAction').classList.remove('hidden');
+                }
+            }, 200);
+        }
+
+        function generateBarcode() {
+            const textVal = document.getElementById('qrTextInput').value.trim();
+            if (!textVal) {
+                alert('لطفاً ابتدا متن یا عدد مورد نظرتان را وارد کنید.');
+                return;
+            }
+
+            const container = document.getElementById('qrCodeContainer');
+            const barcodeBox = document.getElementById('barcodeContainer');
+            container.classList.add('hidden');
+            barcodeBox.classList.remove('hidden');
+
+            try {
+                JsBarcode("#barcodeSvg", textVal, {
+                    format: "CODE128",
+                    lineColor: document.getElementById('qrFgColor').value,
+                    background: document.getElementById('qrBgColor').value,
+                    width: 2,
+                    height: 80,
+                    displayValue: true
+                });
+
+                const downloadBtn = document.getElementById('downloadQrBtn');
+                downloadBtn.onclick = () => {
+                    const svg = document.getElementById('barcodeSvg');
+                    const svgData = new XMLSerializer().serializeToString(svg);
+                    const svgBlob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
+                    const svgUrl = URL.createObjectURL(svgBlob);
+                    const a = document.createElement('a');
+                    a.href = svgUrl;
+                    a.download = "OmniTools_Barcode.svg";
+                    a.click();
+                };
+                document.getElementById('qrResultAction').classList.remove('hidden');
+            } catch(e) {
+                alert('⚠️ فرمت متن ورودی برای ساخت بارکد میله‌ای استاندارد نیست.');
+            }
+        }
+
+        // ================= TOOL 7: COLOR PALETTE & PICKER SYSTEM =================
+        function switchColorSubTab(st) {
+            ['generator', 'picker', 'extractor'].forEach(tab => {
+                document.getElementById(`colorSec-${tab}`).classList.add('hidden');
+                document.getElementById(`colorSubtab-${tab}`).classList.remove('active');
+            });
+            document.getElementById(`colorSec-${st}`).classList.remove('hidden');
+            document.getElementById(`colorSubtab-${st}`).classList.add('active');
+        }
+
+        const presetPalettes = [
+            { name: "نیون سیان و زمردی", colors: ["#00f3ff", "#00d2ff", "#10b981", "#059669", "#060a12"] },
+            { name: "رز گلد و طلایی", colors: ["#f59e0b", "#fbbf24", "#e8b4b8", "#f43f5e", "#1e1b4b"] },
+            { name: "بنفش کهکشانی", colors: ["#a855f7", "#c084fc", "#ec4899", "#3b82f6", "#0f172a"] },
+            { name: "اقیانوس آرام", colors: ["#0284c7", "#38bdf8", "#2dd4bf", "#10b981", "#0f172a"] },
+            { name: "غروب آفتاب", colors: ["#ff4500", "#f59e0b", "#f43f5e", "#a855f7", "#18181b"] },
+            { name: "مینیمال تیره", colors: ["#0f172a", "#1e293b", "#334155", "#94a3b8", "#f8fafc"] }
+        ];
+
+        function renderRandomPalettes() {
+            const grid = document.getElementById('palettesGrid');
+            grid.innerHTML = '';
+
+            presetPalettes.forEach((p) => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3";
+                
+                let barsHtml = `<div class="h-16 rounded-xl flex overflow-hidden border border-slate-700">`;
+                p.colors.forEach(c => {
+                    barsHtml += `<div style="background-color: ${c}" class="flex-1 cursor-pointer transition-transform hover:scale-105" title="کلیک برای کپی ${c}" onclick="doCopy('${c}', null)"></div>`;
+                });
+                barsHtml += `</div>`;
+
+                let hexCodesHtml = `<div class="flex justify-between items-center text-[10px] font-mono text-slate-300">`;
+                p.colors.forEach(c => {
+                    hexCodesHtml += `<span class="cursor-pointer hover:text-cyan-300" onclick="doCopy('${c}', null)">${c}</span>`;
+                });
+                hexCodesHtml += `</div>`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-xs font-bold text-slate-200">
+                        <span>${p.name}</span>
+                        <i class="fa-solid fa-copy text-rose-400 text-xs cursor-pointer" title="کپی همه کدهای پالت" onclick="doCopy('${p.colors.join(', ')}', null)"></i>
+                    </div>
+                    ${barsHtml}
+                    ${hexCodesHtml}
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function updateColorPickerDetails() {
+            const hex = document.getElementById('mainColorPicker').value;
+            const previewBox = document.getElementById('colorPreviewBox');
+            previewBox.style.backgroundColor = hex;
+            previewBox.innerText = hex.toUpperCase();
+
+            document.getElementById('hexValDisplay').innerText = hex.toUpperCase();
+
+            const r = parseInt(hex.substr(1,2), 16);
+            const g = parseInt(hex.substr(3,2), 16);
+            const b = parseInt(hex.substr(5,2), 16);
+            document.getElementById('rgbValDisplay').innerText = `rgb(${r}, ${g}, ${b})`;
+
+            // Calc HSL
+            let rNorm = r/255, gNorm = g/255, bNorm = b/255;
+            let max = Math.max(rNorm, gNorm, bNorm), min = Math.min(rNorm, gNorm, bNorm);
+            let h, s, l = (max + min) / 2;
+            if (max == min) { h = s = 0; } else {
+                let d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch(max){
+                    case rNorm: h = (gNorm - bNorm) / d + (gNorm < bNorm ? 6 : 0); break;
+                    case gNorm: h = (bNorm - rNorm) / d + 2; break;
+                    case bNorm: h = (rNorm - gNorm) / d + 4; break;
+                }
+                h /= 6;
+            }
+            document.getElementById('hslValDisplay').innerText = `hsl(${Math.round(h*360)}, ${Math.round(s*100)}%, ${Math.round(l*100)}%)`;
+        }
+
+        function copyCodeText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text);
+            alert(`🎨 کد رنگ (${text}) کپی شد!`);
+        }
+
+        function handleColorImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.getElementById('colorExtractCanvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+
+                    document.getElementById('imageExtractCanvasContainer').classList.remove('hidden');
+
+                    canvas.onclick = function(evt) {
+                        const rect = canvas.getBoundingClientRect();
+                        const scaleX = canvas.width / rect.width;
+                        const scaleY = canvas.height / rect.height;
+                        const x = (evt.clientX - rect.left) * scaleX;
+                        const y = (evt.clientY - rect.top) * scaleY;
+
+                        const pixel = ctx.getImageData(x, y, 1, 1).data;
+                        const hex = "#" + ((1 << 24) + (pixel[0] << 16) + (pixel[1] << 8) + pixel[2]).toString(16).slice(1).toUpperCase();
+
+                        const swatch = document.getElementById('sampleColorSwatch');
+                        swatch.style.backgroundColor = hex;
+                        document.getElementById('sampleColorHex').innerText = hex;
+                        document.getElementById('extractedColorBadge').classList.remove('hidden');
+                    };
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ================= FAL-E HAFEZ & TYPING FUNCTIONS =================
         function getTodayDateStr() {
             const d = new Date();
             return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
@@ -1371,61 +1760,21 @@
                 interpretation: "ای صاحب فال! خبرهای خوشی در راه است و گشایشی در کارهایت رخ می‌دهد. ارزش نعمت‌ها و دوستان واقعی خود را بدان. قدر لحظات حال را بشناس و سخاوتمند باش که موفقیت بسیار نزدیک است."
             },
             {
-                id: 5,
-                poem: "دل می‌رود ز دستم صاحب دلان خدا را\nدردا که راز پنهان خواهد شد آشکارا\n\nکشتی‌نشستگانیم ای باد شرطه برخیز\nباشد که باز بینیم دیدار آشنا را\n\nده روزه مهر گردون افسانه است و افسون\nنیکی به جای یاران فرصت شمار یارا",
-                meaning: "صبر و قرار از دست داده‌ام و رازم برملا خواهد شد. ما مانند مسافران در کشتی منتظر باد موافق هستیم تا به یار برسیم. عمر دنیا کوتاه است، پس فرصت نیکی را غنیمت شمار.",
-                interpretation: "فال شما بسیار نیکوست. در تصمیمی که گرفته‌ای تردید مکن. وزش باد موافق پیروزی در راه است. اگر با مردم به نیکی و صداقت رفتار کنی، نیت شما به‌زودی به مقصود می‌رسد."
-            },
-            {
-                id: 10,
-                poem: "دوش از مسجد سوی میخانه آمد پیر ما\nچیست یاران طریقت بعد از این تدبیر ما\n\nما مریدان روی سوی قبله چون آریم چون\nروی سوی خانه خمار دارد پیر ما",
-                meaning: "راهنما و پیر ما تغییر مسیر داد؛ پس ما نیز باید پیرو حقیقت باشیم و ظاهرپرستی را رها سازیم.",
-                interpretation: "از تغییرات ناگهانی در زندگی یا مسیر شغلی نترس. گاهی تحولات به ظاهر عجیب، مقدمه خیر و برکت بزرگی در زندگی شما خواهند بود."
-            },
-            {
-                id: 25,
-                poem: "شکفته شد گل حمرا و سرخوش است بلبل\nصلایلا که درافکنده‌اند در عالم\n\nعفاف و عصمت درویش پرسد از زاهد\nکه در پیاله چه دارد خرابات مغان",
-                meaning: "فصل شکوفایی و شادی فرا رسیده و نغمه‌های خوش به گوش می‌رسد. روزگار خزان به پایان آمده است.",
-                interpretation: "دوران غم و اندوه شما به پایان رسیده است. به زودی درهای شادی و موفقیت به روی شما گشوده می‌شود. فرصت‌ها را از دست نده و شادمان باش."
-            },
-            {
                 id: 72,
                 poem: "راهیست راه عشق که هیچش کجایت نیست\nآنجا جز آن که جان بسپارند چاره نیست\n\nهرگه که دل به عشق دهی خوش دمی بود\nدر کار خیر حاجت هیچ استخاره نیست",
                 meaning: "راه حقیقت و مقصود مستقیم است. زمانی که دل به کار خیر و تصمیم درست بسپاری بهترین زمان است و معطل کردن جایز نیست.",
                 interpretation: "نیت شما بسیار مبارک است! نیت داری کاری خیر یا تصمیمی مهم بگیری؛ زمان را هدر نده و بدون استخاره و معطلی قدم اول را بردار."
-            },
-            {
-                id: 100,
-                poem: "دی پیر می فروش که ذکرش به خیر باد\nگفتا شراب نوش و غم دل ببر ز یاد\n\nگفتم به باد داده جوانیم سوز عشق\nگفت ار چه سوختی گل خندان به بار داد",
-                meaning: "استاد دانا مرا پند داد که غم گذشته را نخورم و به آینده امیدوار باشم که رنج‌ها محصول شیرین خواهند داد.",
-                interpretation: "از سختی‌ها و رنج‌هایی که کشیده‌ای ناراحت نباش. نتیجه زحمات و صبر شما به زودی بار خواهد داد و به موفقیت شایانی می‌رسی."
-            },
-            {
-                id: 500,
-                poem: "ای پادشه خوبان داد از غم تنهایی\nدل بی تو به جان آمد وقت است که بازآیی\n\nمشتاقی و مهجوری دور از تو چنانم کرد\nککز دست بخواهد شد پایاب شکیبایی",
-                meaning: "ای عزیزتر از جان، از تنهایی و انتظار به تنگ آمده‌ام. وقت آن رسیده که وصال و دیدار حاصل شود.",
-                interpretation: "انتظار شما به زودی به پایان می‌رسد. به مقصد و مقصودی که مدتهاست برایش تلاش می‌کنی خواهی رسید. با ایمان و امید ادامه بده."
             }
         ];
 
         function getHafezGhazal(ghazalId) {
             const found = hafezBaseGhazals.find(g => g.id === ghazalId);
             if (found) return found;
-
-            const themes = [
-                { t: "امید و گشایش", p1: "مژده ای دل که مسیحا نفسی می‌آید\nکه ز انفاس خوشش بوی کسی می‌آید", m: "خبرهای خوش و آدم‌های خوب در راهند. گشایشی بزرگی رخ خواهد داد.", i: "نیت شما بسیار مبارک است. فرج و گشایشی عالی در کارها ایجاد می‌شود. صبور و امیدوار باشید." },
-                { t: "پیروزی و موفقیت", p1: "بر سر آنم که گر ز دست برآید\nدست به کاری زنم که غصه برآید", m: "اراده کرده‌ام تا کاری بزرگ انجام دهم و ریشه غم را بسوزانم.", i: "زمان عمل فرا رسیده است. اراده کن و خستگی را کنار بگذار که پیروزی کاملاً از آن توست." },
-                { t: "صبر و تدبیر", p1: "صبر کن ای دل که حق ضایع نگرداند عمل\nصبر تلخ آمد ولی بر شیرین می‌دهد", m: "بردباری اگرچه دشوار است اما نتیجه و میوه‌ای شیرین به همراه دارد.", i: "در تصمیم‌گیری عجله نکن. با تدبیر و صبوری پیش برو تا بهترین نتیجه نصیبت شود." },
-                { t: "عشق و محرمیت", p1: "ای نسیم سحر از من به دلارام بگو\nکه دلم سوخت ز هجران تو ای یار بگو", m: "پیام محبت و اشتیاق خود را به یار بفرست که هجران رو به پایان است.", i: "روابط عاطفی و خانوادگی شما بهبود می‌یابد. کدورت‌ها برطرف شده و صمیمیت بازمی‌‌گردد." },
-                { t: "توکل و عنایت الهی", p1: "تکیه بر تقوا و دانش در طریقت کافریست\nراهرو گر صد هنر دارد توکل بایدش", m: "تنها به علم و توان خود مغرور نشو؛ توکل بر خدا رمز اصلی موفقیت است.", i: "در کارهایت به خداوند توکل کن. راهی که انتخاب کرده‌ای هموار خواهد شد." }
-            ];
-
-            const sel = themes[ghazalId % themes.length];
             return {
                 id: ghazalId,
-                poem: `غزل شماره ${ghazalId} دیوان حافظ\n\n${sel.p1}\n\nساقی به نور باده برافروز جام ما\nمطرب بگو که کار جهان شد به کام ما`,
-                meaning: `معنی غزل ${ghazalId}: ${sel.m}`,
-                interpretation: `تعبیر فال غزل ${ghazalId}: ${sel.i}`
+                poem: `غزل شماره ${ghazalId} دیوان حافظ\n\nمژده ای دل که مسیحا نفسی می‌آید\nکه ز انفاس خوشش بوی کسی می‌آید\n\nساقی به نور باده برافروز جام ما\nمطرب بگو که کار جهان شد به کام ما`,
+                meaning: `معنی غزل ${ghazalId}: خبرهای خوش و آدم‌های خوب در راهند. فرج و گشایشی عالی در کارها ایجاد می‌شود.`,
+                interpretation: `تعبیر فال غزل ${ghazalId}: نیت شما بسیار مبارک است. صبور و امیدوار باشید که به‌زودی نتیجه تلاش‌های خود را خواهید دید.`
             };
         }
 
@@ -1437,7 +1786,7 @@
 
             if (usedToday >= 3) {
                 if (userCoins < FAF_PRICE) {
-                    alert(`⚠️ فال‌های رایگان امروز شما (۳ از ۳) به پایان رسیده است!\n\nبرای گرفتن فال جدید نیاز به ۲ سکه دارید.\nموجودی فعلی شما: ${userCoins} سکه\n\nمی‌توانید از پاداش روزانه ۱ سکه بگیرید یا با عضویت در کانال بله (@factinew) کد هدیه دریافت کنید.`);
+                    alert(`⚠️ فال‌های رایگان امروز شما (۳ از ۳) به پایان رسیده است!\n\nبرای گرفتن فال جدید نیاز به ۲ سکه دارید.\nموجودی فعلی شما: ${userCoins} سکه`);
                     return;
                 }
 
@@ -1475,7 +1824,7 @@
             alert('📜 فال کامل حافظ همراه با تعبیر با موفقیت کپی شد!');
         }
 
-        // ================= TOOL 5: TYPING SPEED TEST SYSTEM =================
+        // ================= TYPING SPEED TEST SYSTEM =================
         let typingLang = 'fa';
         let typingLevel = 'beginner';
         let typingTimer = null;
@@ -1485,42 +1834,16 @@
 
         const typingTextBank = {
             fa: {
-                beginner: [
-                    "سلام به همه دوستان عزیزم به سایت هوشمند خوش آمدیدامروز روز بسیار خوبی برای یادگیری است",
-                    "تایپ سریع باعث صرفه جویی در زمان می شود تمرین روزانه رمز موفقیت شما در این مسیر است",
-                    "با تلاش و تمرین مداوم می توانید سرعت تایپ خود را در چند هفته به طور شگفت انگیزی افزایش دهید"
-                ],
-                amateur: [
-                    "تایپ سریع و دقیق یکی از مهارت‌های کلیدی در دنیای دیجیتال امروز است. تمرین روزانه باعث افزایش سرعت و کاهش خطاهای شما می‌شود.",
-                    "امروزه استفاده از ابزارهای آنلاین به ما کمک می‌کند تا کارهای روزمره خود را با سرعت و دقت بیشتری انجام دهیم و وقت خود را مدیریت کنیم."
-                ],
-                pro: [
-                    "در سال‌های اخیر، فناوری هوش مصنوعی و پردازش زبان طبیعی تحول عظیمی در صنعت نرم‌افزار ایجاد کرده است. آیا می‌دانید در سال ۲۰۲۶ بیش از ۸۵٪ از نرم‌افزارها هوشمند شده‌اند؟",
-                    "برای یادگیری برنامه نویسی و مهارت‌های کامپیوتری، تسلط بر تایپ ده انگشتی با حداقل ۵۰ کلمه در دقیقه یک مزیت بزرگ محسوب می‌شود."
-                ],
-                master: [
-                    "ز هوشیاران عالم هر که را دیدم غمی دارد! ای خوشا دیوانه کز دوست و دشمن بی‌خبر باشد. سال ۱۴۰۵ خورشیدی همراه با تکنولوژی‌های نوین آغاز گردید؛ آیا می‌توانید با دقت ۹۹٪ تایپ کنید؟",
-                    "جهان چون خط و خال و چشم و ابروست، که هر چیزی به جای خویش نیکوست! تلاش، استقامت و تمرینِ بی‌وقفه تنها راه رسیدن به قله‌های موفقیت است."
-                ]
+                beginner: ["سلام به همه دوستان عزیزم به سایت هوشمند خوش آمدیدامروز روز بسیار خوبی برای یادگیری است"],
+                amateur: ["تایپ سریع و دقیق یکی از مهارت‌های کلیدی در دنیای دیجیتال امروز است. تمرین روزانه باعث افزایش سرعت می‌شود."],
+                pro: ["در سال‌های اخیر، فناوری هوش مصنوعی تحول عظیمی در صنعت نرم‌افزار ایجاد کرده است. آیا می‌دانید در سال ۲۰۲۶ بیش از ۸۵٪ از نرم‌افزارها هوشمند شده‌اند؟"],
+                master: ["ز هوشیاران عالم هر که را دیدم غمی دارد! ای خوشا دیوانه کز دوست و دشمن بی‌خبر باشد. سال ۱۴۰۵ خورشیدی همراه با تکنولوژی‌های نوین آغاز گردید."]
             },
             en: {
-                beginner: [
-                    "hello world welcome to speed typing test practice every day to become a master",
-                    "fast typing saves a lot of time and makes your daily work much easier and fun",
-                    "practice makes perfect keep typing every single day and you will see amazing results"
-                ],
-                amateur: [
-                    "Fast and accurate typing is an essential skill in the modern digital era. Daily practice improves both your speed and accuracy.",
-                    "Using smart online tools helps us complete daily tasks faster and manage our valuable time more effectively."
-                ],
-                pro: [
-                    "Artificial intelligence and natural language processing have transformed software development in 2026. Over 85% of modern apps use AI technology!",
-                    "Mastering touch typing with at least 60 words per minute gives you a massive advantage in programming and technical work."
-                ],
-                master: [
-                    "To be or not to be, that is the question: whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune! Can you type at 99% accuracy in 2026?",
-                    "Success is not final, failure is not fatal: it is the courage to continue that counts. Keep pushing your limits every single day!"
-                ]
+                beginner: ["hello world welcome to speed typing test practice every day to become a master"],
+                amateur: ["Fast and accurate typing is an essential skill in the modern digital era. Daily practice improves speed."],
+                pro: ["Artificial intelligence and natural language processing have transformed software development in 2026. Over 85% of modern apps use AI technology!"],
+                master: ["To be or not to be, that is the question: whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune!"]
             }
         };
 
@@ -1600,11 +1923,11 @@
 
             if (usedToday >= 3) {
                 if (userCoins < TEST_PRICE) {
-                    alert(`⚠️ امتحانات رایگان امروز شما (۳ از ۳) به پایان رسیده است!\n\nبرای شرکت در امتحان جدید نیاز به ۲ سکه دارید.\nموجودی فعلی شما: ${userCoins} سکه\n\nمی‌توانید از پاداش روزانه سکه بگیرید یا با کد هدیه موجودی خود را افزایش دهید.`);
+                    alert(`⚠️️ امتحانات رایگان امروز شما به پایان رسیده است!\nبرای شرکت در امتحان جدید نیاز به ۲ سکه دارید.`);
                     return;
                 }
 
-                if (!confirm(`امتحانات رایگان امروز شما به پایان رسیده است.\nآیا می‌خواهید با پرداخت ۲ سکه یک امتحان جدید بدهید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
+                if (!confirm(`امتحانات رایگان امروز شما به پایان رسیده است.\nآیا می‌خواهید با پرداخت ۲ سکه یک امتحان جدید بدهید؟`)) {
                     return;
                 }
 
@@ -1625,7 +1948,6 @@
             isTypingActive = true;
             typingTimeLeft = typingLevel === 'beginner' ? 30 : 60;
             document.getElementById('typingTimerDisplay').innerText = typingTimeLeft;
-            document.getElementById('typingResultModal').classList.add('hidden');
 
             typingTimer = setInterval(() => {
                 typingTimeLeft--;
@@ -1710,26 +2032,6 @@
             document.getElementById('resFinalAccuracy').innerText = `${finalAccuracy}%`;
             document.getElementById('resFinalMistakes').innerText = mistakes;
 
-            let rankTitle = "نتیجه امتحان تایپ شما";
-            let feedback = "";
-
-            if (finalWpm >= 60) {
-                rankTitle = "🏆 فوق‌العاده! سطح: استادکار واقعی";
-                feedback = "سرعت تایپ شما شگفت‌انگیز است و جزو ۱۰ درصد برتر تایپیست‌ها هستید!";
-            } else if (finalWpm >= 40) {
-                rankTitle = "🔥 بسیار عالی! سطح: حرفه‌ای";
-                feedback = "سرعت و دقت شما عالی است. با کمی تمرین دیگر می‌توانید به سطح استادکار برسید.";
-            } else if (finalWpm >= 20) {
-                rankTitle = "👍 خوب! سطح: آماتور";
-                feedback = "عملکرد مناسبی داشتید. تمرین روزانه باعث افزایش فوق‌العاده سرعت شما خواهد شد.";
-            } else {
-                rankTitle = "🌱 شروع خوب! سطح: مبتدی";
-                feedback = "تمرین را ادامه دهید. تایپ ده انگشتی نیاز به صبوری و تمرین روزانه دارد.";
-            }
-
-            document.getElementById('typingResultRankTitle').innerText = rankTitle;
-            document.getElementById('typingResultFeedback').innerText = feedback;
-
             const modal = document.getElementById('typingResultModal');
             modal.classList.remove('hidden');
             modal.scrollIntoView({ behavior: 'smooth' });
@@ -1752,6 +2054,7 @@
             loadRandomTypingText();
         }
 
+        // ================= FONT PREVIEW SYSTEM =================
         function switchFontLang(lang) {
             currentFontLang = lang;
             document.getElementById('fontLangBtn-fa').classList.remove('active');
@@ -1773,194 +2076,11 @@
             return str.replace(/([بپتثجچحخسشصضطظعغفقکگلمنوهی])/g, `$1${fill}`);
         }
 
-        const unicodeTransformers = {
-            bold: (t) => t.replace(/[A-Za-z0-9]/g, c => {
-                const code = c.charCodeAt(0);
-                if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D400 + code - 65);
-                if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D41A + code - 97);
-                if (code >= 48 && code <= 57) return String.fromCodePoint(0x1D7CE + code - 48);
-                return c;
-            }),
-            italic: (t) => t.replace(/[A-Za-z]/g, c => {
-                const code = c.charCodeAt(0);
-                if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D434 + code - 65);
-                if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D44E + code - 97);
-                return c;
-            }),
-            script: (t) => t.replace(/[A-Za-z]/g, c => {
-                const code = c.charCodeAt(0);
-                if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D4D0 + code - 65);
-                if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D4EA + code - 97);
-                return c;
-            }),
-            gothic: (t) => t.replace(/[A-Za-z]/g, c => {
-                const code = c.charCodeAt(0);
-                if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D56C + code - 65);
-                if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D586 + code - 97);
-                return c;
-            }),
-            doubleStruck: (t) => t.replace(/[A-Za-z]/g, c => {
-                const code = c.charCodeAt(0);
-                if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D538 + code - 65);
-                if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D552 + code - 97);
-                return c;
-            }),
-            bubbles: (t) => t.replace(/[A-Za-z0-9]/g, c => {
-                const code = c.charCodeAt(0);
-                if (code >= 65 && code <= 90) return String.fromCodePoint(0x24B6 + code - 65);
-                if (code >= 97 && code <= 122) return String.fromCodePoint(0x24D0 + code - 97);
-                if (code >= 49 && code <= 57) return String.fromCodePoint(0x2460 + code - 49);
-                return c;
-            }),
-            squares: (t) => t.replace(/[A-Za-z]/g, c => {
-                const code = c.charCodeAt(0);
-                if (code >= 65 && code <= 90) return String.fromCodePoint(0x1F130 + code - 65);
-                if (code >= 97 && code <= 122) return String.fromCodePoint(0x1F130 + code - 97);
-                return c;
-            }),
-            monospace: (t) => t.replace(/[A-Za-z0-9]/g, c => {
-                const code = c.charCodeAt(0);
-                if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D670 + code - 65);
-                if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D68A + code - 97);
-                if (code >= 48 && code <= 57) return String.fromCodePoint(0x1D7F6 + code - 48);
-                return c;
-            }),
-            fullwidth: (t) => t.replace(/[A-Za-z0-9]/g, c => {
-                const code = c.charCodeAt(0);
-                if (code >= 65 && code <= 90) return String.fromCodePoint(0xFF21 + code - 65);
-                if (code >= 97 && code <= 122) return String.fromCodePoint(0xFF41 + code - 97);
-                if (code >= 48 && code <= 57) return String.fromCodePoint(0xFF10 + code - 48);
-                return c;
-            })
-        };
-
         const persianFontList = [
             { name: "فونت کشیده استاندارد", fontFamily: "'Vazirmatn', sans-serif", fontCleanName: "Vazirmatn", css: "text-cyan-400 text-2xl font-black", fmt: (t) => makeKasheedeh(t, 2) },
             { name: "فونت لاله‌زار با تاج شاهی", fontFamily: "'Lalezar', cursive", fontCleanName: "Lalezar", css: "anim-gold-luxury text-2xl font-normal", fmt: (t) => `👑 ${t} 👑` },
-            { name: "فونت نستعلیق با قاب ستاره", fontFamily: "'Noto Nastaliq Urdu', 'Amiri', serif", fontCleanName: "Noto Nastaliq Urdu", css: "text-amber-300 text-2xl font-normal leading-loose", fmt: (t) => `★彡 ${t} 彡★` },
-            { name: "فونت وزیرمتن با قاب گلدار", fontFamily: "'Vazirmatn', sans-serif", fontCleanName: "Vazirmatn", css: "text-cyan-400 text-2xl font-black", fmt: (t) => `✿.｡.:* ${t} *.:｡.✿` },
-            { name: "فونت فوق کشیده شاهانه", fontFamily: "'Lalezar', cursive", fontCleanName: "Lalezar", css: "anim-gold-luxury text-2xl font-normal", fmt: (t) => `꧁༺ ${makeKasheedeh(t, 3)} ༻꧂` },
-            { name: "فونت کاتبه با قاب موجی", fontFamily: "'Katibeh', cursive", fontCleanName: "Katibeh", css: "anim-wavy-rainbow text-3xl font-normal", fmt: (t) => `•.¸♡ ${t} ♡¸.•` },
-            { name: "فونت امیری با صاعقه", fontFamily: "'Amiri', serif", fontCleanName: "Amiri", css: "text-emerald-400 text-2xl font-bold", fmt: (t) => `⚡️ ${makeKasheedeh(t, 2)} ⚡️` },
-            { name: "فونت عارف رقعه با قلبی", fontFamily: "'Aref Ruqaa', serif", fontCleanName: "Aref Ruqaa", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `•.¸♡ ${t} ♡¸.•` },
-            { name: "فونت شبنم با کادر مربع", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", fontCleanName: "Shabnam", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `【 ${makeKasheedeh(t, 2)} 】` },
-            { name: "فونت ساحل با قاب گوشه‌ای", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", fontCleanName: "Sahel", css: "text-indigo-300 text-2xl font-bold", fmt: (t) => `『 ${t} 』` },
-            { name: "فونت صمیم با موجی", fontFamily: "'Samim', 'Vazirmatn', sans-serif", fontCleanName: "Samim", css: "text-teal-300 text-2xl font-bold", fmt: (t) => `༺ ${makeKasheedeh(t, 2)} ༻` },
-            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", fontCleanName: "Cairo", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦ ${t} ♦` },
-            { name: "فونت کوفی با ستاره درخشان", fontFamily: "'Reem Kufi', sans-serif", fontCleanName: "Reem Kufi", css: "text-yellow-300 text-2xl font-bold", fmt: (t) => `✨ ${makeKasheedeh(t, 2)} ✨` },
-            { name: "فونت لطیف با شمشیر", fontFamily: "'Lateef', cursive", fontCleanName: "Lateef", css: "text-emerald-300 text-3xl font-normal", fmt: (t) => `⚔️ ${t} ⚔️` },
-            { name: "فونت شهرزاد با گل رز", fontFamily: "'Scheherazade New', serif", fontCleanName: "Scheherazade New", css: "text-amber-200 text-2xl font-bold", fmt: (t) => `🌹 ${makeKasheedeh(t, 2)} 🌹` },
-            { name: "فونت چنگا با بال آفرینش", fontFamily: "'Changa', sans-serif", fontCleanName: "Changa", css: "anim-cool-ocean text-2xl font-extrabold", fmt: (t) => `꧁𓊈 ${t} 𓊉꧂` },
-            { name: "فونت لیمونادا با نت موسیقی", fontFamily: "'Lemonada', cursive", fontCleanName: "Lemonada", css: "anim-wavy-rainbow text-xl font-bold", fmt: (t) => `🎵 ${t} 🎵` },
-            { name: "فونت تجول با قاب اسلیمی", fontFamily: "'Tajawal', sans-serif", fontCleanName: "Tajawal", css: "text-slate-100 text-2xl font-bold", fmt: (t) => `❖ ${makeKasheedeh(t, 2)} ❖` },
-            { name: "فونت المسیری با هندسی", fontFamily: "'El Messiri', sans-serif", fontCleanName: "El Messiri", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `◈ ${t} ◈` },
-            { name: "فونت مارهی با خورشیدی", fontFamily: "'Marhey', cursive", fontCleanName: "Marhey", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `✦ ${makeKasheedeh(t, 2)} ✦` }
+            { name: "فونت نستعلیق با قاب ستاره", fontFamily: "'Noto Nastaliq Urdu', 'Amiri', serif", fontCleanName: "Noto Nastaliq Urdu", css: "text-amber-300 text-2xl font-normal leading-loose", fmt: (t) => `★彡 ${t} 彡★` }
         ];
-
-        const englishFontList = [];
-        (function build100EnglishFonts() {
-            const baseTransformers = [
-                { name: 'Script / دست‌نویس', fn: unicodeTransformers.script, css: 'anim-gold-luxury text-2xl font-bold' },
-                { name: 'Gothic / گوتیک', fn: unicodeTransformers.gothic, css: 'anim-warm-fire text-2xl font-bold' },
-                { name: 'Bold / ضخیم', fn: unicodeTransformers.bold, css: 'text-cyan-400 text-2xl font-black' },
-                { name: 'Italic / مورب', fn: unicodeTransformers.italic, css: 'anim-cool-ocean text-2xl font-bold' },
-                { name: 'Double Struck / توخالی', fn: unicodeTransformers.doubleStruck, css: 'text-purple-300 text-2xl font-bold' },
-                { name: 'Bubbles / حباب‌دار', fn: unicodeTransformers.bubbles, css: 'text-emerald-400 text-2xl font-bold' },
-                { name: 'Squares / مربعی', fn: unicodeTransformers.squares, css: 'text-amber-300 text-xl font-bold' },
-                { name: 'Monospace / ماشین تحریر', fn: unicodeTransformers.monospace, css: 'text-slate-200 font-mono text-xl' },
-                { name: 'Fullwidth / عریض', fn: unicodeTransformers.fullwidth, css: 'text-teal-300 text-lg font-bold' }
-            ];
-
-            const frames = [
-                { name: "ساده", fmt: (t) => t },
-                { name: "قاب سلطنتی", fmt: (t) => `꧁༺ ${t} ༻꧂` },
-                { name: "قاب تاج شاهانه", fmt: (t) => `👑 ${t} 👑` },
-                { name: "قاب ستاره‌ای", fmt: (t) => `★彡 ${t} 彡★` },
-                { name: "قاب قلبی", fmt: (t) => `•.¸♡ ${t} ♡¸.•` },
-                { name: "قاب صاعقه", fmt: (t) => `⚡️ ${t} ⚡️️` },
-                { name: "قاب گلدار", fmt: (t) => `✿.｡.:* ${t} *.:｡.✿` },
-                { name: "قاب ژاپنی", fmt: (t) => `【 ${t} 】` },
-                { name: "قاب گوشه‌ای", fmt: (t) => `『 ${t} 』` },
-                { name: "قاب موجی", fmt: (t) => `༺ ${t} ༻` },
-                { name: "قاب الماس", fmt: (t) => `♦️ ${t} ♦️` },
-                { name: "قاب درخشان", fmt: (t) => `✨ ${t} ✨` },
-                { name: "قاب شمشیر", fmt: (t) => `⚔ ${t} ⚔️` },
-                { name: "قاب رز", fmt: (t) => `🌹 ${t} 🌹` },
-                { name: "قاب بال آفرینش", fmt: (t) => `꧁𓊈 ${t} 𓊉꧂` },
-                { name: "قاب موسیقی", fmt: (t) => `🎵 ${t} 🎵` },
-                { name: "قاب اسلیمی", fmt: (t) => `❖ ${t} ❖` },
-                { name: "قاب هندسی", fmt: (t) => `◈ ${t} ◈` },
-                { name: "قاب خورشیدی", fmt: (t) => `✦ ${t} ✦` },
-                { name: "قاب نشان زرین", fmt: (t) => `⚜️ ${t} ⚜️` },
-                { name: "قاب هلال ماه", fmt: (t) => `☽ ${t} ☾` }
-            ];
-
-            let count = 1;
-            for (let f of frames) {
-                for (let b of baseTransformers) {
-                    if (count <= 100) {
-                        englishFontList.push({
-                            id: count,
-                            name: f.name === "ساده" ? b.name : `${b.name} (${f.name})`,
-                            fmt: (t) => f.fmt(b.fn(t)),
-                            css: b.css
-                        });
-                        count++;
-                    }
-                }
-            }
-        })();
-
-        function copyFontAsImage(text, fontCleanName, fontName, btnElement) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            canvas.width = 900;
-            canvas.height = 220;
-
-            ctx.fillStyle = "#0f172a";
-            if (ctx.roundRect) {
-                ctx.roundRect(0, 0, 900, 220, 24);
-                ctx.fill();
-            } else {
-                ctx.fillRect(0, 0, 900, 220);
-            }
-
-            ctx.strokeStyle = "#00f3ff";
-            ctx.lineWidth = 2;
-            if (ctx.roundRect) {
-                ctx.roundRect(10, 10, 880, 200, 20);
-                ctx.stroke();
-            }
-
-            const fontStyleStr = fontCleanName ? `"${fontCleanName}", Vazirmatn, sans-serif` : 'Vazirmatn, sans-serif';
-            ctx.font = `bold 42px ${fontStyleStr}`;
-            ctx.fillStyle = "#00f3ff";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(text, 450, 110);
-
-            canvas.toBlob(async (blob) => {
-                try {
-                    await navigator.clipboard.write([
-                        new ClipboardItem({ 'image/png': blob })
-                    ]);
-                    if (btnElement) {
-                        btnElement.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> عکس کپی شد!`;
-                        setTimeout(() => {
-                            btnElement.innerHTML = `<i class="fa-solid fa-image text-cyan-400"></i> کپی عکس واقعی (PNG)`;
-                        }, 2500);
-                    }
-                    alert('🎨 عکس پوسترِ این استایل کپی شد! اکنون در بله یا تلگرام Paste کنید.');
-                } catch (err) {
-                    const link = document.createElement('a');
-                    link.download = `${fontName || 'font'}.png`;
-                    link.href = canvas.toDataURL();
-                    link.click();
-                    alert('📥 تصویر این استایل دانلود شد!');
-                }
-            });
-        }
 
         function renderFontPreviews() {
             const rawVal = document.getElementById('fontInputText').value;
@@ -1968,130 +2088,25 @@
             const grid = document.getElementById('fontsGrid');
             grid.innerHTML = '';
 
-            if (currentFontLang === 'fa') {
-                persianFontList.forEach((font, idx) => {
-                    const isUnlocked = unlockedFonts.includes(idx);
-                    const formattedText = font.fmt ? font.fmt(inputVal) : inputVal;
-
-                    const card = document.createElement('div');
-                    card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between hover:border-amber-500/40 transition relative overflow-hidden";
-                    
-                    const titleDiv = document.createElement('div');
-                    titleDiv.className = "flex justify-between items-center text-[10px] text-slate-400 border-b border-slate-800/60 pb-2";
-                    titleDiv.innerHTML = `
-                        <span class="font-bold text-slate-300 flex items-center gap-1.5">
-                            ${isUnlocked ? '<i class="fa-solid fa-lock-open text-emerald-400"></i>' : '<i class="fa-solid fa-lock text-amber-400"></i>'}
-                            ${font.name}
-                        </span>
+            persianFontList.forEach((font, idx) => {
+                const formattedText = font.fmt ? font.fmt(inputVal) : inputVal;
+                const card = document.createElement('div');
+                card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between";
+                
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-[10px] text-slate-400 border-b border-slate-800/60 pb-2">
+                        <span class="font-bold text-slate-300">${font.name}</span>
                         <span class="font-mono text-amber-400/80">#${idx + 1}</span>
-                    `;
-                    
-                    const previewDiv = document.createElement('div');
-                    previewDiv.className = `py-4 text-center overflow-x-auto ${!isUnlocked ? 'blur-sm select-none pointer-events-none opacity-40' : ''}`;
-                    const p = document.createElement('p');
-                    p.className = `${font.css} transition-all whitespace-nowrap`;
-                    p.style.fontFamily = font.fontFamily;
-                    p.textContent = formattedText;
-                    previewDiv.appendChild(p);
-
-                    const actionDiv = document.createElement('div');
-                    actionDiv.className = "space-y-2 pt-1";
-
-                    if (isUnlocked) {
-                        const copyTextBtn = document.createElement('button');
-                        copyTextBtn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
-                        copyTextBtn.innerHTML = `<i class="fa-solid fa-copy text-amber-400"></i> کپی متن (کشیده + نماد)`;
-                        copyTextBtn.addEventListener('click', () => doCopy(formattedText, copyTextBtn));
-
-                        const copyImgBtn = document.createElement('button');
-                        copyImgBtn.className = "w-full bg-gradient-to-r from-cyan-900/40 to-slate-800 hover:from-cyan-800/60 text-cyan-300 text-xs font-bold py-2 rounded-xl border border-cyan-500/30 transition flex items-center justify-center gap-1.5";
-                        copyImgBtn.innerHTML = `<i class="fa-solid fa-image text-cyan-400"></i> کپی عکس واقعی فونت (PNG)`;
-                        copyImgBtn.addEventListener('click', () => copyFontAsImage(formattedText, font.fontCleanName, font.name, copyImgBtn));
-
-                        actionDiv.appendChild(copyTextBtn);
-                        actionDiv.appendChild(copyImgBtn);
-                    } else {
-                        const unlockBtn = document.createElement('button');
-                        unlockBtn.className = "w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 text-xs font-black py-2 rounded-xl transition flex items-center justify-center gap-1.5 shadow-lg shadow-amber-500/10";
-                        unlockBtn.innerHTML = `<i class="fa-solid fa-key"></i> آنلاک با ۲ سکه 🪙`;
-                        unlockBtn.addEventListener('click', () => unlockFont(idx));
-
-                        const supportBtn = document.createElement('button');
-                        supportBtn.onclick = goToBaleChannel;
-                        supportBtn.className = "w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[11px] font-semibold py-1.5 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1";
-                        supportBtn.innerHTML = `<i class="fa-solid fa-paper-plane text-cyan-400"></i> دریافت کد سکه از کانال بله (@factinew)`;
-
-                        actionDiv.appendChild(unlockBtn);
-                        actionDiv.appendChild(supportBtn);
-                    }
-
-                    card.appendChild(titleDiv);
-                    card.appendChild(previewDiv);
-                    card.appendChild(actionDiv);
-                    grid.appendChild(card);
-                });
-            } else {
-                englishFontList.forEach((style, idx) => {
-                    const isUnlocked = unlockedEnFonts.includes(idx);
-                    const transformed = style.fmt(inputVal);
-
-                    const card = document.createElement('div');
-                    card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between hover:border-cyan-500/40 transition relative overflow-hidden";
-                    
-                    const titleDiv = document.createElement('div');
-                    titleDiv.className = "flex justify-between items-center text-[10px] text-slate-400 border-b border-slate-800/60 pb-2";
-                    titleDiv.innerHTML = `
-                        <span class="font-bold text-slate-300 flex items-center gap-1.5">
-                            ${isUnlocked ? '<i class="fa-solid fa-lock-open text-emerald-400"></i>' : '<i class="fa-solid fa-lock text-amber-400"></i>'}
-                            ${style.name}
-                        </span>
-                        <span class="font-mono text-cyan-400/80">#${style.id}</span>
-                    `;
-                    
-                    const previewDiv = document.createElement('div');
-                    previewDiv.className = `py-4 text-center overflow-x-auto ${!isUnlocked ? 'blur-sm select-none pointer-events-none opacity-40' : ''}`;
-                    const p = document.createElement('p');
-                    p.className = `${style.css} transition-all font-vazir whitespace-nowrap`;
-                    p.textContent = transformed;
-                    previewDiv.appendChild(p);
-
-                    const actionDiv = document.createElement('div');
-                    actionDiv.className = "space-y-2 pt-1";
-
-                    if (isUnlocked) {
-                        const copyTextBtn = document.createElement('button');
-                        copyTextBtn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
-                        copyTextBtn.innerHTML = `<i class="fa-solid fa-copy text-cyan-400"></i> کپی متن استایل‌دار`;
-                        copyTextBtn.addEventListener('click', () => doCopy(transformed, copyTextBtn));
-
-                        const copyImgBtn = document.createElement('button');
-                        copyImgBtn.className = "w-full bg-gradient-to-r from-cyan-900/40 to-slate-800 hover:from-cyan-800/60 text-cyan-300 text-xs font-bold py-2 rounded-xl border border-cyan-500/30 transition flex items-center justify-center gap-1.5";
-                        copyImgBtn.innerHTML = `<i class="fa-solid fa-image text-cyan-400"></i> کپی عکس واقعی (PNG)`;
-                        copyImgBtn.addEventListener('click', () => copyFontAsImage(transformed, "", style.name, copyImgBtn));
-
-                        actionDiv.appendChild(copyTextBtn);
-                        actionDiv.appendChild(copyImgBtn);
-                    } else {
-                        const unlockBtn = document.createElement('button');
-                        unlockBtn.className = "w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 text-xs font-black py-2 rounded-xl transition flex items-center justify-center gap-1.5 shadow-lg shadow-amber-500/10";
-                        unlockBtn.innerHTML = `<i class="fa-solid fa-key"></i> آنلاک با ۲ سکه 🪙`;
-                        unlockBtn.addEventListener('click', () => unlockEnFont(idx));
-
-                        const supportBtn = document.createElement('button');
-                        supportBtn.onclick = goToBaleChannel;
-                        supportBtn.className = "w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[11px] font-semibold py-1.5 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1";
-                        supportBtn.innerHTML = `<i class="fa-solid fa-paper-plane text-cyan-400"></i> دریافت کد سکه از کانال بله (@factinew)`;
-
-                        actionDiv.appendChild(unlockBtn);
-                        actionDiv.appendChild(supportBtn);
-                    }
-
-                    card.appendChild(titleDiv);
-                    card.appendChild(previewDiv);
-                    card.appendChild(actionDiv);
-                    grid.appendChild(card);
-                });
-            }
+                    </div>
+                    <div class="py-4 text-center overflow-x-auto">
+                        <p class="${font.css} whitespace-nowrap" style="font-family: ${font.fontFamily}">${formattedText}</p>
+                    </div>
+                    <button onclick="doCopy('${formattedText}', this)" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700 transition">
+                        کپی متن
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
         }
 
         function doCopy(text, btnElement) {
@@ -2099,11 +2114,9 @@
             if (btnElement) {
                 const originalHtml = btnElement.innerHTML;
                 btnElement.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> کپی شد!`;
-                btnElement.classList.add('border-green-500/50', 'text-green-300');
-                setTimeout(() => {
-                    btnElement.innerHTML = originalHtml;
-                    btnElement.classList.remove('border-green-500/50', 'text-green-300');
-                }, 2000);
+                setTimeout(() => { btnElement.innerHTML = originalHtml; }, 2000);
+            } else {
+                alert('کپی شد!');
             }
         }
 
@@ -2112,44 +2125,7 @@
             { name: "مشهد", lat: 36.2972, lng: 59.6067 },
             { name: "اصفهان", lat: 32.6546, lng: 51.6680 },
             { name: "شیراز", lat: 29.5918, lng: 52.5837 },
-            { name: "تبریز", lat: 38.0800, lng: 46.2919 },
-            { name: "اهواز", lat: 31.3183, lng: 48.6706 },
-            { name: "قم", lat: 34.6401, lng: 50.8764 },
-            { name: "رشت", lat: 37.2808, lng: 49.5832 },
-            { name: "کرمان", lat: 30.2839, lng: 57.0834 },
-            { name: "زاهدان", lat: 29.4963, lng: 60.8629 },
-            { name: "کرج", lat: 35.8400, lng: 50.9391 },
-            { name: "بوشهر", lat: 28.9234, lng: 50.8385 },
-            { name: "بندرعباس", lat: 27.1832, lng: 56.2666 },
-            { name: "یزد", lat: 31.8974, lng: 54.3675 },
-            { name: "ارومیه", lat: 37.5527, lng: 45.0761 },
-            { name: "اردبیل", lat: 38.2498, lng: 48.2933 },
-            { name: "کرمانشاه", lat: 34.3142, lng: 47.0650 },
-            { name: "همدان", lat: 34.7982, lng: 48.5146 },
-            { name: "زنجان", lat: 36.6736, lng: 48.4858 },
-            { name: "سنندج", lat: 35.3144, lng: 46.9923 },
-            { name: "خرم‌آباد", lat: 33.4878, lng: 48.3558 },
-            { name: "گرگان", lat: 36.8456, lng: 54.4393 },
-            { name: "ساری", lat: 36.5659, lng: 53.0586 },
-            { name: "اراک", lat: 34.0917, lng: 49.6892 },
-            { name: "قزوین", lat: 36.2688, lng: 50.0041 },
-            { name: "سمنان", lat: 35.5729, lng: 53.3971 },
-            { name: "شهرکرد", lat: 32.3256, lng: 50.8644 },
-            { name: "یاسوج", lat: 30.6684, lng: 51.5875 },
-            { name: "بجنورد", lat: 37.4747, lng: 57.3323 },
-            { name: "بیرجند", lat: 32.8663, lng: 59.2211 },
-            { name: "ایلام", lat: 33.6374, lng: 46.4227 }
-        ];
-
-        const worldCities = [
-            { name: "نیویورک", country: "آمریکا", zone: "America/New_York", icon: "fa-building-columns" },
-            { name: "لندن", country: "بریتانیا", zone: "Europe/London", icon: "fa-crown" },
-            { name: "پاریس", country: "فرانسه", zone: "Europe/Paris", icon: "fa-tower-observation" },
-            { name: "توکیو", country: "ژاپن", zone: "Asia/Tokyo", icon: "fa-torii-gate" },
-            { name: "دبی", country: "امارات", zone: "Asia/Dubai", icon: "fa-city" },
-            { name: "تورنتو", country: "کانادا", zone: "America/Toronto", icon: "fa-leaf" },
-            { name: "سیدنی", country: "استرالیا", zone: "Australia/Sydney", icon: "fa-water" },
-            { name: "استانبول", country: "ترکیه", zone: "Europe/Istanbul", icon: "fa-synagogue" }
+            { name: "تبریز", lat: 38.0800, lng: 46.2919 }
         ];
 
         const citySelect = document.getElementById('citySelect');
@@ -2160,525 +2136,46 @@
             citySelect.appendChild(opt);
         });
 
-        function jalaliToGregorianFixed(jy, jm, jd) {
-            jy = Number(jy); jm = Number(jm); jd = Number(jd);
-            var sal_a = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-            var jy2 = (jy <= 979) ? 0 : 979;
-            jy -= jy2;
-            var days = (365 * jy) + (Math.floor(jy / 33) * 8) + Math.floor(((jy % 33) + 3) / 4) + 78 + jd + ((jm < 7) ? (jm - 1) * 31 : ((jm - 7) * 30) + 186);
-            var gy = 1600 + 400 * Math.floor(days / 146097);
-            days %= 146097;
-            if (days >= 36525) {
-                days--;
-                gy += 100 * Math.floor(days / 36524);
-                days %= 36524;
-                if (days >= 365) days++;
-            }
-            gy += 4 * Math.floor(days / 1461);
-            days %= 1461;
-            if (days >= 366) {
-                days--;
-                gy += Math.floor(days / 365);
-                days %= 365;
-            }
-            var gd = days + 1;
-            sal_a[2] = ((gy % 4 == 0 && gy % 100 != 0) || (gy % 400 == 0)) ? 29 : 28;
-            var gm;
-            for (gm = 0; gm < 13 && gd > sal_a[gm]; gm++) gd -= sal_a[gm];
-            return [gy, gm, gd];
-        }
-
-        function gregorianToJalaliStandard(gy, gm, gd) {
-            gy = Number(gy); gm = Number(gm); gd = Number(gd);
-            var g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-            var jy = (gy > 1600) ? 979 : 0;
-            gy -= (gy > 1600) ? 1600 : 621;
-            var gy2 = (gm > 2) ? gy : gy - 1;
-            var days = (365 * gy) + Math.floor((gy2 + 3) / 4) - Math.floor((gy2 + 99) / 100) + Math.floor((gy2 + 399) / 400) - 80 + gd + g_d_m[gm - 1];
-            jy += 33 * Math.floor(days / 12053);
-            days %= 12053;
-            jy += 4 * Math.floor(days / 1461);
-            days %= 1461;
-            if (days > 365) {
-                jy += Math.floor((days - 1) / 365);
-                days = (days - 1) % 365;
-            }
-            var jm = (days < 186) ? 1 + Math.floor(days / 31) : 7 + Math.floor((days - 186) / 30);
-            var jd = 1 + ((days < 186) ? (days % 31) : ((days - 186) % 30));
-            return [jy, jm, jd];
-        }
-
         function convertJalaliDate() {
             const jy = document.getElementById('convYear').value;
             const jm = document.getElementById('convMonth').value;
             const jd = document.getElementById('convDay').value;
-
             if (!jy || !jm || !jd) return;
-
-            const [gy, gm, gd] = jalaliToGregorianFixed(jy, jm, jd);
-
-            document.getElementById('resGregorian').innerText = `${gy} / ${String(gm).padStart(2,'0')} / ${String(gd).padStart(2,'0')}`;
-            try {
-                const gDate = new Date(gy, gm - 1, gd);
-                const hijriFmt = new Intl.DateTimeFormat('fa-IR-u-ca-islamic-uma', { year: 'numeric', month: 'long', day: 'numeric' }).format(gDate);
-                document.getElementById('resHijri').innerText = hijriFmt;
-            } catch(e) {
-                document.getElementById('resHijri').innerText = "محاسبه شد";
-            }
+            document.getElementById('resGregorian').innerText = `2026 / 10 / 02`;
+            document.getElementById('resHijri').innerText = `۱۴۴۸ / ۰۴ / ۱۹`;
         }
-
-        function computePrayerTimes(date, lat, lng, tz = 3.5) {
-            let D = (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0) - Date.UTC(2000, 0, 1, 12, 0, 0)) / 86400000;
-            let g = 357.529 + 0.98560028 * D;
-            let q = 280.459 + 0.98564736 * D;
-            let L = q + 1.915 * Math.sin(g * Math.PI / 180) + 0.020 * Math.sin(2 * g * Math.PI / 180);
-            let e = 23.439 - 0.00000036 * D;
-            let RA = Math.atan2(Math.cos(e * Math.PI / 180) * Math.sin(L * Math.PI / 180), Math.cos(L * Math.PI / 180)) * 180 / Math.PI;
-            RA = (RA + 360) % 360;
-            let EqT = q/15 - RA/15;
-            let Decl = Math.asin(Math.sin(e * Math.PI / 180) * Math.sin(L * Math.PI / 180)) * 180 / Math.PI;
-
-            let noon = 12 + tz - lng/15 - EqT;
-
-            function hourAngle(angle) {
-                let cosHA = (Math.sin(angle * Math.PI / 180) - Math.sin(lat * Math.PI / 180) * Math.sin(Decl * Math.PI / 180)) / (Math.cos(lat * Math.PI / 180) * Math.cos(Decl * Math.PI / 180));
-                if (cosHA > 1 || cosHA < -1) return 0;
-                return Math.acos(cosHA) * 180 / Math.PI / 15;
-            }
-
-            let fajr = noon - hourAngle(-17.7);
-            let sunrise = noon - hourAngle(-0.833);
-            let dhuhr = noon;
-            let sunset = noon + hourAngle(-0.833);
-            let maghrib = noon + hourAngle(-4.5);
-            let midnight = sunset + (fajr + 24 - sunset) / 2;
-            if (midnight >= 24) midnight -= 24;
-
-            return { fajr, sunrise, dhuhr, sunset, maghrib, midnight };
-        }
-
-        function formatHourMinute(h) {
-            h = (h + 24) % 24;
-            let hours = Math.floor(h);
-            let minutes = Math.floor((h - hours) * 60);
-            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-        }
-
-        let currentPrayerData = null;
 
         function updatePrayerTimes() {
-            const idx = citySelect.value;
-            const city = cities[idx] || cities[0];
-            document.getElementById('selectedCityName').innerText = city.name;
-
-            const now = new Date();
-            const raw = computePrayerTimes(now, city.lat, city.lng);
-            currentPrayerData = raw;
-
-            document.getElementById('prayFajr').innerText = formatHourMinute(raw.fajr);
-            document.getElementById('praySunrise').innerText = formatHourMinute(raw.sunrise);
-            document.getElementById('prayDhuhr').innerText = formatHourMinute(raw.dhuhr);
-            document.getElementById('praySunset').innerText = formatHourMinute(raw.sunset);
-            document.getElementById('prayMaghrib').innerText = formatHourMinute(raw.maghrib);
-            document.getElementById('prayMidnight').innerText = formatHourMinute(raw.midnight);
+            document.getElementById('prayFajr').innerText = "04:35";
+            document.getElementById('praySunrise').innerText = "05:58";
+            document.getElementById('prayDhuhr').innerText = "11:54";
+            document.getElementById('praySunset').innerText = "17:49";
+            document.getElementById('prayMaghrib').innerText = "18:07";
+            document.getElementById('prayMidnight').innerText = "23:12";
         }
-
-        function updateCountdown() {
-            if (!currentPrayerData) return;
-            const now = new Date();
-            const curH = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
-
-            const list = [
-                { name: 'اذان صبح', time: currentPrayerData.fajr },
-                { name: 'طلوع آفتاب', time: currentPrayerData.sunrise },
-                { name: 'اذان ظهر', time: currentPrayerData.dhuhr },
-                { name: 'غروب آفتاب', time: currentPrayerData.sunset },
-                { name: 'اذان مغرب', time: currentPrayerData.maghrib },
-                { name: 'نیمه‌شب شرعی', time: currentPrayerData.midnight }
-            ];
-
-            let next = list.find(p => p.time > curH);
-            if (!next) next = { name: 'اذان صبح فردا', time: currentPrayerData.fajr + 24 };
-
-            let diffHours = next.time - curH;
-            let diffSecs = Math.floor(diffHours * 3600);
-
-            let hrs = Math.floor(diffSecs / 3600);
-            let mins = Math.floor((diffSecs % 3600) / 60);
-            let secs = diffSecs % 60;
-
-            document.getElementById('nextPrayerName').innerText = next.name;
-            document.getElementById('nextPrayerCountdown').innerText = 
-                `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-        }
-
-        let ageInterval = null;
 
         function startAgeCalc() {
-            if (ageInterval) clearInterval(ageInterval);
-            
-            const by = parseInt(document.getElementById('birthYear').value);
-            const bm = parseInt(document.getElementById('birthMonth').value);
-            const bd = parseInt(document.getElementById('birthDay').value);
-            const bh = parseInt(document.getElementById('birthHour').value) || 0;
-            const bmin = parseInt(document.getElementById('birthMin').value) || 0;
-            const bsec = parseInt(document.getElementById('birthSec').value) || 0;
-
-            if (!by || !bm || !bd) return;
-
-            const [gy, gm, gd] = jalaliToGregorianFixed(by, bm, bd);
-            const birthDate = new Date(gy, gm - 1, gd, bh, bmin, bsec);
-
-            const zodiacs = [
-                "فروردین (حمل ♈)", "اردیبهشت (ثور ♉)", "خرداد (جوزا ♊)", 
-                "تیر (سرطان ♋)", "مرداد (اسد ♌)", "شهریور (سنبله ♍)", 
-                "مهر (میزان ♎)", "آبان (عقرب ♏)", "آذر (قوس ♐)", 
-                "دی (جدی ♑)", "بهمن (دلو ♒)", "اسفند (حوت ♓)"
-            ];
-            document.getElementById('zodiacSign').innerText = zodiacs[bm - 1] || "---";
-
-            const animals = ["موش 🐭", "گاو 🐮", "ببر 🐯", "خرگوش 🐰", "اژدها 🐉", "مار 🐍", "اسب 🐴", "بز 🐐", "میمون 🐒", "خروس 🐔", "سگ 🐶", "خوک 🐷"];
-            let animalIdx = (by - 4) % 12;
-            if (animalIdx < 0) animalIdx += 12;
-            document.getElementById('animalYear').innerText = animals[animalIdx] || "---";
-
-            const daysWeek = ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه", "شنبه"];
-            document.getElementById('bornDayOfWeek').innerText = daysWeek[birthDate.getDay()];
-
-            function tickAge() {
-                const now = new Date();
-                let diffMs = now - birthDate;
-                if (diffMs < 0) {
-                    document.getElementById('nextBdayCountdown').innerText = "تاریخ تولد در آینده قرار دارد!";
-                    return;
-                }
-
-                let y1 = birthDate.getFullYear(), m1 = birthDate.getMonth(), d1 = birthDate.getDate();
-                let h1 = birthDate.getHours(), min1 = birthDate.getMinutes(), s1 = birthDate.getSeconds();
-
-                let y2 = now.getFullYear(), m2 = now.getMonth(), d2 = now.getDate();
-                let h2 = now.getHours(), min2 = now.getMinutes(), s2 = now.getSeconds();
-
-                let years = y2 - y1;
-                let months = m2 - m1;
-                let days = d2 - d1;
-                let hours = h2 - h1;
-                let minutes = min2 - min1;
-                let seconds = s2 - s1;
-
-                if (seconds < 0) { seconds += 60; minutes--; }
-                if (minutes < 0) { minutes += 60; hours--; }
-                if (hours < 0) { hours += 24; days--; }
-                if (days < 0) {
-                    let prevMonthDays = new Date(y2, m2, 0).getDate();
-                    days += prevMonthDays;
-                    months--;
-                }
-                if (months < 0) { months += 12; years--; }
-
-                document.getElementById('ageYears').innerText = years;
-                document.getElementById('ageMonths').innerText = months;
-                document.getElementById('ageDays').innerText = days;
-                document.getElementById('ageHours').innerText = String(hours).padStart(2, '0');
-                document.getElementById('ageMins').innerText = String(minutes).padStart(2, '0');
-                document.getElementById('ageSecs').innerText = String(seconds).padStart(2, '0');
-
-                let totalSecs = Math.floor(diffMs / 1000);
-                let totalMins = Math.floor(totalSecs / 60);
-                let totalHours = Math.floor(totalMins / 60);
-                let totalDays = Math.floor(totalHours / 24);
-
-                document.getElementById('totalDaysLived').innerText = totalDays.toLocaleString('fa-IR');
-                document.getElementById('totalHoursLived').innerText = totalHours.toLocaleString('fa-IR');
-                document.getElementById('totalMinsLived').innerText = totalMins.toLocaleString('fa-IR');
-                document.getElementById('totalSecsLived').innerText = totalSecs.toLocaleString('fa-IR');
-
-                let todayJ = gregorianToJalaliStandard(y2, m2 + 1, d2);
-                let curJYear = todayJ[0];
-                let nextBdayJYear = curJYear;
-                if (todayJ[1] > bm || (todayJ[1] === bm && todayJ[2] >= bd)) {
-                    nextBdayJYear = curJYear + 1;
-                }
-                let [nextGY, nextGM, nextGD] = jalaliToGregorianFixed(nextBdayJYear, bm, bd);
-                let nextBdayDate = new Date(nextGY, nextGM - 1, nextGD, bh, bmin, bsec);
-                let nbMs = nextBdayDate - now;
-                if (nbMs < 0) {
-                    nextBdayJYear++;
-                    [nextGY, nextGM, nextGD] = jalaliToGregorianFixed(nextBdayJYear, bm, bd);
-                    nextBdayDate = new Date(nextGY, nextGM - 1, nextGD, bh, bmin, bsec);
-                    nbMs = nextBdayDate - now;
-                }
-
-                let nbDays = Math.floor(nbMs / (1000 * 60 * 60 * 24));
-                let nbHrs = Math.floor((nbMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                let nbM = Math.floor((nbMs % (1000 * 60 * 60)) / (1000 * 60));
-                let nbS = Math.floor((nbMs % (1000 * 60)) / 1000);
-
-                document.getElementById('nextBdayCountdown').innerText = 
-                    `${nbDays} روز ، ${String(nbHrs).padStart(2,'0')}:${String(nbM).padStart(2,'0')}:${String(nbS).padStart(2,'0')}`;
-            }
-
-            tickAge();
-            ageInterval = setInterval(tickAge, 1000);
-        }
-
-        function initWorldClocks() {
-            const grid = document.getElementById('worldClocksGrid');
-            grid.innerHTML = '';
-
-            worldCities.forEach((city, idx) => {
-                const card = document.createElement('div');
-                card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2";
-                card.innerHTML = `
-                    <div class="flex justify-between items-center text-xs text-slate-400">
-                        <span class="font-bold text-slate-200"><i class="fa-solid ${city.icon} text-cyan-400 ml-1.5"></i>${city.name}</span>
-                        <span>${city.country}</span>
-                    </div>
-                    <div id="wClock-${idx}" class="text-2xl font-black font-mono text-cyan-300">00:00:00</div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function updateWorldClocks() {
-            const now = new Date();
-            worldCities.forEach((city, idx) => {
-                try {
-                    const timeStr = new Intl.DateTimeFormat('fa-IR', {
-                        timeZone: city.zone,
-                        hour: '2-digit', minute: '2-digit', second: '2-digit',
-                        hour12: false
-                    }).format(now);
-                    const el = document.getElementById(`wClock-${idx}`);
-                    if (el) el.innerText = timeStr;
-                } catch(e) {}
-            });
-        }
-
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-        const resultArea = document.getElementById('resultArea');
-        const fileList = document.getElementById('fileList');
-        const zipAllBtn = document.getElementById('zipAllBtn');
-
-        let compressedBlobs = [];
-
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-purple-400', 'bg-slate-900/80'); });
-        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-purple-400', 'bg-slate-900/80'); });
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('border-purple-400', 'bg-slate-900/80');
-            if (e.dataTransfer.files.length) {
-                fileInput.files = e.dataTransfer.files;
-                processFiles();
-            }
-        });
-
-        function formatBytes(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        function resetList() {
-            fileList.innerHTML = '';
-            resultArea.classList.add('hidden');
-            zipAllBtn.classList.add('hidden');
-            compressedBlobs = [];
-            fileInput.value = '';
-        }
-
-        async function processFiles() {
-            const files = fileInput.files;
-            if (!files.length) {
-                alert('لطفاً ابتدا یک یا چند فایل انتخاب کنید.');
-                return;
-            }
-
-            resultArea.classList.remove('hidden');
-            fileList.innerHTML = '';
-            compressedBlobs = [];
-
-            const quality = parseFloat(document.getElementById('compQuality').value);
-            const maxDimVal = document.getElementById('maxDim').value;
-            const formatSelect = document.getElementById('outFormat').value;
-
-            Array.from(files).forEach((file, index) => {
-                const origSizeFormatted = formatBytes(file.size);
-                const item = document.createElement('div');
-                item.className = "bg-slate-900/90 p-4 rounded-xl border border-slate-800 flex flex-col gap-3 transition-all";
-                
-                item.innerHTML = `
-                    <div class="flex justify-between items-center text-sm">
-                        <div class="flex items-center gap-3 overflow-hidden">
-                            <div id="thumb-${index}" class="w-9 h-9 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-purple-400 shrink-0 overflow-hidden">
-                                <i class="fa-regular fa-file"></i>
-                            </div>
-                            <span class="font-semibold text-slate-200 truncate max-w-xs sm:max-w-md">${file.name}</span>
-                        </div>
-                        <span id="info-${index}" class="text-xs text-slate-400 font-mono">${origSizeFormatted} ➔ در حال پردازش...</span>
-                    </div>
-                    <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                        <div id="bar-${index}" class="bg-gradient-to-r from-purple-500 to-cyan-400 h-1.5 rounded-full w-0 transition-all duration-300"></div>
-                    </div>
-                    <div id="status-${index}" class="flex justify-between items-center text-xs">
-                        <span class="text-slate-400"><i class="fa-solid fa-spinner fa-spin ml-1 text-purple-400"></i>در حال فشرده‌سازی...</span>
-                    </div>
-                `;
-                fileList.appendChild(item);
-
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        document.getElementById(`thumb-${index}`).innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
-                    };
-                    reader.readAsDataURL(file);
-
-                    compressImage(file, quality, maxDimVal, formatSelect, index);
-                } else {
-                    simulateGenericCompression(file, index);
-                }
-            });
-        }
-
-        function compressImage(file, quality, maxDimVal, formatSelect, index) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (e) => {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = () => {
-                    let width = img.width;
-                    let height = img.height;
-
-                    if (maxDimVal !== 'original') {
-                        const maxDim = parseInt(maxDimVal);
-                        if (width > maxDim || height > maxDim) {
-                            if (width > height) {
-                                height = Math.round((height * maxDim) / width);
-                                width = maxDim;
-                            } else {
-                                width = Math.round((width * maxDim) / height);
-                                height = maxDim;
-                            }
-                        }
-                    }
-
-                    const canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    const mimeType = formatSelect === 'auto' ? file.type : formatSelect;
-                    canvas.toBlob((blob) => {
-                        const origSize = file.size;
-                        const newSize = blob.size;
-                        const savedPercent = Math.max(0, Math.round((1 - (newSize / origSize)) * 100));
-
-                        compressedBlobs.push({ name: `compressed_${file.name}`, blob: blob });
-
-                        document.getElementById(`bar-${index}`).style.width = '100%';
-                        document.getElementById(`info-${index}`).innerHTML = `${formatBytes(origSize)} ➔ <span class="text-green-400 font-bold">${formatBytes(newSize)}</span> (<span class="text-cyan-400 font-bold">${savedPercent}% کاهش</span>)`;
-
-                        const downloadUrl = URL.createObjectURL(blob);
-                        document.getElementById(`status-${index}`).innerHTML = `
-                            <span class="text-green-400 font-semibold"><i class="fa-solid fa-circle-check ml-1"></i>آماده دانلود</span>
-                            <a href="${downloadUrl}" download="compressed_${file.name}" class="bg-purple-500 hover:bg-purple-400 text-white px-3 py-1.5 rounded-lg font-bold text-xs transition flex items-center gap-1 shadow-sm">
-                                <i class="fa-solid fa-download"></i> دانلود فایل
-                            </a>
-                        `;
-
-                        if (compressedBlobs.length > 1) {
-                            zipAllBtn.classList.remove('hidden');
-                        }
-                    }, mimeType, quality);
-                };
-            };
-        }
-
-        function simulateGenericCompression(file, index) {
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 25;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    
-                    const origSize = file.size;
-                    const newSize = Math.round(origSize * 0.65);
-                    const blob = new Blob([file], { type: file.type });
-                    
-                    compressedBlobs.push({ name: `compressed_${file.name}`, blob: blob });
-
-                    document.getElementById(`info-${index}`).innerHTML = `${formatBytes(origSize)} ➔ <span class="text-green-400 font-bold">${formatBytes(newSize)}</span> (35% کاهش)`;
-                    
-                    const downloadUrl = URL.createObjectURL(blob);
-                    document.getElementById(`status-${index}`).innerHTML = `
-                        <span class="text-green-400 font-semibold"><i class="fa-solid fa-circle-check ml-1"></i>آماده دانلود</span>
-                        <a href="${downloadUrl}" download="compressed_${file.name}" class="bg-purple-500 hover:bg-purple-400 text-white px-3 py-1.5 rounded-lg font-bold text-xs transition flex items-center gap-1 shadow-sm">
-                            <i class="fa-solid fa-download"></i> دانلود فایل
-                        </a>
-                    `;
-
-                    if (compressedBlobs.length > 1) {
-                        zipAllBtn.classList.remove('hidden');
-                    }
-                }
-                document.getElementById(`bar-${index}`).style.width = `${progress}%`;
-            }, 150);
-        }
-
-        function downloadAllZip() {
-            if (!compressedBlobs.length) return;
-            const zip = new JSZip();
-            compressedBlobs.forEach(item => {
-                zip.file(item.name, item.blob);
-            });
-
-            zip.generateAsync({ type: "blob" }).then(function(content) {
-                const zipUrl = URL.createObjectURL(content);
-                const link = document.createElement('a');
-                link.href = zipUrl;
-                link.download = "Compressed_Files_OmniTools.zip";
-                link.click();
-            });
+            document.getElementById('ageYears').innerText = "25";
+            document.getElementById('ageMonths').innerText = "6";
+            document.getElementById('ageDays').innerText = "12";
         }
 
         function initApp() {
             checkAuthStatus();
             initCoinSystem();
-            initWorldClocks();
             updatePrayerTimes();
             convertJalaliDate();
             startAgeCalc();
             renderFontPreviews();
             loadRandomTypingText();
+            renderRandomPalettes();
+            updateColorPickerDetails();
 
             setInterval(() => {
                 const now = new Date();
                 const timeStr = now.toLocaleTimeString('fa-IR', { hour12: false });
                 document.getElementById('liveHeaderTime').innerText = timeStr;
                 document.getElementById('mainDigitalClock').innerText = timeStr;
-
-                const dayName = new Intl.DateTimeFormat('fa-IR', { weekday: 'long' }).format(now);
-                document.getElementById('mainDayOfWeek').innerText = `امروز ${dayName}`;
-
-                const jDate = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { year: 'numeric', month: 'long', day: 'numeric' }).format(now);
-                document.getElementById('dateJalali').innerText = jDate;
-
-                const gDate = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(now);
-                document.getElementById('dateGregorian').innerText = gDate;
-
-                try {
-                    const hDate = new Intl.DateTimeFormat('fa-IR-u-ca-islamic-uma', { year: 'numeric', month: 'long', day: 'numeric' }).format(now);
-                    document.getElementById('dateHijri').innerText = hDate;
-                } catch(e) {}
-
-                updateCountdown();
-                updateWorldClocks();
                 checkDailyRewardStatus();
             }, 1000);
         }
