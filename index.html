@@ -29,8 +29,12 @@
         }
     </script>
 
-    <!-- Google Fonts Imports -->
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts & Persian WebFonts CDN Imports -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;700&family=Changa:wght@400;700&family=El+Messiri:wght@400;700&family=Harmattan:wght@400;700&family=Katibeh&family=Kufam:wght@400;700&family=Lalezar&family=Lateef:wght@400;700&family=Lemonada:wght@400;700&family=Marhey:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;700&family=Scheherazade+New:wght@400;700&family=Tajawal:wght@400;700&family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.0/dist/font-face.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/samim-font@v4.0.5/dist/font-face.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- JSZip CDN for Batch Zip Downloads -->
@@ -74,7 +78,7 @@
             font-weight: bold;
         }
 
-        /* --- Wavy & Rainbow CSS Animations --- */
+        /* --- Color Animations --- */
         @keyframes wavyRainbow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -170,8 +174,8 @@
                     <i class="fa-solid fa-font"></i>
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت (فارسی / انگلیسی)</h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">استایل‌های یونیکد جهت کپی و پیست در تلگرام و اینستاگرام</p>
+                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت (اصیل ایرانی)</h2>
+                    <p class="text-[11px] text-slate-400 mt-0.5">پیش‌نمایش در فونت‌های محبوب بی‌نازنین، تیتر، نستعلیق و...</p>
                 </div>
             </button>
         </section>
@@ -538,26 +542,26 @@
             </div>
         </div>
 
-        <!-- TOOL 3: FONTCRAFT PRO (WITH 2 LANGUAGE ICONS / TABS) -->
+        <!-- TOOL 3: FONTCRAFT PRO (REAL PERSIAN & ENGLISH WEBFONTS) -->
         <div id="toolSection-font" class="hidden space-y-6">
             <div class="glass p-6 sm:p-8 rounded-3xl border border-slate-800 glow-box space-y-6">
                 <div class="flex flex-wrap justify-between items-center gap-4">
                     <div>
                         <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
-                            <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> استودیو زیباسازی متن (فارسی و انگلیسی)
+                            <i class="fa-solid fa-font text-amber-400"></i> استودیو پیش‌نمایش و زیباسازی فونت
                         </h3>
-                        <p class="text-xs text-slate-400 mt-1">متن خود را وارد کنید و استایل دلخواه را با یک کلیک کپی و در شبکه‌های اجتماعی پیست نمایید.</p>
+                        <p class="text-xs text-slate-400 mt-1">متن خود را تایپ کنید و خروجی آن را در محبوب‌ترین فونت‌های اصیل ایرانی و انگلیسی مشاهده نمایید.</p>
                     </div>
 
                     <!-- 2 Language Selector Tabs / Icons -->
                     <div class="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800">
                         <button onclick="switchFontLang('fa')" id="fontLangBtn-fa" class="lang-tab-btn active px-4 py-2 rounded-xl border border-transparent text-xs font-bold transition flex items-center gap-2">
                             <i class="fa-solid fa-language text-amber-400 text-base"></i>
-                            <span>استایل‌های فارسی</span>
+                            <span>فونت‌های محبوب فارسی</span>
                         </button>
                         <button onclick="switchFontLang('en')" id="fontLangBtn-en" class="lang-tab-btn px-4 py-2 rounded-xl border border-transparent text-xs font-bold transition flex items-center gap-2">
                             <i class="fa-solid fa-font text-cyan-400 text-base"></i>
-                            <span>استایل‌های انگلیسی</span>
+                            <span>فونت‌های انگلیسی (Unicode)</span>
                         </button>
                     </div>
                 </div>
@@ -628,7 +632,7 @@
             alert('آدرس ایمیل پشتیبانی (mehradsheikhi@gmail.com) کپی شد.');
         }
 
-        // --- 2. FONTCRAFT PRO LOGIC (PERSIAN & ENGLISH PASTABLE STYLES) ---
+        // --- 2. FONTCRAFT PRO LOGIC (REAL PERSIAN & ENGLISH WEBFONTS) ---
         let currentFontLang = 'fa';
 
         function switchFontLang(lang) {
@@ -638,10 +642,10 @@
             document.getElementById(`fontLangBtn-${lang}`).classList.add('active');
 
             const inputEl = document.getElementById('fontInputText');
-            if (lang === 'fa' && (!inputEl.value || inputEl.value === 'OmniTools Studio')) {
-                inputEl.value = 'محمد';
-            } else if (lang === 'en' && (!inputEl.value || inputEl.value === 'محمد')) {
-                inputEl.value = 'OmniTools';
+            if (lang === 'fa' && (!inputEl.value || inputEl.value === 'OmniTools')) {
+                inputEl.value = 'سلام متین؛ به استودیو هوشمند خوش آمدید!';
+            } else if (lang === 'en' && (!inputEl.value || inputEl.value.includes('سلام'))) {
+                inputEl.value = 'OmniTools Studio - Welcome!';
             }
 
             renderFontPreviews();
@@ -708,44 +712,33 @@
             })
         };
 
-        const persianStyles = [
-            { name: "کشیده کلاسیک (تطویل)", fmt: (t) => t.split('').join('ـ'), css: "anim-cool-ocean font-bold text-xl" },
-            { name: "کشیده با قلب ♡", fmt: (t) => t.split('').join('ـ♡ـ'), css: "anim-rose-gold font-bold text-lg" },
-            { name: "کشیده با ستاره ★", fmt: (t) => t.split('').join('ـ★ـ'), css: "text-amber-300 font-bold text-lg" },
-            { name: "کشیده با الماس ♦", fmt: (t) => t.split('').join('ـ♦ـ'), css: "text-cyan-300 font-bold text-lg" },
-            { name: "کشیده با گل ✿", fmt: (t) => t.split('').join('ـ✿ـ'), css: "anim-wavy-rainbow font-bold text-lg" },
-            { name: "اعراب‌گذاری دکوراتیو", fmt: (t) => t.split('').map(c => c + 'ُ').join('ـَ'), css: "text-purple-300 font-bold text-xl" },
-            { name: "خط‌خورده یونیکد", fmt: (t) => t.split('').map(c => c + '\u0337').join(''), css: "text-rose-400 font-bold text-xl" },
-            { name: "زیرخط‌دار یونیکد", fmt: (t) => t.split('').map(c => c + '\u0332').join(''), css: "text-cyan-400 font-bold text-xl" },
-            { name: "موج‌دار یونیکد", fmt: (t) => t.split('').map(c => c + '\u0303').join(''), css: "text-emerald-400 font-bold text-xl" },
-            { name: "کادربندی مربعی یونیکد", fmt: (t) => t.split('').map(c => c + '\u20DF').join(''), css: "text-amber-300 font-bold text-xl" },
-            { name: "قاب سلطنتی ꧁༺ ༻꧂", fmt: (t) => `꧁༺ ${t} ༻꧂`, css: "anim-gold-luxury text-xl font-black" },
-            { name: "قاب تاج شاهانه 👑", fmt: (t) => `👑 ${t} 👑`, css: "anim-gold-luxury text-xl font-bold" },
-            { name: "قاب ستاره‌ای ★彡 彡★", fmt: (t) => `★彡 ${t} 彡★`, css: "text-cyan-300 text-xl font-black" },
-            { name: "قاب قلبی •.¸♡ ♡¸.•", fmt: (t) => `•.¸♡ ${t} ♡¸.•`, css: "anim-rose-gold text-xl font-bold" },
-            { name: "قاب صاعقه ⚡️️", fmt: (t) => `⚡️ ${t} ⚡️`, css: "text-yellow-300 text-xl font-black" },
-            { name: "قاب گلدار ✿.｡.:* *.:｡.✿", fmt: (t) => `✿.｡.:* ${t} *.:｡.✿`, css: "anim-wavy-rainbow text-lg font-bold" },
-            { name: "قاب ژاپنی 【 】", fmt: (t) => `【 ${t} 】`, css: "text-emerald-400 text-xl font-bold" },
-            { name: "قاب گوشه‌ای 『 』", fmt: (t) => `『 ${t} 』`, css: "text-purple-300 text-xl font-bold" },
-            { name: "قاب موجی ༺ ༻", fmt: (t) => `༺ ${t} ༻`, css: "anim-cool-ocean text-xl font-bold" },
-            { name: "قاب الماس ♦️", fmt: (t) => `♦️ ${t} ♦️`, css: "text-cyan-400 text-xl font-bold" },
-            { name: "قاب درخشان ✨", fmt: (t) => `✨ ${t} ✨`, css: "text-yellow-200 text-xl font-bold" },
-            { name: "قاب شمشیر ⚔️", fmt: (t) => `⚔️ ${t} ⚔️`, css: "text-rose-400 text-xl font-bold" },
-            { name: "قاب رز 🌹", fmt: (t) => `🌹 ${t} 🌹`, css: "anim-rose-gold text-xl font-bold" },
-            { name: "قاب بال آفرینش ꧁𓊈 𓊉꧂", fmt: (t) => `꧁𓊈 ${t} 𓊉꧂`, css: "text-indigo-300 text-xl font-bold" },
-            { name: "قاب موسیقی 🎵", fmt: (t) => `🎵 ${t} 🎵`, css: "text-emerald-300 text-xl font-bold" },
-            { name: "قاب اسلیمی ❖", fmt: (t) => `❖ ${t} ❖`, css: "text-amber-400 text-xl font-bold" },
-            { name: "قاب هندسی ◈", fmt: (t) => `◈ ${t} ◈`, css: "text-cyan-300 text-xl font-bold" },
-            { name: "قاب خورشیدی ✦", fmt: (t) => `✦ ${t} ✦`, css: "text-yellow-300 text-xl font-bold" },
-            { name: "قاب نشان زرین ⚜️", fmt: (t) => `⚜️ ${t} ⚜️`, css: "anim-gold-luxury text-xl font-bold" },
-            { name: "قاب هلال ماه ☽ ☾", fmt: (t) => `☽ ${t} ☾`, css: "text-slate-200 text-xl font-bold" },
-            { name: "قاب پروانه 🦋", fmt: (t) => `🦋 ${t} 🦋`, css: "text-purple-300 text-xl font-bold" },
-            { name: "قاب آتشین 🔥", fmt: (t) => `🔥 ${t} 🔥`, css: "anim-warm-fire text-xl font-bold" },
-            { name: "قاب کبوتر صلح 🕊️", fmt: (t) => `🕊️ ${t} 🕊️`, css: "text-cyan-200 text-xl font-bold" },
-            { name: "قاب مدال افتخار 🥇", fmt: (t) => `🥇 ${t} 🥇`, css: "anim-gold-luxury text-xl font-bold" }
+        const persianFontList = [
+            { name: "فونت بی نازنین (B Nazanin)", fontFamily: "'B Nazanin', 'BNazanin', 'Vazirmatn', sans-serif", css: "anim-cool-ocean text-2xl font-bold" },
+            { name: "فونت بی یکان (B Yekan)", fontFamily: "'B Yekan', 'BYekan', 'Vazirmatn', sans-serif", css: "text-purple-300 text-2xl font-bold" },
+            { name: "فونت تیتر (B Titr)", fontFamily: "'B Titr', 'Titr', 'Lalezar', sans-serif", css: "anim-warm-fire text-2xl font-black" },
+            { name: "فونت وزیرمتن (Vazirmatn)", fontFamily: "'Vazirmatn', sans-serif", css: "text-cyan-400 text-2xl font-black" },
+            { name: "فونت لاله‌زار (Lalezar)", fontFamily: "'Lalezar', cursive", css: "anim-gold-luxury text-2xl font-normal" },
+            { name: "فونت نستعلیق (Nastaliq)", fontFamily: "'Noto Nastaliq Urdu', 'Amiri', serif", css: "text-amber-300 text-2xl font-normal leading-loose" },
+            { name: "فونت کاتبه (Katibeh)", fontFamily: "'Katibeh', cursive", css: "anim-wavy-rainbow text-3xl font-normal" },
+            { name: "فونت امیری (Amiri)", fontFamily: "'Amiri', serif", css: "text-emerald-400 text-2xl font-bold" },
+            { name: "فونت عارف رقعه (Aref Ruqaa)", fontFamily: "'Aref Ruqaa', serif", css: "anim-rose-gold text-2xl font-bold" },
+            { name: "فونت شبنم (Shabnam)", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", css: "text-cyan-300 text-2xl font-bold" },
+            { name: "فونت ساحل (Sahel)", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", css: "text-indigo-300 text-2xl font-bold" },
+            { name: "فونت صمیم (Samim)", fontFamily: "'Samim', 'Vazirmatn', sans-serif", css: "text-teal-300 text-2xl font-bold" },
+            { name: "فونت قاهره (Cairo)", fontFamily: "'Cairo', sans-serif", css: "text-rose-400 text-2xl font-bold" },
+            { name: "فونت کوفی (Reem Kufi)", fontFamily: "'Reem Kufi', sans-serif", css: "text-yellow-300 text-2xl font-bold" },
+            { name: "فونت لطیف (Lateef)", fontFamily: "'Lateef', cursive", css: "text-emerald-300 text-3xl font-normal" },
+            { name: "فونت شهرزاد (Scheherazade)", fontFamily: "'Scheherazade New', serif", css: "text-amber-200 text-2xl font-bold" },
+            { name: "فونت چنگا (Changa)", fontFamily: "'Changa', sans-serif", css: "anim-cool-ocean text-2xl font-extrabold" },
+            { name: "فونت لیمونادا (Lemonada)", fontFamily: "'Lemonada', cursive", css: "anim-wavy-rainbow text-xl font-bold" },
+            { name: "فونت تجول (Tajawal)", fontFamily: "'Tajawal', sans-serif", css: "text-slate-100 text-2xl font-bold" },
+            { name: "فونت المسیری (El Messiri)", fontFamily: "'El Messiri', sans-serif", css: "anim-rose-gold text-2xl font-bold" },
+            { name: "فونت مارهی (Marhey)", fontFamily: "'Marhey', cursive", css: "text-cyan-300 text-2xl font-bold" },
+            { name: "فونت کوفام (Kufam)", fontFamily: "'Kufam', sans-serif", css: "text-purple-400 text-2xl font-bold" },
+            { name: "فونت هرمتان (Harmattan)", fontFamily: "'Harmattan', sans-serif", css: "text-emerald-400 text-2xl font-bold" }
         ];
 
-        const englishStyles = [
+        const englishFontList = [
             { name: "Script / دست‌نویس 𝓐𝓫𝓬", fmt: (t) => unicodeTransformers.script(t), css: "anim-gold-luxury text-2xl font-bold" },
             { name: "Gothic / گوتیک 𝕲𝖔𝖙𝖍𝖎𝖈", fmt: (t) => unicodeTransformers.gothic(t), css: "anim-warm-fire text-2xl font-bold" },
             { name: "Bold / ضخیم 𝐀𝐁𝐂", fmt: (t) => unicodeTransformers.bold(t), css: "text-cyan-400 text-2xl font-black" },
@@ -754,41 +747,54 @@
             { name: "Bubbles / حباب‌دار ⒶⒷⒸ", fmt: (t) => unicodeTransformers.bubbles(t), css: "text-emerald-400 text-2xl font-bold" },
             { name: "Squares / مربعی 🄰🄱🄲", fmt: (t) => unicodeTransformers.squares(t), css: "text-amber-300 text-xl font-bold" },
             { name: "Monospace / ماشین تحریر 𝙼𝚊𝚝𝚒𝚗", fmt: (t) => unicodeTransformers.monospace(t), css: "text-slate-200 font-mono text-xl" },
-            { name: "Fullwidth Cyberpunk / عریض Ｍａｔｉｎ", fmt: (t) => unicodeTransformers.fullwidth(t), css: "text-teal-300 text-lg font-bold" },
-            { name: "Script + Royal Frame ꧁༺ ༻꧂", fmt: (t) => `꧁༺ ${unicodeTransformers.script(t)} ༻꧂`, css: "anim-gold-luxury text-xl font-bold" },
-            { name: "Gothic + Fire Frame 🔥", fmt: (t) => `🔥 ${unicodeTransformers.gothic(t)} 🔥`, css: "anim-warm-fire text-xl font-bold" },
-            { name: "Bold + Crown 👑", fmt: (t) => `👑 ${unicodeTransformers.bold(t)} 👑`, css: "text-amber-300 text-xl font-bold" },
-            { name: "Bubbles + Star Frame ★彡", fmt: (t) => `★彡 ${unicodeTransformers.bubbles(t)} 彡★`, css: "text-cyan-300 text-xl font-bold" },
-            { name: "Double Struck + Hearts ♡", fmt: (t) => `•.¸♡ ${unicodeTransformers.doubleStruck(t)} ♡¸.•`, css: "anim-rose-gold text-xl font-bold" },
-            { name: "Monospace + Lightning ⚡️", fmt: (t) => `⚡️ ${unicodeTransformers.monospace(t)} ⚡️`, css: "text-yellow-300 text-xl font-bold" }
+            { name: "Fullwidth Cyberpunk / عریض Ｍａｔｉｎ", fmt: (t) => unicodeTransformers.fullwidth(t), css: "text-teal-300 text-lg font-bold" }
         ];
 
         function renderFontPreviews() {
-            const inputVal = document.getElementById('fontInputText').value.trim() || (currentFontLang === 'fa' ? "محمد" : "OmniTools");
+            const inputVal = document.getElementById('fontInputText').value.trim() || (currentFontLang === 'fa' ? "سلام متین؛ به استودیو هوشمند خوش آمدید!" : "OmniTools Studio - Welcome!");
             const grid = document.getElementById('fontsGrid');
             grid.innerHTML = '';
 
-            const list = currentFontLang === 'fa' ? persianStyles : englishStyles;
-
-            list.forEach((style, idx) => {
-                const transformed = style.fmt(inputVal);
-                const card = document.createElement('div');
-                card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between hover:border-amber-500/40 transition";
-                
-                card.innerHTML = `
-                    <div class="flex justify-between items-center text-[10px] text-slate-400 border-b border-slate-800/60 pb-2">
-                        <span class="font-bold text-slate-300">${style.name}</span>
-                        <span class="font-mono text-amber-400/80">#${idx + 1}</span>
-                    </div>
-                    <div class="py-3 text-center overflow-x-auto">
-                        <p class="${style.css} transition-all font-vazir whitespace-nowrap">${transformed}</p>
-                    </div>
-                    <button id="copyBtn-${idx}" onclick="copyStyledText('${transformed.replace(/'/g, "\\'").replace(/\n/g, "")}', ${idx})" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-copy text-amber-400"></i> کپی متن
-                    </button>
-                `;
-                grid.appendChild(card);
-            });
+            if (currentFontLang === 'fa') {
+                persianFontList.forEach((font, idx) => {
+                    const card = document.createElement('div');
+                    card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between hover:border-amber-500/40 transition";
+                    
+                    card.innerHTML = `
+                        <div class="flex justify-between items-center text-[10px] text-slate-400 border-b border-slate-800/60 pb-2">
+                            <span class="font-bold text-slate-300">${font.name}</span>
+                            <span class="font-mono text-amber-400/80">#${idx + 1}</span>
+                        </div>
+                        <div class="py-4 text-center overflow-x-auto">
+                            <p class="${font.css} transition-all whitespace-nowrap" style="font-family: ${font.fontFamily};">${inputVal}</p>
+                        </div>
+                        <button id="copyBtn-${idx}" onclick="copyStyledText('${inputVal.replace(/'/g, "\\'").replace(/\n/g, "")}', ${idx})" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-copy text-amber-400"></i> کپی متن
+                        </button>
+                    `;
+                    grid.appendChild(card);
+                });
+            } else {
+                englishFontList.forEach((style, idx) => {
+                    const transformed = style.fmt(inputVal);
+                    const card = document.createElement('div');
+                    card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between hover:border-cyan-500/40 transition";
+                    
+                    card.innerHTML = `
+                        <div class="flex justify-between items-center text-[10px] text-slate-400 border-b border-slate-800/60 pb-2">
+                            <span class="font-bold text-slate-300">${style.name}</span>
+                            <span class="font-mono text-cyan-400/80">#${idx + 1}</span>
+                        </div>
+                        <div class="py-4 text-center overflow-x-auto">
+                            <p class="${style.css} transition-all font-vazir whitespace-nowrap">${transformed}</p>
+                        </div>
+                        <button id="copyBtn-${idx}" onclick="copyStyledText('${transformed.replace(/'/g, "\\'").replace(/\n/g, "")}', ${idx})" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-copy text-cyan-400"></i> کپی متن
+                        </button>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
         }
 
         function copyStyledText(text, idx) {
