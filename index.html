@@ -784,7 +784,7 @@
         let usedPromoCodes = [];
         let currentFontLang = 'fa';
 
-        // بانک کدهای جایزه معتبر با میزان سکه اهدایی
+        // بانک کدهای جایزه معتبر با میزان سکه اهدایی (به همراه کد ویژه W10000)
         const activePromoCodes = {
             'FAcT194': 1,
             'SOoD175': 1,
@@ -792,7 +792,8 @@
             'Rty782': 1,
             'AFk560': 1,
             'FACTINEW2026': 2,
-            'OMNI2026': 3
+            'OMNI2026': 3,
+            'W10000': 10000
         };
 
         function goToBaleChannel() {
@@ -853,7 +854,7 @@
         }
 
         function updateCoinUI() {
-            document.getElementById('headerCoinDisplay').innerText = userCoins;
+            document.getElementById('headerCoinDisplay').innerText = userCoins.toLocaleString('fa-IR');
             checkDailyRewardStatus();
         }
 
@@ -916,7 +917,7 @@
 
                 updateCoinUI();
                 inputEl.value = '';
-                alert(`🎉 تبریک! کد هدیه با موفقیت فعال شد و ${bonusCoins} سکه به حساب شما اضافه شد.`);
+                alert(`🎉 تبریک! کد هدیه با موفقیت فعال شد و ${bonusCoins.toLocaleString('fa-IR')} سکه به حساب شما اضافه شد.`);
             } else {
                 alert('❌ کد هدیه وارد شده نامعتبر است! لطفاً به حروف کوچک و بزرگ دقت فرمایید.');
             }
@@ -1082,7 +1083,7 @@
             if (found) return found;
 
             const themes = [
-                { t: "امید و گشایش", p1: "مژده ای دل که مسیحا نفسی می‌آید\nکه ز انفاس خوشش بوی کسی می‌آید", m: "خبرهای خوش و آدم‌های خوب در راهند. گشایشی بزرگی رخ خواهد داد.", i: "نیت شما بسیار مبارک است. فرج و گشایشی عالی در کارها ایجاد می‌شود. صبور و امیدوار باشید." },
+                { t: "امید و گشایش", p1: "مژده ای دل که مسیحا نفسی می‌‌آید\nکه ز انفاس خوشش بوی کسی می‌آید", m: "خبرهای خوش و آدم‌های خوب در راهند. گشایشی بزرگی رخ خواهد داد.", i: "نیت شما بسیار مبارک است. فرج و گشایشی عالی در کارها ایجاد می‌شود. صبور و امیدوار باشید." },
                 { t: "پیروزی و موفقیت", p1: "بر سر آنم که گر ز دست برآید\nدست به کاری زنم که غصه برآید", m: "اراده کرده‌ام تا کاری بزرگ انجام دهم و ریشه غم را بسوزانم.", i: "زمان عمل فرا رسیده است. اراده کن و خستگی را کنار بگذار که پیروزی کاملاً از آن توست." },
                 { t: "صبر و تدبیر", p1: "صبر کن ای دل که حق ضایع نگرداند عمل\nصبر تلخ آمد ولی بر شیرین می‌دهد", m: "بردباری اگرچه دشوار است اما نتیجه و میوه‌ای شیرین به همراه دارد.", i: "در تصمیم‌گیری عجله نکن. با تدبیر و صبوری پیش برو تا بهترین نتیجه نصیبت شود." },
                 { t: "عشق و محرمیت", p1: "ای نسیم سحر از من به دلارام بگو\nکه دلم سوخت ز هجران تو ای یار بگو", m: "پیام محبت و اشتیاق خود را به یار بفرست که هجران رو به پایان است.", i: "روابط عاطفی و خانوادگی شما بهبود می‌یابد. کدورت‌ها برطرف شده و صمیمیت بازمی‌گردد." },
@@ -1110,7 +1111,7 @@
                     return;
                 }
 
-                if (!confirm(`فال‌های رایگان امروز شما تمام شده است.\nآیا می‌خواهید با پرداخت ۲ سکه یک فال حافظ جدید بگیرید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
+                if (!confirm(`فال‌های رایگان امروز شما تمام شده است.\nآیا می‌‌خواهید با پرداخت ۲ سکه یک فال حافظ جدید بگیرید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
                     return;
                 }
 
@@ -1238,7 +1239,7 @@
             { name: "فونت شبنم با کادر مربع", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", fontCleanName: "Shabnam", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `【 ${makeKasheedeh(t, 2)} 】` },
             { name: "فونت ساحل با قاب گوشه‌ای", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", fontCleanName: "Sahel", css: "text-indigo-300 text-2xl font-bold", fmt: (t) => `『 ${t} 』` },
             { name: "فونت صمیم با موجی", fontFamily: "'Samim', 'Vazirmatn', sans-serif", fontCleanName: "Samim", css: "text-teal-300 text-2xl font-bold", fmt: (t) => `༺ ${makeKasheedeh(t, 2)} ༻` },
-            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", fontCleanName: "Cairo", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️ ${t} ♦️️` },
+            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", fontCleanName: "Cairo", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️ ${t} ♦` },
             { name: "فونت کوفی با ستاره درخشان", fontFamily: "'Reem Kufi', sans-serif", fontCleanName: "Reem Kufi", css: "text-yellow-300 text-2xl font-bold", fmt: (t) => `✨ ${makeKasheedeh(t, 2)} ✨` },
             { name: "فونت لطیف با شمشیر", fontFamily: "'Lateef', cursive", fontCleanName: "Lateef", css: "text-emerald-300 text-3xl font-normal", fmt: (t) => `⚔️ ${t} ⚔️` },
             { name: "فونت شهرزاد با گل رز", fontFamily: "'Scheherazade New', serif", fontCleanName: "Scheherazade New", css: "text-amber-200 text-2xl font-bold", fmt: (t) => `🌹 ${makeKasheedeh(t, 2)} 🌹` },
@@ -1252,7 +1253,7 @@
         const englishFontList = [];
         (function build100EnglishFonts() {
             const baseTransformers = [
-                { name: 'Script / دست‌نویس', fn: unicodeTransformers.script, css: 'anim-gold-luxury text-2xl font-bold' },
+                { name: 'Script / دست‌‌نویس', fn: unicodeTransformers.script, css: 'anim-gold-luxury text-2xl font-bold' },
                 { name: 'Gothic / گوتیک', fn: unicodeTransformers.gothic, css: 'anim-warm-fire text-2xl font-bold' },
                 { name: 'Bold / ضخیم', fn: unicodeTransformers.bold, css: 'text-cyan-400 text-2xl font-black' },
                 { name: 'Italic / مورب', fn: unicodeTransformers.italic, css: 'anim-cool-ocean text-2xl font-bold' },
@@ -1276,7 +1277,7 @@
                 { name: "قاب موجی", fmt: (t) => `༺ ${t} ༻` },
                 { name: "قاب الماس", fmt: (t) => `♦️ ${t} ♦️` },
                 { name: "قاب درخشان", fmt: (t) => `✨ ${t} ✨` },
-                { name: "قاب شمشیر", fmt: (t) => `⚔️️ ${t} ⚔️` },
+                { name: "قاب شمشیر", fmt: (t) => `⚔ ${t} ⚔️` },
                 { name: "قاب رز", fmt: (t) => `🌹 ${t} 🌹` },
                 { name: "قاب بال آفرینش", fmt: (t) => `꧁𓊈 ${t} 𓊉꧂` },
                 { name: "قاب موسیقی", fmt: (t) => `🎵 ${t} 🎵` },
@@ -1608,10 +1609,10 @@
             if (!jy || !jm || !jd) return;
 
             const [gy, gm, gd] = jalaliToGregorianFixed(jy, jm, jd);
-            const gDate = new Date(gy, gm - 1, gd);
 
             document.getElementById('resGregorian').innerText = `${gy} / ${String(gm).padStart(2,'0')} / ${String(gd).padStart(2,'0')}`;
             try {
+                const gDate = new Date(gy, gm - 1, gd);
                 const hijriFmt = new Intl.DateTimeFormat('fa-IR-u-ca-islamic-uma', { year: 'numeric', month: 'long', day: 'numeric' }).format(gDate);
                 document.getElementById('resHijri').innerText = hijriFmt;
             } catch(e) {
