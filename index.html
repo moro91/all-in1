@@ -36,8 +36,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/samim-font@v4.0.5/dist/font-face.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- JSZip CDN for Batch Zip Downloads -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     <style>
@@ -77,8 +75,6 @@
             color: #fbbf24;
             font-weight: bold;
         }
-
-        /* --- Color Animations --- */
         @keyframes wavyRainbow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -128,9 +124,7 @@
                 </div>
             </div>
 
-            <!-- Header Right Section: Coins Badge & Support -->
             <div class="flex items-center gap-2 sm:gap-3">
-                <!-- Coin Counter Badge -->
                 <div class="bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full flex items-center gap-2">
                     <i class="fa-solid fa-coins text-amber-400 text-sm"></i>
                     <span class="text-xs font-black text-amber-300 font-mono" id="headerCoinDisplay">0</span>
@@ -601,10 +595,9 @@
                         <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
                             <i class="fa-solid fa-font text-amber-400"></i> استودیو پیش‌نمایش و آنلاک فونت‌ها
                         </h3>
-                        <p class="text-xs text-slate-400 mt-1">هر فونت دلخواه را با ۲ سکه برای خود آنلاک کنید، یا جهت دریافت کدهای جایزه در کانال بله عضو شوید.</p>
+                        <p class="text-xs text-slate-400 mt-1">امکان کپی متن کشیده و نمادین، یا کپی مستقیم «عکس واقعی فونت (PNG)» جهت ارسال در بله و تلگرام.</p>
                     </div>
 
-                    <!-- Language Selector Tabs & Fast Buy Support -->
                     <div class="flex flex-wrap items-center gap-2">
                         <a href="https://ble.ir/factinew" target="_blank" class="bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 hover:from-cyan-500/30 hover:to-emerald-500/30 border border-cyan-500/40 text-cyan-300 text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-md">
                             <i class="fa-solid fa-paper-plane text-cyan-400"></i> عضویت در بله (@factinew)
@@ -665,13 +658,11 @@
 
     <!-- Logic Script -->
     <script>
-        // --- 0. DAILY COIN SYSTEM & PROMO CODE STORE LOGIC ---
         let userCoins = 0;
         let lastClaimTime = 0;
         let unlockedFonts = [];
         let usedPromoCodes = [];
 
-        // Active Case-Sensitive Promo Codes (Code -> 1 Free Coin)
         const activePromoCodes = {
             'FAcT194': 1,
             'SOoD175': 1,
@@ -681,19 +672,16 @@
         };
 
         function initCoinSystem() {
-            // Load Coins
             const savedCoins = localStorage.getItem('omni_user_coins');
             if (savedCoins === null) {
-                userCoins = 2; // Welcome Bonus: 2 Coins
+                userCoins = 2;
                 localStorage.setItem('omni_user_coins', userCoins);
             } else {
                 userCoins = parseInt(savedCoins) || 0;
             }
 
-            // Load Last Claim
             lastClaimTime = parseInt(localStorage.getItem('omni_last_claim_time')) || 0;
 
-            // Load Unlocked Fonts (Default unlocked: 0, 1, 3 -> Vazirmatn, Nazanin, Yekan)
             const savedUnlocked = localStorage.getItem('omni_unlocked_fonts');
             if (savedUnlocked === null) {
                 unlockedFonts = [0, 1, 3];
@@ -706,7 +694,6 @@
                 }
             }
 
-            // Load Used Promo Codes
             const savedUsedCodes = localStorage.getItem('omni_used_codes');
             if (savedUsedCodes !== null) {
                 try {
@@ -761,14 +748,13 @@
 
         function redeemPromoCode() {
             const inputEl = document.getElementById('promoCodeInput');
-            const code = inputEl.value.trim(); // Strict Exact Match (Case-Sensitive)
+            const code = inputEl.value.trim();
 
             if (!code) {
                 alert('لطفاً کد هدیه را وارد کنید.');
                 return;
             }
 
-            // Limit: 1 Code per User
             if (usedPromoCodes.length >= 1) {
                 alert('⚠️ شما قبلاً از کد هدیه استفاده کرده‌‌اید! هر کاربر فقط مجاز به ثبت ۱ کد هدیه می‌باشد.');
                 return;
@@ -812,7 +798,6 @@
             }
         }
 
-        // --- 1. MAIN TOOLS SWITCHER ---
         function switchMainTool(tool) {
             ['time', 'compressor', 'font'].forEach(t => {
                 document.getElementById(`toolSection-${t}`).classList.add('hidden');
@@ -836,7 +821,6 @@
             alert('آدرس ایمیل پشتیبانی (mehradsheikhi@gmail.com) کپی شد.');
         }
 
-        // --- 2. FONTCRAFT PRO LOGIC (100 ENGLISH UNICODE & PERSIAN WEBFONTS WITH UNICODE TRANSFORMERS) ---
         let currentFontLang = 'fa';
 
         function switchFontLang(lang) {
@@ -855,7 +839,6 @@
             renderFontPreviews();
         }
 
-        // --- Persian Character Extensions (Kasheedeh & Diacritics) ---
         function makeKasheedeh(str, level = 2) {
             const fill = 'ـ'.repeat(level);
             return str.replace(/([بپتثجچحخسشصضطظعغفقکگلمنوهی])/g, `$1${fill}`);
@@ -934,29 +917,28 @@
         };
 
         const persianFontList = [
-            { name: "فونت کشیده استاندارد (قابل پیست در بله)", fontFamily: "'Vazirmatn', sans-serif", css: "text-cyan-400 text-2xl font-black", fmt: (t) => makeKasheedeh(t, 2) },
-            { name: "فونت فوق کشیده شاهانه", fontFamily: "'Lalezar', cursive", css: "anim-gold-luxury text-2xl font-normal", fmt: (t) => `꧁༺ ${makeKasheedeh(t, 4)} ༻꧂` },
-            { name: "فونت کشیده همراه با اعراب", fontFamily: "'Noto Nastaliq Urdu', 'Amiri', serif", css: "text-amber-300 text-2xl font-normal leading-loose", fmt: (t) => makeDiacritics(makeKasheedeh(t, 2)) },
-            { name: "فونت وزیرمتن با قاب گلدار", fontFamily: "'Vazirmatn', sans-serif", css: "text-cyan-400 text-2xl font-black", fmt: (t) => `✿.｡.:* ${t} *.:｡.✿` },
-            { name: "فونت لاله‌زار با تاج شاهی", fontFamily: "'Lalezar', cursive", css: "anim-gold-luxury text-2xl font-normal", fmt: (t) => `👑 ${t} 👑` },
-            { name: "فونت کاتبه با قاب ستاره‌ای", fontFamily: "'Katibeh', cursive", css: "anim-wavy-rainbow text-3xl font-normal", fmt: (t) => `★彡 ${t} 彡★` },
-            { name: "فونت امیری با صاعقه", fontFamily: "'Amiri', serif", css: "text-emerald-400 text-2xl font-bold", fmt: (t) => `⚡️ ${makeKasheedeh(t, 2)} ⚡️` },
-            { name: "فونت عارف رقعه با قلبی", fontFamily: "'Aref Ruqaa', serif", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `•.¸♡ ${t} ♡¸.•` },
-            { name: "فونت شبنم با کادر مربع", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `【 ${makeKasheedeh(t, 2)} 】` },
-            { name: "فونت ساحل با قاب گوشه‌ای", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", css: "text-indigo-300 text-2xl font-bold", fmt: (t) => `『 ${t} 』` },
-            { name: "فونت صمیم با موجی", fontFamily: "'Samim', 'Vazirmatn', sans-serif", css: "text-teal-300 text-2xl font-bold", fmt: (t) => `༺ ${makeKasheedeh(t, 3)} ༻` },
-            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️ ${t} ♦️` },
-            { name: "فونت کوفی با ستاره درخشان", fontFamily: "'Reem Kufi', sans-serif", css: "text-yellow-300 text-2xl font-bold", fmt: (t) => `✨ ${makeKasheedeh(t, 2)} ✨` },
-            { name: "فونت لطیف با شمشیر", fontFamily: "'Lateef', cursive", css: "text-emerald-300 text-3xl font-normal", fmt: (t) => `⚔️ ${t} ⚔️` },
-            { name: "فونت شهرزاد با گل رز", fontFamily: "'Scheherazade New', serif", css: "text-amber-200 text-2xl font-bold", fmt: (t) => `🌹 ${makeKasheedeh(t, 2)} 🌹` },
-            { name: "فونت چنگا با بال آفرینش", fontFamily: "'Changa', sans-serif", css: "anim-cool-ocean text-2xl font-extrabold", fmt: (t) => `꧁𓊈 ${t} 𓊉꧂` },
-            { name: "فونت لیمونادا با نت موسیقی", fontFamily: "'Lemonada', cursive", css: "anim-wavy-rainbow text-xl font-bold", fmt: (t) => `🎵 ${t} 🎵` },
-            { name: "فونت تجول با قاب اسلیمی", fontFamily: "'Tajawal', sans-serif", css: "text-slate-100 text-2xl font-bold", fmt: (t) => `❖ ${makeKasheedeh(t, 2)} ❖` },
-            { name: "فونت المسیری با هندسی", fontFamily: "'El Messiri', sans-serif", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `◈ ${t} ◈` },
-            { name: "فونت مارهی با خورشیدی", fontFamily: "'Marhey', cursive", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `✦ ${makeKasheedeh(t, 2)} ✦` }
+            { name: "فونت کشیده استاندارد", fontFamily: "'Vazirmatn', sans-serif", fontCleanName: "Vazirmatn", css: "text-cyan-400 text-2xl font-black", fmt: (t) => makeKasheedeh(t, 2) },
+            { name: "فونت لاله‌زار با تاج شاهی", fontFamily: "'Lalezar', cursive", fontCleanName: "Lalezar", css: "anim-gold-luxury text-2xl font-normal", fmt: (t) => `👑 ${t} 👑` },
+            { name: "فونت نستعلیق با قاب ستاره", fontFamily: "'Noto Nastaliq Urdu', 'Amiri', serif", fontCleanName: "Noto Nastaliq Urdu", css: "text-amber-300 text-2xl font-normal leading-loose", fmt: (t) => `★彡 ${t} 彡★` },
+            { name: "فونت وزیرمتن با قاب گلدار", fontFamily: "'Vazirmatn', sans-serif", fontCleanName: "Vazirmatn", css: "text-cyan-400 text-2xl font-black", fmt: (t) => `✿.｡.:* ${t} *.:｡.✿` },
+            { name: "فونت فوق کشیده شاهانه", fontFamily: "'Lalezar', cursive", fontCleanName: "Lalezar", css: "anim-gold-luxury text-2xl font-normal", fmt: (t) => `꧁༺ ${makeKasheedeh(t, 3)} ༻꧂` },
+            { name: "فونت کاتبه با قاب موجی", fontFamily: "'Katibeh', cursive", fontCleanName: "Katibeh", css: "anim-wavy-rainbow text-3xl font-normal", fmt: (t) => `•.¸♡ ${t} ♡¸.•` },
+            { name: "فونت امیری با صاعقه", fontFamily: "'Amiri', serif", fontCleanName: "Amiri", css: "text-emerald-400 text-2xl font-bold", fmt: (t) => `⚡️ ${makeKasheedeh(t, 2)} ⚡️` },
+            { name: "فونت عارف رقعه با قلبی", fontFamily: "'Aref Ruqaa', serif", fontCleanName: "Aref Ruqaa", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `•.¸♡ ${t} ♡¸.•` },
+            { name: "فونت شبنم با کادر مربع", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", fontCleanName: "Shabnam", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `【 ${makeKasheedeh(t, 2)} 】` },
+            { name: "فونت ساحل با قاب گوشه‌ای", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", fontCleanName: "Sahel", css: "text-indigo-300 text-2xl font-bold", fmt: (t) => `『 ${t} 』` },
+            { name: "فونت صمیم با موجی", fontFamily: "'Samim', 'Vazirmatn', sans-serif", fontCleanName: "Samim", css: "text-teal-300 text-2xl font-bold", fmt: (t) => `༺ ${makeKasheedeh(t, 2)} ༻` },
+            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", fontCleanName: "Cairo", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️ ${t} ♦️` },
+            { name: "فونت کوفی با ستاره درخشان", fontFamily: "'Reem Kufi', sans-serif", fontCleanName: "Reem Kufi", css: "text-yellow-300 text-2xl font-bold", fmt: (t) => `✨ ${makeKasheedeh(t, 2)} ✨` },
+            { name: "فونت لطیف با شمشیر", fontFamily: "'Lateef', cursive", fontCleanName: "Lateef", css: "text-emerald-300 text-3xl font-normal", fmt: (t) => `⚔️ ${t} ⚔️` },
+            { name: "فونت شهرزاد با گل رز", fontFamily: "'Scheherazade New', serif", fontCleanName: "Scheherazade New", css: "text-amber-200 text-2xl font-bold", fmt: (t) => `🌹 ${makeKasheedeh(t, 2)} 🌹` },
+            { name: "فونت چنگا با بال آفرینش", fontFamily: "'Changa', sans-serif", fontCleanName: "Changa", css: "anim-cool-ocean text-2xl font-extrabold", fmt: (t) => `꧁𓊈 ${t} 𓊉꧂` },
+            { name: "فونت لیمونادا با نت موسیقی", fontFamily: "'Lemonada', cursive", fontCleanName: "Lemonada", css: "anim-wavy-rainbow text-xl font-bold", fmt: (t) => `🎵 ${t} 🎵` },
+            { name: "فونت تجول با قاب اسلیمی", fontFamily: "'Tajawal', sans-serif", fontCleanName: "Tajawal", css: "text-slate-100 text-2xl font-bold", fmt: (t) => `❖ ${makeKasheedeh(t, 2)} ❖` },
+            { name: "فونت المسیری با هندسی", fontFamily: "'El Messiri', sans-serif", fontCleanName: "El Messiri", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `◈ ${t} ◈` },
+            { name: "فونت مارهی با خورشیدی", fontFamily: "'Marhey', cursive", fontCleanName: "Marhey", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `✦ ${makeKasheedeh(t, 2)} ✦` }
         ];
 
-        // --- Build 100 English Unicode Styles ---
         const englishFontList = [];
         (function build100EnglishFonts() {
             const baseTransformers = [
@@ -982,7 +964,7 @@
                 { name: "قاب ژاپنی", fmt: (t) => `【 ${t} 】` },
                 { name: "قاب گوشه‌ای", fmt: (t) => `『 ${t} 』` },
                 { name: "قاب موجی", fmt: (t) => `༺ ${t} ༻` },
-                { name: "قاب الماس", fmt: (t) => `♦️ ${t} ♦️` },
+                { name: "قاب الماس", fmt: (t) => `♦️️ ${t} ♦️` },
                 { name: "قاب درخشان", fmt: (t) => `✨ ${t} ✨` },
                 { name: "قاب شمشیر", fmt: (t) => `⚔️ ${t} ⚔️` },
                 { name: "قاب رز", fmt: (t) => `🌹 ${t} 🌹` },
@@ -1010,6 +992,61 @@
                 }
             }
         })();
+
+        // Canvas Rendering function to copy actual font as PNG image to Clipboard
+        function copyFontAsImage(text, fontCleanName, fontName, btnElement) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = 900;
+            canvas.height = 220;
+
+            // Draw Background Card
+            ctx.fillStyle = "#0f172a";
+            if (ctx.roundRect) {
+                ctx.roundRect(0, 0, 900, 220, 24);
+                ctx.fill();
+            } else {
+                ctx.fillRect(0, 0, 900, 220);
+            }
+
+            // Draw Cyan Glow Border
+            ctx.strokeStyle = "#00f3ff";
+            ctx.lineWidth = 2;
+            if (ctx.roundRect) {
+                ctx.roundRect(10, 10, 880, 200, 20);
+                ctx.stroke();
+            }
+
+            // Draw Text with exact WebFont
+            ctx.font = `bold 46px "${fontCleanName}", Vazirmatn, sans-serif`;
+            ctx.fillStyle = "#00f3ff";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(text, 450, 110);
+
+            canvas.toBlob(async (blob) => {
+                try {
+                    await navigator.clipboard.write([
+                        new ClipboardItem({ 'image/png': blob })
+                    ]);
+                    if (btnElement) {
+                        btnElement.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> عکس فونت کپی شد! (آماده Paste در بله)`;
+                        setTimeout(() => {
+                            btnElement.innerHTML = `<i class="fa-solid fa-image text-cyan-400"></i> کپی عکس واقعی فونت (PNG)`;
+                        }, 2500);
+                    }
+                    alert('🎨 عکس پوسترِ این فونت کپی شد! اکنون در بله یا تلگرام Paste (Ctrl+V) کنید تا عکس نستعلیق/لاله‌زار ارسال شود.');
+                } catch (err) {
+                    // Fallback to Download Image
+                    const link = document.createElement('a');
+                    link.download = `${fontName}.png`;
+                    link.href = canvas.toDataURL();
+                    link.click();
+                    alert('📥 تصویر این فونت دانلود شد!');
+                }
+            });
+        }
 
         function renderFontPreviews() {
             const rawVal = document.getElementById('fontInputText').value;
@@ -1047,11 +1084,20 @@
                     actionDiv.className = "space-y-2 pt-1";
 
                     if (isUnlocked) {
-                        const btn = document.createElement('button');
-                        btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
-                        btn.innerHTML = `<i class="fa-solid fa-copy text-amber-400"></i> کپی متن (آماده پیست در بله)`;
-                        btn.addEventListener('click', () => doCopy(formattedText, btn));
-                        actionDiv.appendChild(btn);
+                        // 1. Copy Plain Text Button
+                        const copyTextBtn = document.createElement('button');
+                        copyTextBtn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
+                        copyTextBtn.innerHTML = `<i class="fa-solid fa-copy text-amber-400"></i> کپی متن (کشیده + نماد)`;
+                        copyTextBtn.addEventListener('click', () => doCopy(formattedText, copyTextBtn));
+
+                        // 2. Copy Image Button (Exact Canvas Font Rendering)
+                        const copyImgBtn = document.createElement('button');
+                        copyImgBtn.className = "w-full bg-gradient-to-r from-cyan-900/40 to-slate-800 hover:from-cyan-800/60 text-cyan-300 text-xs font-bold py-2 rounded-xl border border-cyan-500/30 transition flex items-center justify-center gap-1.5";
+                        copyImgBtn.innerHTML = `<i class="fa-solid fa-image text-cyan-400"></i> کپی عکس واقعی فونت (PNG)`;
+                        copyImgBtn.addEventListener('click', () => copyFontAsImage(formattedText, font.fontCleanName, font.name, copyImgBtn));
+
+                        actionDiv.appendChild(copyTextBtn);
+                        actionDiv.appendChild(copyImgBtn);
                     } else {
                         const unlockBtn = document.createElement('button');
                         unlockBtn.className = "w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 text-xs font-black py-2 rounded-xl transition flex items-center justify-center gap-1.5 shadow-lg shadow-amber-500/10";
@@ -1116,7 +1162,6 @@
             }
         }
 
-        // --- 3. ZAMANPRO ACCURATE DATA & CALCULATION ---
         const cities = [
             { name: "تهران", lat: 35.6892, lng: 51.3890 },
             { name: "مشهد", lat: 36.2972, lng: 59.6067 },
@@ -1322,7 +1367,6 @@
                 `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
         }
 
-        // --- 4. HIGH-PRECISION AGE CALCULATOR LOGIC ---
         let ageInterval = null;
 
         function startAgeCalc() {
@@ -1466,7 +1510,6 @@
             });
         }
 
-        // --- 5. FILECOMPRESSPRO LOGIC ---
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
         const resultArea = document.getElementById('resultArea');
@@ -1659,7 +1702,6 @@
             });
         }
 
-        // --- 6. INITIALIZATION ---
         function initApp() {
             initCoinSystem();
             initWorldClocks();
