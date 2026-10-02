@@ -130,6 +130,74 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
+    <!-- Auth / Signup Modal Overlay -->
+    <div id="authModal" class="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="glass border border-cyan-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative overflow-hidden space-y-6 text-right">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-cyan-500/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="text-center space-y-2">
+                <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-cyan-500 via-emerald-500 to-purple-600 flex items-center justify-center text-slate-950 shadow-lg shadow-cyan-500/30 font-black text-2xl">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h2 class="text-xl font-black gradient-text">ورود / ثبت‌نام در OmniTools Studio</h2>
+                <p class="text-xs text-slate-400">جهت استفاده کامل از تمامی ۴ ابزار، حساب خود را بسازید.</p>
+            </div>
+
+            <!-- Step Dots -->
+            <div class="flex items-center justify-center gap-2 text-xs border-y border-slate-800/80 py-3">
+                <div id="step1Dot" class="flex items-center gap-1.5 font-bold text-cyan-400">
+                    <span class="w-6 h-6 rounded-full bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-[11px]">۱</span>
+                    <span>اطلاعات تماس</span>
+                </div>
+                <span class="text-slate-600">━━━━━</span>
+                <div id="step2Dot" class="flex items-center gap-1.5 font-bold text-slate-500">
+                    <span class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-[11px]">۲</span>
+                    <span>انتخاب نام</span>
+                </div>
+            </div>
+
+            <!-- STEP 1 Form -->
+            <div id="authStep1" class="space-y-4">
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-cyan-300">شماره تلفن همراه یا آدرس ایمیل:</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-mobile-screen-button text-slate-500 absolute right-3.5 top-3 text-sm"></i>
+                        <input type="text" id="authContactInput" dir="ltr" placeholder="09123456789 یا example@mail.com" class="w-full bg-slate-900 border border-slate-700 rounded-2xl py-2.5 pr-10 pl-4 text-xs text-slate-100 focus:outline-none focus:border-cyan-400 font-mono transition">
+                    </div>
+                    <p class="text-[10px] text-slate-500">اطلاعات شما به صورت کاملاً محرمانه در مرورگرتان ذخیره می‌شود.</p>
+                </div>
+
+                <button onclick="goToAuthStep2()" class="w-full bg-gradient-to-r from-cyan-500 to-emerald-400 hover:from-cyan-400 hover:to-emerald-300 text-slate-950 font-black py-3 rounded-2xl transition shadow-lg shadow-cyan-500/20 text-xs flex items-center justify-center gap-2">
+                    <span>مرحله بعد (انتخاب نام)</span>
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+            </div>
+
+            <!-- STEP 2 Form -->
+            <div id="authStep2" class="hidden space-y-4">
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-amber-300">نام یا نام خانوادگی دلخواه برای حساب شما:</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user text-slate-500 absolute right-3.5 top-3 text-sm"></i>
+                        <input type="text" id="authNameInput" placeholder="مثال: مهراد، علی، یا هر اسم دلخواه..." class="w-full bg-slate-900 border border-slate-700 rounded-2xl py-2.5 pr-10 pl-4 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-bold transition">
+                    </div>
+                    <p class="text-[10px] text-slate-500">این نام در بالای وب‌سایت و سیستم کاربری نمایش داده خواهد شد.</p>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="backToAuthStep1()" class="w-1/3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-2xl transition text-xs border border-slate-700">
+                        بازگشت
+                    </button>
+                    <button onclick="completeAuth()" class="w-2/3 bg-gradient-to-r from-amber-500 via-emerald-500 to-cyan-500 hover:from-amber-400 hover:to-cyan-400 text-slate-950 font-black py-3 rounded-2xl transition shadow-lg shadow-amber-500/20 text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>تکمیل و ورود به سایت</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="sticky top-0 z-50 glass border-b border-slate-800/80">
         <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
@@ -144,6 +212,13 @@
             </div>
 
             <div class="flex items-center gap-2 sm:gap-3">
+                <!-- User Profile Badge -->
+                <div id="userProfileBadge" class="hidden sm:flex items-center gap-2 bg-slate-900/90 px-3 py-1.5 rounded-full border border-slate-800 text-xs font-bold text-cyan-300 cursor-pointer hover:border-cyan-500/50 transition" onclick="logoutUser()" title="کلیک کنید برای خروج یا تعویض حساب">
+                    <i class="fa-solid fa-circle-user text-emerald-400 text-sm"></i>
+                    <span id="headerUserName">کاربر</span>
+                    <i class="fa-solid fa-arrow-right-from-bracket text-[10px] text-slate-500 mr-1"></i>
+                </div>
+
                 <div class="bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full flex items-center gap-2">
                     <i class="fa-solid fa-coins text-amber-400 text-sm"></i>
                     <span class="text-xs font-black text-amber-300 font-mono" id="headerCoinDisplay">0</span>
@@ -783,8 +858,9 @@
         let unlockedEnFonts = [];
         let usedPromoCodes = [];
         let currentFontLang = 'fa';
+        let userProfile = null;
 
-        // بانک کدهای جایزه معتبر با میزان سکه اهدایی (به همراه کد ویژه W10000)
+        // بانک کدهای جایزه معتبر با میزان سکه اهدایی (شامل کد ۱۰ هزار سکه‌ای W10000)
         const activePromoCodes = {
             'FAcT194': 1,
             'SOoD175': 1,
@@ -795,6 +871,94 @@
             'OMNI2026': 3,
             'W10000': 10000
         };
+
+        // ================= AUTH & USER SYSTEM =================
+        function checkAuthStatus() {
+            const savedProfile = localStorage.getItem('omni_user_profile');
+            if (savedProfile) {
+                try {
+                    userProfile = JSON.parse(savedProfile);
+                    document.getElementById('authModal').classList.add('hidden');
+                    updateProfileUI();
+                } catch(e) {
+                    document.getElementById('authModal').classList.remove('hidden');
+                }
+            } else {
+                document.getElementById('authModal').classList.remove('hidden');
+            }
+        }
+
+        function goToAuthStep2() {
+            const contactInput = document.getElementById('authContactInput').value.trim();
+            if (!contactInput || contactInput.length < 5) {
+                alert('لطفاً شماره تلفن همراه یا ایمیل معتبر وارد کنید.');
+                return;
+            }
+            document.getElementById('authStep1').classList.add('hidden');
+            document.getElementById('authStep2').classList.remove('hidden');
+
+            const dot1 = document.getElementById('step1Dot');
+            dot1.className = "flex items-center gap-1.5 font-bold text-emerald-400";
+            dot1.querySelector('span').className = "w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-[11px]";
+            dot1.querySelector('span').innerHTML = '<i class="fa-solid fa-check"></i>';
+
+            const dot2 = document.getElementById('step2Dot');
+            dot2.className = "flex items-center gap-1.5 font-bold text-amber-400";
+            dot2.querySelector('span').className = "w-6 h-6 rounded-full bg-amber-500/20 border border-amber-400 flex items-center justify-center text-[11px]";
+        }
+
+        function backToAuthStep1() {
+            document.getElementById('authStep2').classList.add('hidden');
+            document.getElementById('authStep1').classList.remove('hidden');
+
+            const dot1 = document.getElementById('step1Dot');
+            dot1.className = "flex items-center gap-1.5 font-bold text-cyan-400";
+            dot1.querySelector('span').className = "w-6 h-6 rounded-full bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-[11px]";
+            dot1.querySelector('span').innerText = '۱';
+
+            const dot2 = document.getElementById('step2Dot');
+            dot2.className = "flex items-center gap-1.5 font-bold text-slate-500";
+            dot2.querySelector('span').className = "w-6 h-6 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-[11px]";
+        }
+
+        function completeAuth() {
+            const contactInput = document.getElementById('authContactInput').value.trim();
+            const nameInput = document.getElementById('authNameInput').value.trim();
+
+            if (!nameInput) {
+                alert('لطفاً یک نام دلخواه برای حساب کاربری خود انتخاب کنید.');
+                return;
+            }
+
+            userProfile = {
+                contact: contactInput,
+                name: nameInput,
+                registeredAt: Date.now()
+            };
+
+            localStorage.setItem('omni_user_profile', JSON.stringify(userProfile));
+            document.getElementById('authModal').classList.add('hidden');
+            updateProfileUI();
+            alert(`🎉 خوش آمدید ${nameInput} عزیز! ورود شما به سایت با موفقیت انجام شد.`);
+        }
+
+        function updateProfileUI() {
+            if (!userProfile) return;
+            const profileBadge = document.getElementById('userProfileBadge');
+            const userNameEl = document.getElementById('headerUserName');
+            if (profileBadge && userNameEl) {
+                profileBadge.classList.remove('hidden');
+                profileBadge.classList.add('flex');
+                userNameEl.innerText = userProfile.name;
+            }
+        }
+
+        function logoutUser() {
+            if (confirm(`حساب کاربری فعلی: ${userProfile ? userProfile.name : 'کاربر'}\nآیا می‌خواهید از حساب خود خارج شوید یا اطلاعات را تغییر دهید؟`)) {
+                localStorage.removeItem('omni_user_profile');
+                location.reload();
+            }
+        }
 
         function goToBaleChannel() {
             window.open("https://ble.ir/factinew", "_blank", "noopener,noreferrer");
@@ -1083,8 +1247,8 @@
             if (found) return found;
 
             const themes = [
-                { t: "امید و گشایش", p1: "مژده ای دل که مسیحا نفسی می‌‌آید\nکه ز انفاس خوشش بوی کسی می‌آید", m: "خبرهای خوش و آدم‌های خوب در راهند. گشایشی بزرگی رخ خواهد داد.", i: "نیت شما بسیار مبارک است. فرج و گشایشی عالی در کارها ایجاد می‌شود. صبور و امیدوار باشید." },
-                { t: "پیروزی و موفقیت", p1: "بر سر آنم که گر ز دست برآید\nدست به کاری زنم که غصه برآید", m: "اراده کرده‌ام تا کاری بزرگ انجام دهم و ریشه غم را بسوزانم.", i: "زمان عمل فرا رسیده است. اراده کن و خستگی را کنار بگذار که پیروزی کاملاً از آن توست." },
+                { t: "امید و گشایش", p1: "مژده ای دل که مسیحا نفسی می‌آید\nکه ز انفاس خوشش بوی کسی می‌‌آید", m: "خبرهای خوش و آدم‌های خوب در راهند. گشایشی بزرگی رخ خواهد داد.", i: "نیت شما بسیار مبارک است. فرج و گشایشی عالی در کارها ایجاد می‌شود. صبور و امیدوار باشید." },
+                { t: "پیروزی و موفقیت", p1: "بر سر آنم که گر ز دست برآید\nدست به کاری زنم که غصه برآید", m: "اراده کرده‌‌ام تا کاری بزرگ انجام دهم و ریشه غم را بسوزانم.", i: "زمان عمل فرا رسیده است. اراده کن و خستگی را کنار بگذار که پیروزی کاملاً از آن توست." },
                 { t: "صبر و تدبیر", p1: "صبر کن ای دل که حق ضایع نگرداند عمل\nصبر تلخ آمد ولی بر شیرین می‌دهد", m: "بردباری اگرچه دشوار است اما نتیجه و میوه‌ای شیرین به همراه دارد.", i: "در تصمیم‌گیری عجله نکن. با تدبیر و صبوری پیش برو تا بهترین نتیجه نصیبت شود." },
                 { t: "عشق و محرمیت", p1: "ای نسیم سحر از من به دلارام بگو\nکه دلم سوخت ز هجران تو ای یار بگو", m: "پیام محبت و اشتیاق خود را به یار بفرست که هجران رو به پایان است.", i: "روابط عاطفی و خانوادگی شما بهبود می‌یابد. کدورت‌ها برطرف شده و صمیمیت بازمی‌گردد." },
                 { t: "توکل و عنایت الهی", p1: "تکیه بر تقوا و دانش در طریقت کافریست\nراهرو گر صد هنر دارد توکل بایدش", m: "تنها به علم و توان خود مغرور نشو؛ توکل بر خدا رمز اصلی موفقیت است.", i: "در کارهایت به خداوند توکل کن. راهی که انتخاب کرده‌ای هموار خواهد شد." }
@@ -1111,7 +1275,7 @@
                     return;
                 }
 
-                if (!confirm(`فال‌های رایگان امروز شما تمام شده است.\nآیا می‌‌خواهید با پرداخت ۲ سکه یک فال حافظ جدید بگیرید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
+                if (!confirm(`فال‌های رایگان امروز شما تمام شده است.\nآیا می‌خواهید با پرداخت ۲ سکه یک فال حافظ جدید بگیرید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
                     return;
                 }
 
@@ -1239,7 +1403,7 @@
             { name: "فونت شبنم با کادر مربع", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", fontCleanName: "Shabnam", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `【 ${makeKasheedeh(t, 2)} 】` },
             { name: "فونت ساحل با قاب گوشه‌ای", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", fontCleanName: "Sahel", css: "text-indigo-300 text-2xl font-bold", fmt: (t) => `『 ${t} 』` },
             { name: "فونت صمیم با موجی", fontFamily: "'Samim', 'Vazirmatn', sans-serif", fontCleanName: "Samim", css: "text-teal-300 text-2xl font-bold", fmt: (t) => `༺ ${makeKasheedeh(t, 2)} ༻` },
-            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", fontCleanName: "Cairo", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️ ${t} ♦` },
+            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", fontCleanName: "Cairo", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️️ ${t} ♦` },
             { name: "فونت کوفی با ستاره درخشان", fontFamily: "'Reem Kufi', sans-serif", fontCleanName: "Reem Kufi", css: "text-yellow-300 text-2xl font-bold", fmt: (t) => `✨ ${makeKasheedeh(t, 2)} ✨` },
             { name: "فونت لطیف با شمشیر", fontFamily: "'Lateef', cursive", fontCleanName: "Lateef", css: "text-emerald-300 text-3xl font-normal", fmt: (t) => `⚔️ ${t} ⚔️` },
             { name: "فونت شهرزاد با گل رز", fontFamily: "'Scheherazade New', serif", fontCleanName: "Scheherazade New", css: "text-amber-200 text-2xl font-bold", fmt: (t) => `🌹 ${makeKasheedeh(t, 2)} 🌹` },
@@ -1253,7 +1417,7 @@
         const englishFontList = [];
         (function build100EnglishFonts() {
             const baseTransformers = [
-                { name: 'Script / دست‌‌نویس', fn: unicodeTransformers.script, css: 'anim-gold-luxury text-2xl font-bold' },
+                { name: 'Script / دست‌نویس', fn: unicodeTransformers.script, css: 'anim-gold-luxury text-2xl font-bold' },
                 { name: 'Gothic / گوتیک', fn: unicodeTransformers.gothic, css: 'anim-warm-fire text-2xl font-bold' },
                 { name: 'Bold / ضخیم', fn: unicodeTransformers.bold, css: 'text-cyan-400 text-2xl font-black' },
                 { name: 'Italic / مورب', fn: unicodeTransformers.italic, css: 'anim-cool-ocean text-2xl font-bold' },
@@ -1735,7 +1899,7 @@
             if (animalIdx < 0) animalIdx += 12;
             document.getElementById('animalYear').innerText = animals[animalIdx] || "---";
 
-            const daysWeek = ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه", "شنبه"];
+            const daysWeek = ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌‌شنبه", "جمعه", "شنبه"];
             document.getElementById('bornDayOfWeek').innerText = daysWeek[birthDate.getDay()];
 
             function tickAge() {
@@ -2041,6 +2205,7 @@
         }
 
         function initApp() {
+            checkAuthStatus();
             initCoinSystem();
             initWorldClocks();
             updatePrayerTimes();
