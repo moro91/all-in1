@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OmniTools Studio | مرکز هوشمند ابزارهای آنلاین</title>
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -29,12 +29,13 @@
         }
     </script>
 
-    <!-- Google Fonts & Persian WebFonts CDN Imports -->
+    <!-- Google Fonts & Persian Fonts CDN Imports -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;700&family=Changa:wght@400;700&family=El+Messiri:wght@400;700&family=Harmattan:wght@400;700&family=Katibeh&family=Kufam:wght@400;700&family=Lalezar&family=Lateef:wght@400;700&family=Lemonada:wght@400;700&family=Marhey:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;700&family=Scheherazade+New:wght@400;700&family=Tajawal:wght@400;700&family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.0/dist/font-face.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/samim-font@v4.0.5/dist/font-face.css">
 
+    <!-- FontAwesome Icons & JSZip CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
@@ -220,7 +221,7 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-8">
 
-        <!-- Main Tool Switcher Cards (Now 4 Tools) -->
+        <!-- Main Tool Switcher Cards -->
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <button onclick="switchMainTool('time')" id="mainBtn-time" class="tool-card-btn active glass p-5 rounded-2xl border border-slate-800 text-right flex items-center gap-4 group">
                 <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
@@ -252,7 +253,6 @@
                 </div>
             </button>
 
-            <!-- TOOL 4: FAL-E HAFEZ (NEW POETIC TOOL) -->
             <button onclick="switchMainTool('hafez')" id="mainBtn-hafez" class="tool-card-btn glass p-5 rounded-2xl border border-rose-500/30 text-right flex items-center gap-4 group">
                 <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500/20 via-rose-500/20 to-purple-500/20 text-rose-300 border border-rose-400/40 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform shadow-lg shadow-rose-500/10">
                     <i class="fa-solid fa-scroll"></i>
@@ -663,10 +663,9 @@
             </div>
         </div>
 
-        <!-- TOOL 4: FAL-E HAFEZ SECTION (POETIC FULL INTERFACE) -->
+        <!-- TOOL 4: FAL-E HAFEZ SECTION -->
         <div id="toolSection-hafez" class="hidden space-y-6">
             <div class="glass p-6 sm:p-8 rounded-3xl border border-rose-500/30 glow-box-rose space-y-6 text-center relative overflow-hidden">
-                <!-- Background Mystic Decoration -->
                 <div class="absolute -top-10 -right-10 w-40 h-40 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -681,7 +680,6 @@
                     </p>
                 </div>
 
-                <!-- Daily Free Counter & Status Box -->
                 <div class="max-w-xl mx-auto bg-slate-900/90 p-4 rounded-2xl border border-rose-500/30 flex flex-wrap justify-between items-center gap-3 text-xs">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-calendar-check text-rose-400 text-lg"></i>
@@ -697,7 +695,6 @@
                     </div>
                 </div>
 
-                <!-- Take Fal Action Button -->
                 <div>
                     <button onclick="takeHafezFal()" id="takeFalBtn" class="bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 hover:from-amber-400 hover:via-rose-400 hover:to-purple-500 text-slate-950 font-black px-8 py-4 rounded-2xl transition-all transform hover:scale-105 shadow-xl shadow-rose-500/20 text-sm sm:text-base flex items-center justify-center gap-3 mx-auto">
                         <i class="fa-solid fa-hands-praying text-xl"></i>
@@ -721,7 +718,6 @@
                     </div>
                 </div>
 
-                <!-- Poetry Card Box -->
                 <div class="bg-gradient-to-b from-slate-950/90 to-slate-900/90 p-6 sm:p-8 rounded-2xl border border-rose-500/20 text-center space-y-4">
                     <i class="fa-solid fa-quote-right text-3xl text-rose-400/40 block"></i>
                     <div id="hafezPoem" class="hafez-poem-font text-base sm:text-xl text-rose-200 font-bold whitespace-pre-line leading-loose">
@@ -730,7 +726,6 @@
                     <i class="fa-solid fa-quote-left text-3xl text-rose-400/40 block"></i>
                 </div>
 
-                <!-- Translation & Meaning Box -->
                 <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 space-y-2">
                     <h5 class="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
                         <i class="fa-solid fa-book-open"></i> معنی و ترجمه روان ابیات:
@@ -740,7 +735,6 @@
                     </p>
                 </div>
 
-                <!-- Fortune Interpretation Box -->
                 <div class="bg-gradient-to-r from-amber-950/40 via-slate-900 to-rose-950/40 p-5 rounded-2xl border border-amber-500/30 space-y-2">
                     <h5 class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
                         <i class="fa-solid fa-compass"></i> منظور و تعبیر اختصاصی فال شما:
@@ -788,13 +782,17 @@
         let unlockedFonts = [];
         let unlockedEnFonts = [];
         let usedPromoCodes = [];
+        let currentFontLang = 'fa';
 
+        // بانک کدهای جایزه معتبر با میزان سکه اهدایی
         const activePromoCodes = {
             'FAcT194': 1,
             'SOoD175': 1,
             'wWe147': 1,
             'Rty782': 1,
-            'AFk560': 1
+            'AFk560': 1,
+            'FACTINEW2026': 2,
+            'OMNI2026': 3
         };
 
         function goToBaleChannel() {
@@ -809,7 +807,7 @@
         function initCoinSystem() {
             const savedCoins = localStorage.getItem('omni_user_coins');
             if (savedCoins === null) {
-                userCoins = 2;
+                userCoins = 2; // سکه هدیه اولیه
                 localStorage.setItem('omni_user_coins', userCoins);
             } else {
                 userCoins = parseInt(savedCoins) || 0;
@@ -903,8 +901,8 @@
                 return;
             }
 
-            if (usedPromoCodes.length >= 1) {
-                alert('⚠️ شما قبلاً از کد هدیه استفاده کرده‌‌اید! هر کاربر فقط مجاز به ثبت ۱ کد هدیه می‌باشد.');
+            if (usedPromoCodes.includes(code)) {
+                alert('⚠️ شما قبلاً از این کد هدیه استفاده کرده‌اید!');
                 return;
             }
 
@@ -949,7 +947,7 @@
             if (unlockedEnFonts.includes(fontIndex)) return;
 
             if (userCoins < FONT_PRICE) {
-                alert(`⚠️ تعداد سکه‌های شما کافی نیست!\n\nقیمت آنلاک این استایل انگلیسی: ۲ سکه\nموجودی شما: ${userCoins} سکه\n\nمی‌‌توانید با عضویت در کانال بله (@factinew) یا دریافت سکه روزانه سکه به دست آورید.`);
+                alert(`⚠️ تعداد سکه‌های شما کافی نیست!\n\nقیمت آنلاک این استایل انگلیسی: ۲ سکه\nموجودی شما: ${userCoins} سکه\n\nمی‌توانید با عضویت در کانال بله (@factinew) یا دریافت سکه روزانه سکه به دست آورید.`);
                 return;
             }
 
@@ -991,7 +989,7 @@
             alert('آدرس ایمیل پشتیبانی (mehradsheikhi@gmail.com) کپی شد.');
         }
 
-        // ================= FAL-E HAFEZ SYSTEM (500 GHAZAL DATABASE & DAILY 3-FREE LIMIT) =================
+        // ================= FAL-E HAFEZ SYSTEM =================
         function getTodayDateStr() {
             const d = new Date();
             return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
@@ -1028,7 +1026,6 @@
             }
         }
 
-        // Comprehensive 500 Hafez Ghazal Generator/Database
         const hafezBaseGhazals = [
             {
                 id: 1,
@@ -1046,7 +1043,7 @@
                 id: 5,
                 poem: "دل می‌رود ز دستم صاحب دلان خدا را\nدردا که راز پنهان خواهد شد آشکارا\n\nکشتی‌نشستگانیم ای باد شرطه برخیز\nباشد که باز بینیم دیدار آشنا را\n\nده روزه مهر گردون افسانه است و افسون\nنیکی به جای یاران فرصت شمار یارا",
                 meaning: "صبر و قرار از دست داده‌ام و رازم برملا خواهد شد. ما مانند مسافران در کشتی منتظر باد موافق هستیم تا به یار برسیم. عمر دنیا کوتاه است، پس فرصت نیکی را غنیمت شمار.",
-                interpretation: "فال شما بسیار نیکوست. در تصمیمی که گرفته‌ای تردید مکن. وزش باد موافق پیروزی در راه است. اگر با مردم به نیکی و صداقت رفتار کنی، نیت شما به‌‌زودی به مقصود می‌رسد."
+                interpretation: "فال شما بسیار نیکوست. در تصمیمی که گرفته‌ای تردید مکن. وزش باد موافق پیروزی در راه است. اگر با مردم به نیکی و صداقت رفتار کنی، نیت شما به‌زودی به مقصود می‌رسد."
             },
             {
                 id: 10,
@@ -1061,12 +1058,6 @@
                 interpretation: "دوران غم و اندوه شما به پایان رسیده است. به زودی درهای شادی و موفقیت به روی شما گشوده می‌شود. فرصت‌ها را از دست نده و شادمان باش."
             },
             {
-                id: 50,
-                poem: "زلف بر باد مده تا ندهی بر بادم\nناز بنیاد مکن تا نکنی بنیادم\n\nمی مخور با همه کس تا نخورم خون جگر\nسر مکش تا نکشد سر به فلک فریادم",
-                meaning: "زیبایی و سرمایه خود را در دسترس نامحرمان قرار نده و مرا دچار بی‌قراری مکن.",
-                interpretation: "احتیاط را در روابط و تصمیمات مالی و عاطفی خود حفظ کن. راز خود را پیش هر کسی بازگو مکن تا دچار دردسر و پشیمانی نشوی."
-            },
-            {
                 id: 72,
                 poem: "راهیست راه عشق که هیچش کجایت نیست\nآنجا جز آن که جان بسپارند چاره نیست\n\nهرگه که دل به عشق دهی خوش دمی بود\nدر کار خیر حاجت هیچ استخاره نیست",
                 meaning: "راه حقیقت و مقصود مستقیم است. زمانی که دل به کار خیر و تصمیم درست بسپاری بهترین زمان است و معطل کردن جایز نیست.",
@@ -1077,24 +1068,6 @@
                 poem: "دی پیر می فروش که ذکرش به خیر باد\nگفتا شراب نوش و غم دل ببر ز یاد\n\nگفتم به باد داده جوانیم سوز عشق\nگفت ار چه سوختی گل خندان به بار داد",
                 meaning: "استاد دانا مرا پند داد که غم گذشته را نخورم و به آینده امیدوار باشم که رنج‌ها محصول شیرین خواهند داد.",
                 interpretation: "از سختی‌ها و رنج‌هایی که کشیده‌ای ناراحت نباش. نتیجه زحمات و صبر شما به زودی بار خواهد داد و به موفقیت شایانی می‌رسی."
-            },
-            {
-                id: 200,
-                poem: "یاد باد آن که ز ما وقت سفر یاد نکرد\nبه وداعی دل دیوانه ما شاد نکرد\n\nآن جوانبخت که می‌آمد و بر ما بگذشت\nیک نظر بر من دلداده ناشاد نکرد",
-                meaning: "دوست بی‌وفایی کرد اما دل عاشق همچنان مشتاق و وفادار باقی مانده است.",
-                interpretation: "اگر کسی در حقت بی‌وفایی یا کم‌لطفی کرده است، غصه نخور. عزت و مقام دست خداوند است. صبور باش که آینده از آن توست."
-            },
-            {
-                id: 300,
-                poem: "هزار دشمنم ار می‌کنند قصد هلاک\nگرم تو دوستی از دشمنان ندارم باک\n\nمرا امید وصال تو زنده می‌دارد\nوگرنه هر دمم از هجر توست بیم هلاک",
-                meaning: "اگر هزاران دشمن داشته باشم ولی پشتیبان معنوی داشته باشم ترسی ندارم. امید به هدف مرا زنده نگه می‌دارد.",
-                interpretation: "شما پشتیبان محکم و توکلی قوی داری. از مخالفان و کارشکنی دیگران هیچ ترسی به دل راه نده زیرا حق با توست و پیروز می‌شوی."
-            },
-            {
-                id: 400,
-                poem: "بالاخره مژده وصل تو آمد ز صبا\nبشارت باد بر دل که غم رفت و شادی آمد\n\nروزگار هجران به سر آمد و نسیم بهاری وزید",
-                meaning: "پیک صبا خبر خوش رسیدن به مقصود را آورد و غم و غصه را بشارت پایان داد.",
-                interpretation: "مژده باد بر شما! پیامی خوش یا گشایشی مالی و خانوادگی در راه است. نگرانی‌ها تمام شدنی است."
             },
             {
                 id: 500,
@@ -1265,7 +1238,7 @@
             { name: "فونت شبنم با کادر مربع", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", fontCleanName: "Shabnam", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `【 ${makeKasheedeh(t, 2)} 】` },
             { name: "فونت ساحل با قاب گوشه‌ای", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", fontCleanName: "Sahel", css: "text-indigo-300 text-2xl font-bold", fmt: (t) => `『 ${t} 』` },
             { name: "فونت صمیم با موجی", fontFamily: "'Samim', 'Vazirmatn', sans-serif", fontCleanName: "Samim", css: "text-teal-300 text-2xl font-bold", fmt: (t) => `༺ ${makeKasheedeh(t, 2)} ༻` },
-            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", fontCleanName: "Cairo", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️ ${t} ♦️` },
+            { name: "فونت قاهره با الماس", fontFamily: "'Cairo', sans-serif", fontCleanName: "Cairo", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️ ${t} ♦️️` },
             { name: "فونت کوفی با ستاره درخشان", fontFamily: "'Reem Kufi', sans-serif", fontCleanName: "Reem Kufi", css: "text-yellow-300 text-2xl font-bold", fmt: (t) => `✨ ${makeKasheedeh(t, 2)} ✨` },
             { name: "فونت لطیف با شمشیر", fontFamily: "'Lateef', cursive", fontCleanName: "Lateef", css: "text-emerald-300 text-3xl font-normal", fmt: (t) => `⚔️ ${t} ⚔️` },
             { name: "فونت شهرزاد با گل رز", fontFamily: "'Scheherazade New', serif", fontCleanName: "Scheherazade New", css: "text-amber-200 text-2xl font-bold", fmt: (t) => `🌹 ${makeKasheedeh(t, 2)} 🌹` },
@@ -1279,7 +1252,7 @@
         const englishFontList = [];
         (function build100EnglishFonts() {
             const baseTransformers = [
-                { name: 'Script / دست‌‌نویس', fn: unicodeTransformers.script, css: 'anim-gold-luxury text-2xl font-bold' },
+                { name: 'Script / دست‌نویس', fn: unicodeTransformers.script, css: 'anim-gold-luxury text-2xl font-bold' },
                 { name: 'Gothic / گوتیک', fn: unicodeTransformers.gothic, css: 'anim-warm-fire text-2xl font-bold' },
                 { name: 'Bold / ضخیم', fn: unicodeTransformers.bold, css: 'text-cyan-400 text-2xl font-black' },
                 { name: 'Italic / مورب', fn: unicodeTransformers.italic, css: 'anim-cool-ocean text-2xl font-bold' },
@@ -1303,7 +1276,7 @@
                 { name: "قاب موجی", fmt: (t) => `༺ ${t} ༻` },
                 { name: "قاب الماس", fmt: (t) => `♦️ ${t} ♦️` },
                 { name: "قاب درخشان", fmt: (t) => `✨ ${t} ✨` },
-                { name: "قاب شمشیر", fmt: (t) => `⚔️ ${t} ⚔️` },
+                { name: "قاب شمشیر", fmt: (t) => `⚔️️ ${t} ⚔️` },
                 { name: "قاب رز", fmt: (t) => `🌹 ${t} 🌹` },
                 { name: "قاب بال آفرینش", fmt: (t) => `꧁𓊈 ${t} 𓊉꧂` },
                 { name: "قاب موسیقی", fmt: (t) => `🎵 ${t} 🎵` },
@@ -1365,12 +1338,12 @@
                         new ClipboardItem({ 'image/png': blob })
                     ]);
                     if (btnElement) {
-                        btnElement.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> عکس کپی شد! (آماده Paste در بله)`;
+                        btnElement.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> عکس کپی شد!`;
                         setTimeout(() => {
                             btnElement.innerHTML = `<i class="fa-solid fa-image text-cyan-400"></i> کپی عکس واقعی (PNG)`;
                         }, 2500);
                     }
-                    alert('🎨 عکس پوسترِ این استایل کپی شد! اکنون در بله یا تلگرام Paste (Ctrl+V) کنید.');
+                    alert('🎨 عکس پوسترِ این استایل کپی شد! اکنون در بله یا تلگرام Paste کنید.');
                 } catch (err) {
                     const link = document.createElement('a');
                     link.download = `${fontName || 'font'}.png`;
