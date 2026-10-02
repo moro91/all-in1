@@ -544,7 +544,7 @@
                         <select id="compQuality" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-purple-400">
                             <option value="0.8">کیفیت بالا (کاهش حجم کم)</option>
                             <option value="0.6" selected>متوسط (پیشنهادی)</option>
-                            <option value="0.3">حداکثر فشرده‌‌سازی</option>
+                            <option value="0.3">حداکثر فشرده‌سازی</option>
                         </select>
                     </div>
 
@@ -599,7 +599,7 @@
                 <div class="flex flex-wrap justify-between items-center gap-4">
                     <div>
                         <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
-                            <i class="fa-solid fa-font text-amber-400"></i> استودیو پیش‌‌نمایش و آنلاک فونت‌ها
+                            <i class="fa-solid fa-font text-amber-400"></i> استودیو پیش‌نمایش و آنلاک فونت‌ها
                         </h3>
                         <p class="text-xs text-slate-400 mt-1">هر فونت دلخواه را با ۲ سکه برای خود آنلاک کنید، یا جهت دریافت کدهای جایزه در کانال بله عضو شوید.</p>
                     </div>
@@ -624,8 +624,8 @@
                 </div>
 
                 <div class="space-y-2">
-                    <label class="block text-xs font-bold text-amber-300">متن ورودی شما:</label>
-                    <textarea id="fontInputText" oninput="renderFontPreviews()" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 text-sm text-slate-100 focus:outline-none focus:border-amber-400 font-bold transition placeholder:text-slate-600" placeholder="متن خود را تایپ یا پیست کنید..."></textarea>
+                    <label class="block text-xs font-bold text-amber-300">متن ورودی شما (تایپ یا پیست کپی کنید):</label>
+                    <textarea id="fontInputText" oninput="renderFontPreviews()" onpaste="setTimeout(renderFontPreviews, 10)" onkeyup="renderFontPreviews()" onchange="renderFontPreviews()" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 text-sm text-slate-100 focus:outline-none focus:border-amber-400 font-bold transition placeholder:text-slate-600" placeholder="متن خود را تایپ یا پیست کنید..."></textarea>
                 </div>
             </div>
 
@@ -770,7 +770,7 @@
 
             // Limit: 1 Code per User
             if (usedPromoCodes.length >= 1) {
-                alert('⚠️ شما قبلاً از کد هدیه استفاده کرده‌اید! هر کاربر فقط مجاز به ثبت ۱ کد هدیه می‌باشد.');
+                alert('⚠️ شما قبلاً از کد هدیه استفاده کرده‌‌اید! هر کاربر فقط مجاز به ثبت ۱ کد هدیه می‌باشد.');
                 return;
             }
 
@@ -836,7 +836,7 @@
             alert('آدرس ایمیل پشتیبانی (mehradsheikhi@gmail.com) کپی شد.');
         }
 
-        // --- 2. FONTCRAFT PRO LOGIC (100 ENGLISH UNICODE & PERSIAN WEBFONTS) ---
+        // --- 2. FONTCRAFT PRO LOGIC (100 ENGLISH UNICODE & PERSIAN WEBFONTS WITH DECORATIVE FRAMES) ---
         let currentFontLang = 'fa';
 
         function switchFontLang(lang) {
@@ -917,29 +917,26 @@
         };
 
         const persianFontList = [
-            { name: "فونت بی نازنین (B Nazanin)", fontFamily: "'B Nazanin', 'BNazanin', 'Vazirmatn', sans-serif", css: "anim-cool-ocean text-2xl font-bold" },
-            { name: "فونت بی یکان (B Yekan)", fontFamily: "'B Yekan', 'BYekan', 'Vazirmatn', sans-serif", css: "text-purple-300 text-2xl font-bold" },
-            { name: "فونت تیتر (B Titr)", fontFamily: "'B Titr', 'Titr', 'Lalezar', sans-serif", css: "anim-warm-fire text-2xl font-black" },
-            { name: "فونت وزیرمتن (Vazirmatn)", fontFamily: "'Vazirmatn', sans-serif", css: "text-cyan-400 text-2xl font-black" },
-            { name: "فونت لاله‌زار (Lalezar)", fontFamily: "'Lalezar', cursive", css: "anim-gold-luxury text-2xl font-normal" },
-            { name: "فونت نستعلیق (Nastaliq)", fontFamily: "'Noto Nastaliq Urdu', 'Amiri', serif", css: "text-amber-300 text-2xl font-normal leading-loose" },
-            { name: "فونت کاتبه (Katibeh)", fontFamily: "'Katibeh', cursive", css: "anim-wavy-rainbow text-3xl font-normal" },
-            { name: "فونت امیری (Amiri)", fontFamily: "'Amiri', serif", css: "text-emerald-400 text-2xl font-bold" },
-            { name: "فونت عارف رقعه (Aref Ruqaa)", fontFamily: "'Aref Ruqaa', serif", css: "anim-rose-gold text-2xl font-bold" },
-            { name: "فونت شبنم (Shabnam)", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", css: "text-cyan-300 text-2xl font-bold" },
-            { name: "فونت ساحل (Sahel)", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", css: "text-indigo-300 text-2xl font-bold" },
-            { name: "فونت صمیم (Samim)", fontFamily: "'Samim', 'Vazirmatn', sans-serif", css: "text-teal-300 text-2xl font-bold" },
-            { name: "فونت قاهره (Cairo)", fontFamily: "'Cairo', sans-serif", css: "text-rose-400 text-2xl font-bold" },
-            { name: "فونت کوفی (Reem Kufi)", fontFamily: "'Reem Kufi', sans-serif", css: "text-yellow-300 text-2xl font-bold" },
-            { name: "فونت لطیف (Lateef)", fontFamily: "'Lateef', cursive", css: "text-emerald-300 text-3xl font-normal" },
-            { name: "فونت شهرزاد (Scheherazade)", fontFamily: "'Scheherazade New', serif", css: "text-amber-200 text-2xl font-bold" },
-            { name: "فونت چنگا (Changa)", fontFamily: "'Changa', sans-serif", css: "anim-cool-ocean text-2xl font-extrabold" },
-            { name: "فونت لیمونادا (Lemonada)", fontFamily: "'Lemonada', cursive", css: "anim-wavy-rainbow text-xl font-bold" },
-            { name: "فونت تجول (Tajawal)", fontFamily: "'Tajawal', sans-serif", css: "text-slate-100 text-2xl font-bold" },
-            { name: "فونت المسیری (El Messiri)", fontFamily: "'El Messiri', sans-serif", css: "anim-rose-gold text-2xl font-bold" },
-            { name: "فونت مارهی (Marhey)", fontFamily: "'Marhey', cursive", css: "text-cyan-300 text-2xl font-bold" },
-            { name: "فونت کوفام (Kufam)", fontFamily: "'Kufam', sans-serif", css: "text-purple-400 text-2xl font-bold" },
-            { name: "فونت هرمتان (Harmattan)", fontFamily: "'Harmattan', sans-serif", css: "text-emerald-400 text-2xl font-bold" }
+            { name: "فونت وزیرمتن (Vazirmatn)", fontFamily: "'Vazirmatn', sans-serif", css: "text-cyan-400 text-2xl font-black", fmt: (t) => `꧁༺ ${t} ༻꧂` },
+            { name: "فونت لاله‌زار (Lalezar)", fontFamily: "'Lalezar', cursive", css: "anim-gold-luxury text-2xl font-normal", fmt: (t) => `👑 ${t} 👑` },
+            { name: "فونت نستعلیق (Nastaliq)", fontFamily: "'Noto Nastaliq Urdu', 'Amiri', serif", css: "text-amber-300 text-2xl font-normal leading-loose", fmt: (t) => `★彡 ${t} 彡★` },
+            { name: "فونت کاتبه (Katibeh)", fontFamily: "'Katibeh', cursive", css: "anim-wavy-rainbow text-3xl font-normal", fmt: (t) => `•.¸♡ ${t} ♡¸.•` },
+            { name: "فونت امیری (Amiri)", fontFamily: "'Amiri', serif", css: "text-emerald-400 text-2xl font-bold", fmt: (t) => `⚡️ ${t} ⚡️` },
+            { name: "فونت عارف رقعه (Aref Ruqaa)", fontFamily: "'Aref Ruqaa', serif", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `✿.｡.:* ${t} *.:｡.✿` },
+            { name: "فونت شبنم (Shabnam)", fontFamily: "'Shabnam', 'Vazirmatn', sans-serif", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `【 ${t} 】` },
+            { name: "فونت ساحل (Sahel)", fontFamily: "'Sahel', 'Vazirmatn', sans-serif", css: "text-indigo-300 text-2xl font-bold", fmt: (t) => `『 ${t} 』` },
+            { name: "فونت صمیم (Samim)", fontFamily: "'Samim', 'Vazirmatn', sans-serif", css: "text-teal-300 text-2xl font-bold", fmt: (t) => `༺ ${t} ༻` },
+            { name: "فونت قاهره (Cairo)", fontFamily: "'Cairo', sans-serif", css: "text-rose-400 text-2xl font-bold", fmt: (t) => `♦️ ${t} ♦️️` },
+            { name: "فونت کوفی (Reem Kufi)", fontFamily: "'Reem Kufi', sans-serif", css: "text-yellow-300 text-2xl font-bold", fmt: (t) => `✨ ${t} ✨` },
+            { name: "فونت لطیف (Lateef)", fontFamily: "'Lateef', cursive", css: "text-emerald-300 text-3xl font-normal", fmt: (t) => `⚔️ ${t} ⚔️` },
+            { name: "فونت شهرزاد (Scheherazade)", fontFamily: "'Scheherazade New', serif", css: "text-amber-200 text-2xl font-bold", fmt: (t) => `🌹 ${t} 🌹` },
+            { name: "فونت چنگا (Changa)", fontFamily: "'Changa', sans-serif", css: "anim-cool-ocean text-2xl font-extrabold", fmt: (t) => `꧁𓊈 ${t} 𓊉꧂` },
+            { name: "فونت لیمونادا (Lemonada)", fontFamily: "'Lemonada', cursive", css: "anim-wavy-rainbow text-xl font-bold", fmt: (t) => `🎵 ${t} 🎵` },
+            { name: "فونت تجول (Tajawal)", fontFamily: "'Tajawal', sans-serif", css: "text-slate-100 text-2xl font-bold", fmt: (t) => `❖ ${t} ❖` },
+            { name: "فونت المسیری (El Messiri)", fontFamily: "'El Messiri', sans-serif", css: "anim-rose-gold text-2xl font-bold", fmt: (t) => `◈ ${t} ◈` },
+            { name: "فونت مارهی (Marhey)", fontFamily: "'Marhey', cursive", css: "text-cyan-300 text-2xl font-bold", fmt: (t) => `✦ ${t} ✦` },
+            { name: "فونت کوفام (Kufam)", fontFamily: "'Kufam', sans-serif", css: "text-purple-400 text-2xl font-bold", fmt: (t) => `⚜️ ${t} ⚜️` },
+            { name: "فونت هرمتان (Harmattan)", fontFamily: "'Harmattan', sans-serif", css: "text-emerald-400 text-2xl font-bold", fmt: (t) => `☽ ${t} ☾` }
         ];
 
         // --- Build 100 English Unicode Styles ---
@@ -977,7 +974,7 @@
                 { name: "قاب اسلیمی", fmt: (t) => `❖ ${t} ❖` },
                 { name: "قاب هندسی", fmt: (t) => `◈ ${t} ◈` },
                 { name: "قاب خورشیدی", fmt: (t) => `✦ ${t} ✦` },
-                { name: "قاب نشان زرین", fmt: (t) => `⚜️ ${t} ⚜️️` },
+                { name: "قاب نشان زرین", fmt: (t) => `⚜️ ${t} ⚜️` },
                 { name: "قاب هلال ماه", fmt: (t) => `☽ ${t} ☾` }
             ];
 
@@ -998,13 +995,16 @@
         })();
 
         function renderFontPreviews() {
-            const inputVal = document.getElementById('fontInputText').value.trim() || (currentFontLang === 'fa' ? "سلام متین؛ به استودیو هوشمند خوش آمدید!" : "OmniTools Studio");
+            const rawVal = document.getElementById('fontInputText').value;
+            const inputVal = rawVal.trim() || (currentFontLang === 'fa' ? "سلام متین؛ به استودیو هوشمند خوش آمدید!" : "OmniTools Studio");
             const grid = document.getElementById('fontsGrid');
             grid.innerHTML = '';
 
             if (currentFontLang === 'fa') {
                 persianFontList.forEach((font, idx) => {
                     const isUnlocked = unlockedFonts.includes(idx);
+                    const formattedText = font.fmt ? font.fmt(inputVal) : inputVal;
+
                     const card = document.createElement('div');
                     card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between hover:border-amber-500/40 transition relative overflow-hidden";
                     
@@ -1023,7 +1023,7 @@
                     const p = document.createElement('p');
                     p.className = `${font.css} transition-all whitespace-nowrap`;
                     p.style.fontFamily = font.fontFamily;
-                    p.textContent = inputVal;
+                    p.textContent = formattedText;
                     previewDiv.appendChild(p);
 
                     const actionDiv = document.createElement('div');
@@ -1032,8 +1032,8 @@
                     if (isUnlocked) {
                         const btn = document.createElement('button');
                         btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
-                        btn.innerHTML = `<i class="fa-solid fa-copy text-amber-400"></i> کپی متن`;
-                        btn.addEventListener('click', () => doCopy(inputVal, btn));
+                        btn.innerHTML = `<i class="fa-solid fa-copy text-amber-400"></i> کپی متن زیباسازی شده`;
+                        btn.addEventListener('click', () => doCopy(formattedText, btn));
                         actionDiv.appendChild(btn);
                     } else {
                         const unlockBtn = document.createElement('button');
