@@ -157,7 +157,7 @@
                     </div>
                     <div>
                         <h4 class="text-xs sm:text-sm font-bold text-amber-300">پاداش روزانه: ۱ سکه رایگان هر ۲۴ ساعت</h4>
-                        <p class="text-[11px] text-slate-400 mt-0.5">با دریافت روزانه سکه، فونت‌های اصیل فارسی را آنلاک کنید.</p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">با دریافت روزانه سکه، فونت‌ها و استایل‌های مورد نظر خود را آنلاک کنید.</p>
                     </div>
                 </div>
                 <button id="claimDailyBtn" onclick="claimDailyReward()" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black px-4 py-2 rounded-xl transition text-xs shadow-lg shadow-amber-500/20 flex items-center gap-2 shrink-0">
@@ -226,7 +226,7 @@
                 </div>
                 <div>
                     <h2 class="text-sm font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت (سیستم سکه‌ای)</h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">پیش‌نمایش فونت‌های اصیل ایرانی با قابلیت آنلاک سکه‌ای</p>
+                    <p class="text-[11px] text-slate-400 mt-0.5">پیش‌نمایش فونت‌های اصیل ایرانی و انگلیسی با قابلیت آنلاک سکه‌ای</p>
                 </div>
             </button>
         </section>
@@ -595,7 +595,7 @@
                         <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
                             <i class="fa-solid fa-font text-amber-400"></i> استودیو پیش‌نمایش و آنلاک فونت‌ها
                         </h3>
-                        <p class="text-xs text-slate-400 mt-1">امکان کپی متن کشیده و نمادین، یا کپی مستقیم «عکس واقعی فونت (PNG)» جهت ارسال در بله و تلگرام.</p>
+                        <p class="text-xs text-slate-400 mt-1">امکان کپی متن و کپی مستقیم «عکس واقعی فونت (PNG)» برای استایل‌های فارسی و انگلیسی.</p>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-2">
@@ -661,6 +661,7 @@
         let userCoins = 0;
         let lastClaimTime = 0;
         let unlockedFonts = [];
+        let unlockedEnFonts = [];
         let usedPromoCodes = [];
 
         const activePromoCodes = {
@@ -682,6 +683,7 @@
 
             lastClaimTime = parseInt(localStorage.getItem('omni_last_claim_time')) || 0;
 
+            // Load Persian Unlocked Fonts
             const savedUnlocked = localStorage.getItem('omni_unlocked_fonts');
             if (savedUnlocked === null) {
                 unlockedFonts = [0, 1, 3];
@@ -691,6 +693,19 @@
                     unlockedFonts = JSON.parse(savedUnlocked);
                 } catch(e) {
                     unlockedFonts = [0, 1, 3];
+                }
+            }
+
+            // Load English Unlocked Fonts (Default 0, 1 unlocked for testing)
+            const savedUnlockedEn = localStorage.getItem('omni_unlocked_en_fonts');
+            if (savedUnlockedEn === null) {
+                unlockedEnFonts = [0, 1];
+                localStorage.setItem('omni_unlocked_en_fonts', JSON.stringify(unlockedEnFonts));
+            } else {
+                try {
+                    unlockedEnFonts = JSON.parse(savedUnlockedEn);
+                } catch(e) {
+                    unlockedEnFonts = [0, 1];
                 }
             }
 
@@ -778,16 +793,14 @@
 
         function unlockFont(fontIndex) {
             const FONT_PRICE = 2;
-            if (unlockedFonts.includes(fontIndex)) {
-                return;
-            }
+            if (unlockedFonts.includes(fontIndex)) return;
 
             if (userCoins < FONT_PRICE) {
                 alert(`⚠️ تعداد سکه‌های شما کافی نیست!\n\nقیمت آنلاک این فونت: ۲ سکه\nموجودی شما: ${userCoins} سکه\n\nمی‌توانید با عضویت در کانال بله (@factinew) یا دریافت سکه روزانه سکه به دست آورید.`);
                 return;
             }
 
-            if (confirm(`آیا می‌خواهید این فونت را با پرداخت ۲ سکه آنلاک کنید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
+            if (confirm(`آیا می‌خواهید این فونت فارسی را با پرداخت ۲ سکه آنلاک کنید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
                 userCoins -= FONT_PRICE;
                 unlockedFonts.push(fontIndex);
                 localStorage.setItem('omni_user_coins', userCoins);
@@ -795,6 +808,26 @@
                 updateCoinUI();
                 renderFontPreviews();
                 alert('🔓 فونت با موفقیت برای شما آنلاک شد!');
+            }
+        }
+
+        function unlockEnFont(fontIndex) {
+            const FONT_PRICE = 2;
+            if (unlockedEnFonts.includes(fontIndex)) return;
+
+            if (userCoins < FONT_PRICE) {
+                alert(`⚠️ تعداد سکه‌های شما کافی نیست!\n\nقیمت آنلاک این استایل انگلیسی: ۲ سکه\nموجودی شما: ${userCoins} سکه\n\nمی‌توانید با عضویت در کانال بله (@factinew) یا دریافت سکه روزانه سکه به دست آورید.`);
+                return;
+            }
+
+            if (confirm(`آیا می‌خواهید این استایل انگلیسی را با پرداخت ۲ سکه آنلاک کنید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
+                userCoins -= FONT_PRICE;
+                unlockedEnFonts.push(fontIndex);
+                localStorage.setItem('omni_user_coins', userCoins);
+                localStorage.setItem('omni_unlocked_en_fonts', JSON.stringify(unlockedEnFonts));
+                updateCoinUI();
+                renderFontPreviews();
+                alert('🔓 استایل انگلیسی با موفقیت برای شما آنلاک شد!');
             }
         }
 
@@ -964,7 +997,7 @@
                 { name: "قاب ژاپنی", fmt: (t) => `【 ${t} 】` },
                 { name: "قاب گوشه‌ای", fmt: (t) => `『 ${t} 』` },
                 { name: "قاب موجی", fmt: (t) => `༺ ${t} ༻` },
-                { name: "قاب الماس", fmt: (t) => `♦️️ ${t} ♦️` },
+                { name: "قاب الماس", fmt: (t) => `♦️ ${t} ♦️` },
                 { name: "قاب درخشان", fmt: (t) => `✨ ${t} ✨` },
                 { name: "قاب شمشیر", fmt: (t) => `⚔️ ${t} ⚔️` },
                 { name: "قاب رز", fmt: (t) => `🌹 ${t} 🌹` },
@@ -993,7 +1026,7 @@
             }
         })();
 
-        // Canvas Rendering function to copy actual font as PNG image to Clipboard
+        // Universal Canvas Image Generator for both Persian & English fonts
         function copyFontAsImage(text, fontCleanName, fontName, btnElement) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -1001,7 +1034,7 @@
             canvas.width = 900;
             canvas.height = 220;
 
-            // Draw Background Card
+            // Background Slate Card
             ctx.fillStyle = "#0f172a";
             if (ctx.roundRect) {
                 ctx.roundRect(0, 0, 900, 220, 24);
@@ -1010,7 +1043,7 @@
                 ctx.fillRect(0, 0, 900, 220);
             }
 
-            // Draw Cyan Glow Border
+            // Cyan Border
             ctx.strokeStyle = "#00f3ff";
             ctx.lineWidth = 2;
             if (ctx.roundRect) {
@@ -1018,8 +1051,9 @@
                 ctx.stroke();
             }
 
-            // Draw Text with exact WebFont
-            ctx.font = `bold 46px "${fontCleanName}", Vazirmatn, sans-serif`;
+            // Draw exact Font / Text Style
+            const fontStyleStr = fontCleanName ? `"${fontCleanName}", Vazirmatn, sans-serif` : 'Vazirmatn, sans-serif';
+            ctx.font = `bold 42px ${fontStyleStr}`;
             ctx.fillStyle = "#00f3ff";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
@@ -1031,19 +1065,18 @@
                         new ClipboardItem({ 'image/png': blob })
                     ]);
                     if (btnElement) {
-                        btnElement.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> عکس فونت کپی شد! (آماده Paste در بله)`;
+                        btnElement.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> عکس کپی شد! (آماده Paste در بله)`;
                         setTimeout(() => {
-                            btnElement.innerHTML = `<i class="fa-solid fa-image text-cyan-400"></i> کپی عکس واقعی فونت (PNG)`;
+                            btnElement.innerHTML = `<i class="fa-solid fa-image text-cyan-400"></i> کپی عکس واقعی (PNG)`;
                         }, 2500);
                     }
-                    alert('🎨 عکس پوسترِ این فونت کپی شد! اکنون در بله یا تلگرام Paste (Ctrl+V) کنید تا عکس نستعلیق/لاله‌زار ارسال شود.');
+                    alert('🎨 عکس پوسترِ این استایل کپی شد! اکنون در بله یا تلگرام Paste (Ctrl+V) کنید.');
                 } catch (err) {
-                    // Fallback to Download Image
                     const link = document.createElement('a');
-                    link.download = `${fontName}.png`;
+                    link.download = `${fontName || 'font'}.png`;
                     link.href = canvas.toDataURL();
                     link.click();
-                    alert('📥 تصویر این فونت دانلود شد!');
+                    alert('📥 تصویر این استایل دانلود شد!');
                 }
             });
         }
@@ -1084,13 +1117,11 @@
                     actionDiv.className = "space-y-2 pt-1";
 
                     if (isUnlocked) {
-                        // 1. Copy Plain Text Button
                         const copyTextBtn = document.createElement('button');
                         copyTextBtn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
                         copyTextBtn.innerHTML = `<i class="fa-solid fa-copy text-amber-400"></i> کپی متن (کشیده + نماد)`;
                         copyTextBtn.addEventListener('click', () => doCopy(formattedText, copyTextBtn));
 
-                        // 2. Copy Image Button (Exact Canvas Font Rendering)
                         const copyImgBtn = document.createElement('button');
                         copyImgBtn.className = "w-full bg-gradient-to-r from-cyan-900/40 to-slate-800 hover:from-cyan-800/60 text-cyan-300 text-xs font-bold py-2 rounded-xl border border-cyan-500/30 transition flex items-center justify-center gap-1.5";
                         copyImgBtn.innerHTML = `<i class="fa-solid fa-image text-cyan-400"></i> کپی عکس واقعی فونت (PNG)`;
@@ -1120,30 +1151,65 @@
                     grid.appendChild(card);
                 });
             } else {
-                englishFontList.forEach((style) => {
+                englishFontList.forEach((style, idx) => {
+                    const isUnlocked = unlockedEnFonts.includes(idx);
                     const transformed = style.fmt(inputVal);
+
                     const card = document.createElement('div');
-                    card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between hover:border-cyan-500/40 transition";
+                    card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between hover:border-cyan-500/40 transition relative overflow-hidden";
                     
                     const titleDiv = document.createElement('div');
                     titleDiv.className = "flex justify-between items-center text-[10px] text-slate-400 border-b border-slate-800/60 pb-2";
-                    titleDiv.innerHTML = `<span class="font-bold text-slate-300">${style.name}</span><span class="font-mono text-cyan-400/80">#${style.id}</span>`;
+                    titleDiv.innerHTML = `
+                        <span class="font-bold text-slate-300 flex items-center gap-1.5">
+                            ${isUnlocked ? '<i class="fa-solid fa-lock-open text-emerald-400"></i>' : '<i class="fa-solid fa-lock text-amber-400"></i>'}
+                            ${style.name}
+                        </span>
+                        <span class="font-mono text-cyan-400/80">#${style.id}</span>
+                    `;
                     
                     const previewDiv = document.createElement('div');
-                    previewDiv.className = "py-4 text-center overflow-x-auto";
+                    previewDiv.className = `py-4 text-center overflow-x-auto ${!isUnlocked ? 'blur-sm select-none pointer-events-none opacity-40' : ''}`;
                     const p = document.createElement('p');
                     p.className = `${style.css} transition-all font-vazir whitespace-nowrap`;
                     p.textContent = transformed;
                     previewDiv.appendChild(p);
 
-                    const btn = document.createElement('button');
-                    btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
-                    btn.innerHTML = `<i class="fa-solid fa-copy text-cyan-400"></i> کپی متن`;
-                    btn.addEventListener('click', () => doCopy(transformed, btn));
+                    const actionDiv = document.createElement('div');
+                    actionDiv.className = "space-y-2 pt-1";
+
+                    if (isUnlocked) {
+                        const copyTextBtn = document.createElement('button');
+                        copyTextBtn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
+                        copyTextBtn.innerHTML = `<i class="fa-solid fa-copy text-cyan-400"></i> کپی متن استایل‌دار`;
+                        copyTextBtn.addEventListener('click', () => doCopy(transformed, copyTextBtn));
+
+                        const copyImgBtn = document.createElement('button');
+                        copyImgBtn.className = "w-full bg-gradient-to-r from-cyan-900/40 to-slate-800 hover:from-cyan-800/60 text-cyan-300 text-xs font-bold py-2 rounded-xl border border-cyan-500/30 transition flex items-center justify-center gap-1.5";
+                        copyImgBtn.innerHTML = `<i class="fa-solid fa-image text-cyan-400"></i> کپی عکس واقعی (PNG)`;
+                        copyImgBtn.addEventListener('click', () => copyFontAsImage(transformed, "", style.name, copyImgBtn));
+
+                        actionDiv.appendChild(copyTextBtn);
+                        actionDiv.appendChild(copyImgBtn);
+                    } else {
+                        const unlockBtn = document.createElement('button');
+                        unlockBtn.className = "w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 text-xs font-black py-2 rounded-xl transition flex items-center justify-center gap-1.5 shadow-lg shadow-amber-500/10";
+                        unlockBtn.innerHTML = `<i class="fa-solid fa-key"></i> آنلاک با ۲ سکه 🪙`;
+                        unlockBtn.addEventListener('click', () => unlockEnFont(idx));
+
+                        const supportBtn = document.createElement('a');
+                        supportBtn.href = "https://ble.ir/factinew";
+                        supportBtn.target = "_blank";
+                        supportBtn.className = "w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[11px] font-semibold py-1.5 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1";
+                        supportBtn.innerHTML = `<i class="fa-solid fa-paper-plane text-cyan-400"></i> دریافت کد سکه از کانال بله (@factinew)`;
+
+                        actionDiv.appendChild(unlockBtn);
+                        actionDiv.appendChild(supportBtn);
+                    }
 
                     card.appendChild(titleDiv);
                     card.appendChild(previewDiv);
-                    card.appendChild(btn);
+                    card.appendChild(actionDiv);
                     grid.appendChild(card);
                 });
             }
