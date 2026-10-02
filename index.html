@@ -128,8 +128,15 @@
                 </div>
             </div>
 
-            <!-- Support Email Badge & Clock -->
-            <div class="flex items-center gap-3">
+            <!-- Header Right Section: Coins Badge & Support -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Coin Counter Badge -->
+                <div class="bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full flex items-center gap-2">
+                    <i class="fa-solid fa-coins text-amber-400 text-sm"></i>
+                    <span class="text-xs font-black text-amber-300 font-mono" id="headerCoinDisplay">0</span>
+                    <span class="text-[10px] text-amber-400/80 font-bold hidden sm:inline">سکه</span>
+                </div>
+
                 <div id="topHeaderClock" class="hidden md:flex items-center gap-2 bg-slate-900/90 px-3.5 py-1.5 rounded-full border border-slate-800 text-xs font-mono text-cyan-400">
                     <i class="fa-regular fa-clock text-emerald-400"></i>
                     <span id="liveHeaderTime">00:00:00</span>
@@ -144,8 +151,58 @@
         </div>
     </header>
 
+    <!-- Daily Reward & Bale Channel Gift Section -->
+    <div class="max-w-7xl mx-auto px-4 pt-4 w-full space-y-3">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            
+            <!-- 1. Daily 24h Reward Box -->
+            <div class="bg-gradient-to-r from-amber-950/80 via-slate-900 to-purple-950/80 border border-amber-500/30 rounded-2xl p-4 flex flex-wrap justify-between items-center gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-gift animate-bounce"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs sm:text-sm font-bold text-amber-300">پاداش روزانه: ۱ سکه رایگان هر ۲۴ ساعت</h4>
+                        <p class="text-[11px] text-slate-400 mt-0.5">با دریافت روزانه سکه، فونت‌های اصیل فارسی را آنلاک کنید.</p>
+                    </div>
+                </div>
+                <button id="claimDailyBtn" onclick="claimDailyReward()" class="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black px-4 py-2 rounded-xl transition text-xs shadow-lg shadow-amber-500/20 flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <span id="claimBtnText">دریافت ۱ سکه امروز</span>
+                </button>
+            </div>
+
+            <!-- 2. Bale Channel Join & Promo Code Box -->
+            <div class="bg-gradient-to-r from-cyan-950/80 via-slate-900 to-emerald-950/80 border border-cyan-500/30 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs sm:text-sm font-bold text-cyan-300">سکه رایگان با عضویت در کانال بله!</h4>
+                        <p class="text-[11px] text-slate-400 mt-0.5">عضو کانال <strong class="text-cyan-400">@factinew</strong> شوید و کد جایزه بگیرید.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <a href="https://ble.ir/factinew" target="_blank" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black px-3 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shrink-0" title="ورود به کانال بله">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> کانال بله
+                    </a>
+                    
+                    <div class="flex items-center gap-1 bg-slate-900/90 border border-slate-700 rounded-xl p-1 w-full sm:w-auto">
+                        <input type="text" id="promoCodeInput" placeholder="کد هدیه..." class="bg-transparent text-xs text-slate-100 px-2 py-1 focus:outline-none w-28 font-mono">
+                        <button onclick="redeemPromoCode()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-2.5 py-1 rounded-lg text-xs transition">
+                            ثبت
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-8">
 
         <!-- Main Tool Switcher Cards -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -174,8 +231,8 @@
                     <i class="fa-solid fa-font"></i>
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت (فارسی / انگلیسی)</h2>
-                    <p class="text-[11px] text-slate-400 mt-0.5">پیش‌نمایش فونت‌های ایرانی + ۱۰۰ استایل انگلیسی یونیکد</p>
+                    <h2 class="text-sm font-bold text-slate-100 group-hover:text-amber-300 transition-colors">زیباسازی فونت (سیستم سکه‌ای)</h2>
+                    <p class="text-[11px] text-slate-400 mt-0.5">پیش‌نمایش فونت‌های اصیل ایرانی با قابلیت آنلاک سکه‌ای</p>
                 </div>
             </button>
         </section>
@@ -348,7 +405,6 @@
                 </div>
 
                 <div class="glass p-6 rounded-3xl border border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    <!-- Date Input Form -->
                     <div class="lg:col-span-4 bg-slate-900/60 p-5 rounded-2xl border border-slate-800 space-y-4">
                         <label class="block text-xs font-bold text-purple-300">تاریخ دقیق تولد (شمسی):</label>
                         <div class="grid grid-cols-3 gap-2">
@@ -386,9 +442,7 @@
                         </button>
                     </div>
 
-                    <!-- Output Stats -->
                     <div class="lg:col-span-8 space-y-4">
-                        <!-- Live Ticking Exact Age -->
                         <div class="bg-gradient-to-r from-purple-950/60 to-slate-900 p-5 rounded-2xl border border-purple-500/30 flex flex-wrap justify-around items-center text-center gap-2">
                             <div>
                                 <span id="ageYears" class="text-2xl sm:text-3xl font-black text-purple-300 font-mono">0</span>
@@ -421,7 +475,6 @@
                             </div>
                         </div>
 
-                        <!-- Countdown To Next Birthday -->
                         <div class="bg-slate-900/90 p-4 rounded-2xl border border-amber-500/30 flex flex-wrap justify-between items-center gap-3">
                             <div class="flex items-center gap-2.5">
                                 <i class="fa-solid fa-gift text-amber-400 text-xl"></i>
@@ -432,7 +485,6 @@
                             </div>
                         </div>
 
-                        <!-- Total Lived Metrics -->
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
                             <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
                                 <span class="text-[10px] text-slate-400 block">مجموع روزها</span>
@@ -452,7 +504,6 @@
                             </div>
                         </div>
 
-                        <!-- Zodiac & Astrology -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 text-center space-y-1">
                                 <span class="text-[10px] text-slate-400 block">برج خورشیدی (صورت فلکی)</span>
@@ -542,27 +593,33 @@
             </div>
         </div>
 
-        <!-- TOOL 3: FONTCRAFT PRO (100 ENGLISH UNICODE + PERSIAN WEBFONTS) -->
+        <!-- TOOL 3: FONTCRAFT PRO (COIN UNLOCK SYSTEM & BALE CHANNEL INTEGRATION) -->
         <div id="toolSection-font" class="hidden space-y-6">
             <div class="glass p-6 sm:p-8 rounded-3xl border border-slate-800 glow-box space-y-6">
                 <div class="flex flex-wrap justify-between items-center gap-4">
                     <div>
                         <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
-                            <i class="fa-solid fa-font text-amber-400"></i> استودیو زیباسازی و پیش‌نمایش فونت
+                            <i class="fa-solid fa-font text-amber-400"></i> استودیو پیش‌‌نمایش و آنلاک فونت‌ها
                         </h3>
-                        <p class="text-xs text-slate-400 mt-1">متن خود را وارد کنید. خروجی انگلیسی شامل ۱۰۰ استایل یونیکد قابل پیست در اینستاگرام و تلگرام است.</p>
+                        <p class="text-xs text-slate-400 mt-1">هر فونت دلخواه را با ۲ سکه برای خود آنلاک کنید، یا جهت دریافت کدهای جایزه در کانال بله عضو شوید.</p>
                     </div>
 
-                    <!-- 2 Language Selector Tabs / Icons -->
-                    <div class="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800">
-                        <button onclick="switchFontLang('fa')" id="fontLangBtn-fa" class="lang-tab-btn active px-4 py-2 rounded-xl border border-transparent text-xs font-bold transition flex items-center gap-2">
-                            <i class="fa-solid fa-language text-amber-400 text-base"></i>
-                            <span>فونت‌های اصیل فارسی</span>
-                        </button>
-                        <button onclick="switchFontLang('en')" id="fontLangBtn-en" class="lang-tab-btn px-4 py-2 rounded-xl border border-transparent text-xs font-bold transition flex items-center gap-2">
-                            <i class="fa-solid fa-font text-cyan-400 text-base"></i>
-                            <span>۱۰۰ استایل انگلیسی (Unicode)</span>
-                        </button>
+                    <!-- Language Selector Tabs & Fast Buy Support -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <a href="https://ble.ir/factinew" target="_blank" class="bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 hover:from-cyan-500/30 hover:to-emerald-500/30 border border-cyan-500/40 text-cyan-300 text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-md">
+                            <i class="fa-solid fa-paper-plane text-cyan-400"></i> عضویت در بله (@factinew)
+                        </a>
+
+                        <div class="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800">
+                            <button onclick="switchFontLang('fa')" id="fontLangBtn-fa" class="lang-tab-btn active px-4 py-2 rounded-xl border border-transparent text-xs font-bold transition flex items-center gap-2">
+                                <i class="fa-solid fa-language text-amber-400 text-base"></i>
+                                <span>فونت‌های اصیل فارسی</span>
+                            </button>
+                            <button onclick="switchFontLang('en')" id="fontLangBtn-en" class="lang-tab-btn px-4 py-2 rounded-xl border border-transparent text-xs font-bold transition flex items-center gap-2">
+                                <i class="fa-solid fa-font text-cyan-400 text-base"></i>
+                                <span>۱۰۰ استایل انگلیسی</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -585,7 +642,7 @@
                 </div>
                 <div>
                     <h4 class="text-sm font-bold text-slate-200">پشتیبانی و ارتباط مستقیم</h4>
-                    <p class="text-xs text-slate-400 mt-0.5">سؤالات و پیشنهادات خود را ارسال کنید.</p>
+                    <p class="text-xs text-slate-400 mt-0.5">جهت دریافت کدهای جایزه سفارشی، پیشنهاد یا رفع اشکال ایمیل بزنید.</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
@@ -603,11 +660,158 @@
     <!-- Footer -->
     <footer class="border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 space-y-2">
         <p>© 2026 OmniTools Studio - ۳ ابزار آنلاین، هوشمند و پرسرعت.</p>
-        <p class="text-[11px] text-slate-600">پشتیبانی: <a href="mailto:mehradsheikhi@gmail.com" class="text-purple-400 hover:underline font-mono">mehradsheikhi@gmail.com</a></p>
+        <p class="text-[11px] text-slate-600">کانال پیام‌رسان بله: <a href="https://ble.ir/factinew" target="_blank" class="text-cyan-400 hover:underline font-mono">@factinew</a> | پشتیبانی: <a href="mailto:mehradsheikhi@gmail.com" class="text-purple-400 hover:underline font-mono">mehradsheikhi@gmail.com</a></p>
     </footer>
 
     <!-- Logic Script -->
     <script>
+        // --- 0. DAILY COIN SYSTEM & PROMO CODE STORE LOGIC ---
+        let userCoins = 0;
+        let lastClaimTime = 0;
+        let unlockedFonts = [];
+        let usedPromoCodes = [];
+
+        // Active Case-Sensitive Promo Codes (Code -> 1 Free Coin)
+        const activePromoCodes = {
+            'FAcT194': 1,
+            'SOoD175': 1,
+            'wWe147': 1,
+            'Rty782': 1,
+            'AFk560': 1
+        };
+
+        function initCoinSystem() {
+            // Load Coins
+            const savedCoins = localStorage.getItem('omni_user_coins');
+            if (savedCoins === null) {
+                userCoins = 2; // Welcome Bonus: 2 Coins
+                localStorage.setItem('omni_user_coins', userCoins);
+            } else {
+                userCoins = parseInt(savedCoins) || 0;
+            }
+
+            // Load Last Claim
+            lastClaimTime = parseInt(localStorage.getItem('omni_last_claim_time')) || 0;
+
+            // Load Unlocked Fonts (Default unlocked: 0, 1, 3 -> Vazirmatn, Nazanin, Yekan)
+            const savedUnlocked = localStorage.getItem('omni_unlocked_fonts');
+            if (savedUnlocked === null) {
+                unlockedFonts = [0, 1, 3];
+                localStorage.setItem('omni_unlocked_fonts', JSON.stringify(unlockedFonts));
+            } else {
+                try {
+                    unlockedFonts = JSON.parse(savedUnlocked);
+                } catch(e) {
+                    unlockedFonts = [0, 1, 3];
+                }
+            }
+
+            // Load Used Promo Codes
+            const savedUsedCodes = localStorage.getItem('omni_used_codes');
+            if (savedUsedCodes !== null) {
+                try {
+                    usedPromoCodes = JSON.parse(savedUsedCodes);
+                } catch(e) {
+                    usedPromoCodes = [];
+                }
+            }
+
+            updateCoinUI();
+        }
+
+        function updateCoinUI() {
+            document.getElementById('headerCoinDisplay').innerText = userCoins;
+            checkDailyRewardStatus();
+        }
+
+        function checkDailyRewardStatus() {
+            const now = Date.now();
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+            const diff = now - lastClaimTime;
+            const btn = document.getElementById('claimDailyBtn');
+            const btnText = document.getElementById('claimBtnText');
+
+            if (diff >= twentyFourHours || lastClaimTime === 0) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnText.innerText = "دریافت ۱ سکه امروز";
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+                const remainingMs = twentyFourHours - diff;
+                const hrs = Math.floor(remainingMs / (1000 * 60 * 60));
+                const mins = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((remainingMs % (1000 * 60)) / 1000);
+                btnText.innerText = `سکه بعدی در: ${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+            }
+        }
+
+        function claimDailyReward() {
+            const now = Date.now();
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+            if (now - lastClaimTime >= twentyFourHours || lastClaimTime === 0) {
+                userCoins += 1;
+                lastClaimTime = now;
+                localStorage.setItem('omni_user_coins', userCoins);
+                localStorage.setItem('omni_last_claim_time', lastClaimTime);
+                updateCoinUI();
+                alert('🎉 مبارکه! ۱ سکه پاداش روزانه به حساب شما اضافه شد.');
+            }
+        }
+
+        function redeemPromoCode() {
+            const inputEl = document.getElementById('promoCodeInput');
+            const code = inputEl.value.trim(); // Strict Exact Match (Case-Sensitive)
+
+            if (!code) {
+                alert('لطفاً کد هدیه را وارد کنید.');
+                return;
+            }
+
+            // Limit: 1 Code per User
+            if (usedPromoCodes.length >= 1) {
+                alert('⚠️ شما قبلاً از کد هدیه استفاده کرده‌اید! هر کاربر فقط مجاز به ثبت ۱ کد هدیه می‌باشد.');
+                return;
+            }
+
+            if (activePromoCodes.hasOwnProperty(code)) {
+                const bonusCoins = activePromoCodes[code];
+                userCoins += bonusCoins;
+                usedPromoCodes.push(code);
+
+                localStorage.setItem('omni_user_coins', userCoins);
+                localStorage.setItem('omni_used_codes', JSON.stringify(usedPromoCodes));
+
+                updateCoinUI();
+                inputEl.value = '';
+                alert(`🎉 تبریک! کد هدیه با موفقیت فعال شد و ${bonusCoins} سکه به حساب شما اضافه شد.`);
+            } else {
+                alert('❌ کد هدیه وارد شده نامعتبر است! لطفاً به حروف کوچک و بزرگ دقت فرمایید.');
+            }
+        }
+
+        function unlockFont(fontIndex) {
+            const FONT_PRICE = 2;
+            if (unlockedFonts.includes(fontIndex)) {
+                return;
+            }
+
+            if (userCoins < FONT_PRICE) {
+                alert(`⚠️ تعداد سکه‌های شما کافی نیست!\n\nقیمت آنلاک این فونت: ۲ سکه\nموجودی شما: ${userCoins} سکه\n\nمی‌توانید با عضویت در کانال بله (@factinew) یا دریافت سکه روزانه سکه به دست آورید.`);
+                return;
+            }
+
+            if (confirm(`آیا می‌خواهید این فونت را با پرداخت ۲ سکه آنلاک کنید؟\nموجودی فعلی شما: ${userCoins} سکه`)) {
+                userCoins -= FONT_PRICE;
+                unlockedFonts.push(fontIndex);
+                localStorage.setItem('omni_user_coins', userCoins);
+                localStorage.setItem('omni_unlocked_fonts', JSON.stringify(unlockedFonts));
+                updateCoinUI();
+                renderFontPreviews();
+                alert('🔓 فونت با موفقیت برای شما آنلاک شد!');
+            }
+        }
+
         // --- 1. MAIN TOOLS SWITCHER ---
         function switchMainTool(tool) {
             ['time', 'compressor', 'font'].forEach(t => {
@@ -773,7 +977,7 @@
                 { name: "قاب اسلیمی", fmt: (t) => `❖ ${t} ❖` },
                 { name: "قاب هندسی", fmt: (t) => `◈ ${t} ◈` },
                 { name: "قاب خورشیدی", fmt: (t) => `✦ ${t} ✦` },
-                { name: "قاب نشان زرین", fmt: (t) => `⚜️ ${t} ⚜️` },
+                { name: "قاب نشان زرین", fmt: (t) => `⚜️ ${t} ⚜️️` },
                 { name: "قاب هلال ماه", fmt: (t) => `☽ ${t} ☾` }
             ];
 
@@ -800,29 +1004,56 @@
 
             if (currentFontLang === 'fa') {
                 persianFontList.forEach((font, idx) => {
+                    const isUnlocked = unlockedFonts.includes(idx);
                     const card = document.createElement('div');
-                    card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between hover:border-amber-500/40 transition";
+                    card.className = "bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between hover:border-amber-500/40 transition relative overflow-hidden";
                     
                     const titleDiv = document.createElement('div');
                     titleDiv.className = "flex justify-between items-center text-[10px] text-slate-400 border-b border-slate-800/60 pb-2";
-                    titleDiv.innerHTML = `<span class="font-bold text-slate-300">${font.name}</span><span class="font-mono text-amber-400/80">#${idx + 1}</span>`;
+                    titleDiv.innerHTML = `
+                        <span class="font-bold text-slate-300 flex items-center gap-1.5">
+                            ${isUnlocked ? '<i class="fa-solid fa-lock-open text-emerald-400"></i>' : '<i class="fa-solid fa-lock text-amber-400"></i>'}
+                            ${font.name}
+                        </span>
+                        <span class="font-mono text-amber-400/80">#${idx + 1}</span>
+                    `;
                     
                     const previewDiv = document.createElement('div');
-                    previewDiv.className = "py-4 text-center overflow-x-auto";
+                    previewDiv.className = `py-4 text-center overflow-x-auto ${!isUnlocked ? 'blur-sm select-none pointer-events-none opacity-40' : ''}`;
                     const p = document.createElement('p');
                     p.className = `${font.css} transition-all whitespace-nowrap`;
                     p.style.fontFamily = font.fontFamily;
                     p.textContent = inputVal;
                     previewDiv.appendChild(p);
 
-                    const btn = document.createElement('button');
-                    btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
-                    btn.innerHTML = `<i class="fa-solid fa-copy text-amber-400"></i> کپی متن`;
-                    btn.addEventListener('click', () => doCopy(inputVal, btn, 'amber'));
+                    const actionDiv = document.createElement('div');
+                    actionDiv.className = "space-y-2 pt-1";
+
+                    if (isUnlocked) {
+                        const btn = document.createElement('button');
+                        btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
+                        btn.innerHTML = `<i class="fa-solid fa-copy text-amber-400"></i> کپی متن`;
+                        btn.addEventListener('click', () => doCopy(inputVal, btn));
+                        actionDiv.appendChild(btn);
+                    } else {
+                        const unlockBtn = document.createElement('button');
+                        unlockBtn.className = "w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 text-xs font-black py-2 rounded-xl transition flex items-center justify-center gap-1.5 shadow-lg shadow-amber-500/10";
+                        unlockBtn.innerHTML = `<i class="fa-solid fa-key"></i> آنلاک با ۲ سکه 🪙`;
+                        unlockBtn.addEventListener('click', () => unlockFont(idx));
+
+                        const supportBtn = document.createElement('a');
+                        supportBtn.href = "https://ble.ir/factinew";
+                        supportBtn.target = "_blank";
+                        supportBtn.className = "w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[11px] font-semibold py-1.5 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1";
+                        supportBtn.innerHTML = `<i class="fa-solid fa-paper-plane text-cyan-400"></i> دریافت کد سکه از کانال بله (@factinew)`;
+
+                        actionDiv.appendChild(unlockBtn);
+                        actionDiv.appendChild(supportBtn);
+                    }
 
                     card.appendChild(titleDiv);
                     card.appendChild(previewDiv);
-                    card.appendChild(btn);
+                    card.appendChild(actionDiv);
                     grid.appendChild(card);
                 });
             } else {
@@ -845,7 +1076,7 @@
                     const btn = document.createElement('button');
                     btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 rounded-xl border border-slate-700/80 transition flex items-center justify-center gap-1.5";
                     btn.innerHTML = `<i class="fa-solid fa-copy text-cyan-400"></i> کپی متن`;
-                    btn.addEventListener('click', () => doCopy(transformed, btn, 'cyan'));
+                    btn.addEventListener('click', () => doCopy(transformed, btn));
 
                     card.appendChild(titleDiv);
                     card.appendChild(previewDiv);
@@ -855,7 +1086,7 @@
             }
         }
 
-        function doCopy(text, btnElement, colorClass) {
+        function doCopy(text, btnElement) {
             navigator.clipboard.writeText(text);
             if (btnElement) {
                 const originalHtml = btnElement.innerHTML;
@@ -1413,6 +1644,7 @@
 
         // --- 6. INITIALIZATION ---
         function initApp() {
+            initCoinSystem();
             initWorldClocks();
             updatePrayerTimes();
             convertJalaliDate();
@@ -1441,6 +1673,7 @@
 
                 updateCountdown();
                 updateWorldClocks();
+                checkDailyRewardStatus();
             }, 1000);
         }
 
