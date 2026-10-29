@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>مزرعه سه‌بعدی من 🌾</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Tahoma, "Segoe UI", sans-serif; }
+    /* استفاده از فونت کالیبری */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Calibri, Tahoma, "Segoe UI", sans-serif; }
     body { overflow: hidden; background: #87CEEB; color: #2d3436; }
     .hidden { display: none !important; }
 
@@ -14,15 +15,19 @@
 
     /* رابط کاربری */
     .ui-layer { position: absolute; z-index: 10; pointer-events: none; }
-    .ui-panel { pointer-events: auto; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 15px; border: 1px solid rgba(255,255,255,0.6); }
+    .ui-panel { pointer-events: auto; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 15px; border: 1px solid rgba(255,255,255,0.7); }
 
     /* نوار بالا */
     #topBar { top: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; align-items: center; }
     .farm-name { font-weight: bold; font-size: 22px; color: #27ae60; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
     .coins { font-weight: bold; font-size: 22px; color: #e67e22; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
+    
+    /* لینک کانال بله */
+    .bale-link { background: #3498db; color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4); transition: 0.3s; display: flex; align-items: center; gap: 5px; }
+    .bale-link:hover { background: #2980b9; transform: translateY(-2px); }
 
     /* منوی کناری */
-    #sidePanel { top: 80px; right: 15px; bottom: 15px; width: 330px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+    #sidePanel { top: 80px; right: 15px; bottom: 15px; width: 340px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
     #sidePanel::-webkit-scrollbar { width: 6px; }
     #sidePanel::-webkit-scrollbar-thumb { background: #bdc3c7; border-radius: 3px; }
     
@@ -36,6 +41,7 @@
     .btn-seed { background: linear-gradient(135deg, #1abc9c, #16a085); }
     .btn-buy { background: linear-gradient(135deg, #e67e22, #d35400); }
     .btn-harvest { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+    .btn-daily { background: linear-gradient(135deg, #ff9a9e, #fecfef); color: #c0392b; text-shadow: 1px 1px 1px #fff; font-size: 15px; }
 
     .inv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 14px; }
     .inv-item { background: #ecf0f1; padding: 8px; border-radius: 6px; text-align: center; }
@@ -59,7 +65,6 @@
 </head>
 <body>
 
-  <!-- محیط 3D -->
   <div id="canvas-container"></div>
   <div id="toast" class="toast hidden"></div>
 
@@ -67,10 +72,22 @@
   <div id="gameUI" class="hidden">
     <div id="topBar" class="ui-panel">
       <div class="farm-name">🏡 <span id="farmNameDisplay"></span></div>
+      <!-- لینک کانال بله -->
+      <a href="https://ble.ir/factinew" target="_blank" class="bale-link">
+        <span>📢</span> کانال بله: @factinew
+      </a>
       <div class="coins">💰 <span id="coinsDisplay">0</span> سکه</div>
     </div>
 
     <div id="sidePanel" class="ui-layer">
+      
+      <!-- پنل سکه روزانه -->
+      <div class="ui-panel panel" style="border: 2px solid #f1c40f;">
+        <h2>🎁 پاداش روزانه</h2>
+        <p style="font-size:12px; margin-bottom:8px; color:#555;">هر روز وارد شوید و سکه رایگان بگیرید!</p>
+        <button id="dailyBtn" class="btn btn-daily">دریافت 10 سکه روزانه</button>
+      </div>
+
       <div class="ui-panel panel">
         <h2>📦 انبار و بازار</h2>
         <div class="inv-grid">
@@ -108,7 +125,7 @@
 
       <div class="ui-panel panel">
         <h2>🎁 کد هدیه</h2>
-        <input type="text" id="giftInput" placeholder="کد هدیه..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-bottom:8px; text-align:center;" />
+        <input type="text" id="giftInput" placeholder="کد هدیه..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-bottom:8px; text-align:center; font-family:inherit;" />
         <button id="giftBtn" class="btn btn-purple">دریافت جایزه</button>
       </div>
     </div>
@@ -126,11 +143,11 @@
 
   <script>
     /* =========================================================
-       1. منطق بازی و مدیریت State
+       1. تنظیمات و State
        ========================================================= */
-    const SAVE_KEY = "farmGame3D_v2"; // نسخه جدید برای پاکسازی کش قدیمی
+    const SAVE_KEY = "farmGame3D_v3"; 
     const CONFIG = {
-      START_COINS: 50, DAILY_BONUS: 10,
+      START_COINS: 20, DAILY_BONUS: 10,
       SHEEP_PRICE: 80, CHICKEN_PRICE: 30, COW_PRICE: 90, LAND_BASE_PRICE: 100,
       SEED_PRICES: { vegetable: 5, wheat: 2, apple: 5 },
       CROP_VALUES: { vegetable: 2, wheat: 1, apple: 2 },
@@ -140,7 +157,12 @@
       MERCHANT_INTERVAL: 30 * 60 * 1000,
       CROP_GROW_TIME: 2 * 60 * 60 * 1000, CROP_LIFETIME: 24 * 60 * 60 * 1000
     };
-    const GIFT_CODES = { "FACTINEW10": 10, "FARM2026": 25, "WELCOME50": 50, "SHEEPGIFT": 80, "GOLDEN100": 100 };
+    
+    // کدهای هدیه (شامل کدهای جدید درخواستی)
+    const GIFT_CODES = { 
+      "WQP123": 30, "PIFIC45": 30, "RMVC1": 30, "FRVS7": 30, "POIU78": 30,
+      "FACTINEW10": 10, "FARM2026": 25, "WELCOME50": 50, "SHEEPGIFT": 80, "GOLDEN100": 100 
+    };
 
     let state = null;
     let tickInterval = null;
@@ -152,6 +174,7 @@
       return `${Math.floor(s / 3600)}س ${Math.floor((s % 3600) / 60)}د`;
     }
     function localDateStr() { const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; }
+    
     function showToast(msg) {
       const t = document.getElementById("toast"); t.textContent = msg; t.classList.remove("hidden");
       clearTimeout(t._timer); t._timer = setTimeout(() => t.classList.add("hidden"), 2500);
@@ -162,7 +185,7 @@
     function createInitialState(farmName) {
       const t = now();
       return {
-        version: 2, farmName, coins: CONFIG.START_COINS, lastLoginDate: "", usedGiftCodes: [],
+        version: 3, farmName, coins: CONFIG.START_COINS, lastLoginDate: "", usedGiftCodes: [],
         lands: [{ id: 1, crop: null, plantedAt: null, lastHarvestAt: null }], landsPurchased: 0,
         animals: { cow: 1, sheep: 0, chicken: 0 }, lastProduction: { cow: t, sheep: t, chicken: t },
         appleTree: { exists: true, lastHarvest: t }, lastMerchantVisit: t,
@@ -170,11 +193,16 @@
       };
     }
 
-    function checkDailyBonus() {
+    // منطق سکه روزانه
+    function claimDailyBonus() {
       const today = localDateStr();
       if (state.lastLoginDate !== today) {
-        state.coins += CONFIG.DAILY_BONUS; state.lastLoginDate = today; save();
-        setTimeout(() => showToast(`🎁 پاداش روزانه: +${CONFIG.DAILY_BONUS} سکه`), 1000);
+        state.coins += CONFIG.DAILY_BONUS;
+        state.lastLoginDate = today;
+        save(); renderUI();
+        showToast(`🎁 پاداش روزانه دریافت شد! +${CONFIG.DAILY_BONUS} سکه`);
+      } else {
+        showToast("شما امروز پاداش خود را گرفته‌اید!");
       }
     }
 
@@ -206,7 +234,7 @@
           land.crop = null; land.plantedAt = null; land.lastHarvestAt = null; changed = true;
         }
       });
-      if (changed) { save(); renderUI(); } // آپدیت 3D فقط زمان نیاز
+      if (changed) { save(); renderUI(); }
     }
 
     function getNextLandPrice() { return CONFIG.LAND_BASE_PRICE * Math.pow(2, state.landsPurchased); }
@@ -299,6 +327,19 @@
       document.getElementById("countSheep").textContent = state.animals.sheep;
       document.getElementById("countChicken").textContent = state.animals.chicken;
 
+      // بررسی وضعیت سکه روزانه
+      const today = localDateStr();
+      const dailyBtn = document.getElementById("dailyBtn");
+      if (state.lastLoginDate === today) {
+        dailyBtn.textContent = "✅ دریافت شد";
+        dailyBtn.disabled = true;
+        dailyBtn.style.opacity = "0.6";
+      } else {
+        dailyBtn.textContent = `دریافت ${CONFIG.DAILY_BONUS} سکه روزانه`;
+        dailyBtn.disabled = false;
+        dailyBtn.style.opacity = "1";
+      }
+
       const mStatus = document.getElementById("merchantStatus");
       if (isMerchantPresent()) {
         mStatus.innerHTML = "✅ <b>بازرگان حاضر است!</b>";
@@ -316,7 +357,6 @@
         const div = document.createElement("div");
         div.style.display = "flex"; div.style.justifyContent = "space-between"; div.style.alignItems = "center";
         div.style.background = "#fff"; div.style.padding = "6px 10px"; div.style.borderRadius = "8px"; div.style.fontSize = "13px"; div.style.border = "1px solid #eee";
-
         const text = document.createElement("span");
         if (!land.crop) {
           text.textContent = `زمین ${land.id}: خالی`;
@@ -367,33 +407,31 @@
        ========================================================= */
     let scene, camera, renderer, controls;
     let environmentGroup = new THREE.Group();
-    let dynamicGroup = new THREE.Group(); // برای زمین‌ها، گیاهان و حیوانات
+    let dynamicGroup = new THREE.Group(); 
 
-    // تابع ساخت تکسچر رویه‌ای برای چمن
     function createGrassTexture() {
       const canvas = document.createElement('canvas');
       canvas.width = 512; canvas.height = 512;
       const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#55a630'; // رنگ پایه چمن
+      ctx.fillStyle = '#4CAF50'; 
       ctx.fillRect(0, 0, 512, 512);
-      for(let i=0; i<20000; i++) {
-        ctx.fillStyle = Math.random() > 0.5 ? '#80b918' : '#2b9348'; // سایه‌های چمن
-        ctx.fillRect(Math.random()*512, Math.random()*512, 2, 4); // تیغه‌های چمن
+      for(let i=0; i<30000; i++) {
+        ctx.fillStyle = Math.random() > 0.5 ? '#81C784' : '#388E3C'; 
+        ctx.fillRect(Math.random()*512, Math.random()*512, 2, 4); 
       }
       const tex = new THREE.CanvasTexture(canvas);
       tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(10, 10);
+      tex.repeat.set(15, 15);
       return tex;
     }
 
-    // تابع ساخت تکسچر خاک
     function createSoilTexture() {
       const canvas = document.createElement('canvas');
       canvas.width = 256; canvas.height = 256;
       const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#6b4c3a'; ctx.fillRect(0, 0, 256, 256);
+      ctx.fillStyle = '#5D4037'; ctx.fillRect(0, 0, 256, 256);
       for(let i=0; i<5000; i++) {
-        ctx.fillStyle = Math.random() > 0.5 ? '#5a3d2e' : '#7a5a48';
+        ctx.fillStyle = Math.random() > 0.5 ? '#4E342E' : '#795548';
         ctx.fillRect(Math.random()*256, Math.random()*256, 3, 3);
       }
       const tex = new THREE.CanvasTexture(canvas);
@@ -404,39 +442,41 @@
     function init3D() {
       const container = document.getElementById('canvas-container');
       scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x87CEEB); // آسمان آبی
-      scene.fog = new THREE.Fog(0x87CEEB, 25, 60);
+      scene.background = new THREE.Color(0x87CEEB); 
+      // مه برای عمق بخشیدن به فضا
+      scene.fog = new THREE.Fog(0x87CEEB, 30, 80);
 
       camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.set(0, 15, 20); // زاویه دید بهتر
+      camera.position.set(0, 18, 22); 
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap; // سایه‌های نرم
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
       container.appendChild(renderer.domElement);
 
       controls = new THREE.OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.05;
       controls.maxPolarAngle = Math.PI / 2 - 0.05;
-      controls.minDistance = 8;
-      controls.maxDistance = 40;
+      controls.minDistance = 10;
+      controls.maxDistance = 50;
 
-      // نورپردازی
-      const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
+      // نورپردازی سینمایی
+      const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.5);
       scene.add(hemiLight);
 
-      const dirLight = new THREE.DirectionalLight(0xfff5e6, 1.2); // نور خورشید کمی زرد
-      dirLight.position.set(15, 25, 15);
+      const dirLight = new THREE.DirectionalLight(0xfff8e7, 1.5); 
+      dirLight.position.set(20, 30, 10);
       dirLight.castShadow = true;
       dirLight.shadow.mapSize.width = 2048;
       dirLight.shadow.mapSize.height = 2048;
-      dirLight.shadow.camera.left = -20;
-      dirLight.shadow.camera.right = 20;
-      dirLight.shadow.camera.top = 20;
-      dirLight.shadow.camera.bottom = -20;
+      dirLight.shadow.camera.left = -25;
+      dirLight.shadow.camera.right = 25;
+      dirLight.shadow.camera.top = 25;
+      dirLight.shadow.camera.bottom = -25;
       dirLight.shadow.bias = -0.0005;
+      dirLight.shadow.radius = 4; // سایه‌های نرم‌تر
       scene.add(dirLight);
 
       buildEnvironment();
@@ -448,53 +488,89 @@
     }
 
     function buildEnvironment() {
-      // زمین اصلی با تکسچر چمن
-      const groundGeo = new THREE.PlaneGeometry(60, 60);
+      const groundGeo = new THREE.PlaneGeometry(100, 100);
       const groundMat = new THREE.MeshStandardMaterial({ map: createGrassTexture(), roughness: 1 });
       const ground = new THREE.Mesh(groundGeo, groundMat);
       ground.rotation.x = -Math.PI / 2;
       ground.receiveShadow = true;
       environmentGroup.add(ground);
 
-      // ساخت حصار چوبی دور مزرعه
-      const fenceMat = new THREE.MeshStandardMaterial({ color: 0x8B5A2B, roughness: 0.8 });
-      const postGeo = new THREE.BoxGeometry(0.3, 1.5, 0.3);
-      const railGeo = new THREE.BoxGeometry(4, 0.2, 0.1);
+      // حصار چوبی بهتر
+      const fenceMat = new THREE.MeshStandardMaterial({ color: 0x6D4C41, roughness: 0.8 });
+      const postGeo = new THREE.BoxGeometry(0.4, 1.8, 0.4);
+      const railGeo = new THREE.BoxGeometry(4, 0.2, 0.15);
       
-      const fenceSize = 20;
+      const fenceSize = 24;
       for (let i = -fenceSize/2; i <= fenceSize/2; i+=4) {
-        // میله‌های عمودی
         [-fenceSize/2, fenceSize/2].forEach(x => {
           const post = new THREE.Mesh(postGeo, fenceMat);
-          post.position.set(x, 0.75, i); post.castShadow = true; environmentGroup.add(post);
+          post.position.set(x, 0.9, i); post.castShadow = true; environmentGroup.add(post);
         });
         [-fenceSize/2, fenceSize/2].forEach(z => {
           const post = new THREE.Mesh(postGeo, fenceMat);
-          post.position.set(i, 0.75, z); post.castShadow = true; environmentGroup.add(post);
+          post.position.set(i, 0.9, z); post.castShadow = true; environmentGroup.add(post);
         });
-        // ریل‌های افقی
         if (i < fenceSize/2) {
           [-fenceSize/2, fenceSize/2].forEach(x => {
-            const rail = new THREE.Mesh(railGeo, fenceMat);
-            rail.rotation.y = Math.PI/2; rail.position.set(x, 0.8, i+2); rail.castShadow = true; environmentGroup.add(rail);
+            const rail1 = new THREE.Mesh(railGeo, fenceMat);
+            rail1.rotation.y = Math.PI/2; rail1.position.set(x, 1.2, i+2); rail1.castShadow = true; environmentGroup.add(rail1);
+            const rail2 = new THREE.Mesh(railGeo, fenceMat);
+            rail2.rotation.y = Math.PI/2; rail2.position.set(x, 0.6, i+2); rail2.castShadow = true; environmentGroup.add(rail2);
           });
           [-fenceSize/2, fenceSize/2].forEach(z => {
-            const rail = new THREE.Mesh(railGeo, fenceMat);
-            rail.position.set(i+2, 0.8, z); rail.castShadow = true; environmentGroup.add(rail);
+            const rail1 = new THREE.Mesh(railGeo, fenceMat);
+            rail1.position.set(i+2, 1.2, z); rail1.castShadow = true; environmentGroup.add(rail1);
+            const rail2 = new THREE.Mesh(railGeo, fenceMat);
+            rail2.position.set(i+2, 0.6, z); rail2.castShadow = true; environmentGroup.add(rail2);
           });
         }
       }
 
+      // درختان جنگلی در پس‌زمینه
+      const bgTreeMat = new THREE.MeshStandardMaterial({ color: 0x1B5E20, roughness: 1 });
+      const bgTrunkMat = new THREE.MeshStandardMaterial({ color: 0x3E2723, roughness: 1 });
+      for(let i=0; i<30; i++) {
+        const treeGroup = new THREE.Group();
+        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.5, 3, 6), bgTrunkMat);
+        trunk.position.y = 1.5; treeGroup.add(trunk);
+        const leaves = new THREE.Mesh(new THREE.ConeGeometry(2, 5, 6), bgTreeMat);
+        leaves.position.y = 4; treeGroup.add(leaves);
+        
+        // پخش کردن درختان دور مزرعه
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 30 + Math.random() * 20;
+        treeGroup.position.set(Math.cos(angle)*dist, 0, Math.sin(angle)*dist);
+        environmentGroup.add(treeGroup);
+      }
+
+      // گل‌های وحشی روی چمن
+      const flowerColors = [0xFFC107, 0xE91E63, 0x9C27B0, 0x2196F3];
+      for(let i=0; i<100; i++) {
+        const flower = new THREE.Group();
+        const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.4, 4), new THREE.MeshStandardMaterial({color: 0x4CAF50}));
+        stem.position.y = 0.2; flower.add(stem);
+        const petal = new THREE.Mesh(new THREE.SphereGeometry(0.1, 6, 6), new THREE.MeshStandardMaterial({color: flowerColors[Math.floor(Math.random()*flowerColors.length)]}));
+        petal.position.y = 0.4; flower.add(petal);
+        
+        // پخش کردن در محیط (خارج از زمین کشاورزی)
+        const fx = (Math.random() - 0.5) * 40;
+        const fz = (Math.random() - 0.5) * 40;
+        if (Math.abs(fx) > 8 || Math.abs(fz) > 8) { // دور از مرکز
+           flower.position.set(fx, 0, fz);
+           environmentGroup.add(flower);
+        }
+      }
+
       // ابرها
-      const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.8, roughness: 1 });
-      for(let i=0; i<8; i++) {
+      const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.9, roughness: 1 });
+      for(let i=0; i<10; i++) {
         const cloudGroup = new THREE.Group();
-        for(let j=0; j<4; j++) {
+        for(let j=0; j<5; j++) {
           const sphere = new THREE.Mesh(new THREE.SphereGeometry(Math.random()*2+1, 7, 7), cloudMat);
-          sphere.position.set(Math.random()*4-2, Math.random()*2, Math.random()*4-2);
+          sphere.position.set(Math.random()*5-2.5, Math.random()*2, Math.random()*5-2.5);
           cloudGroup.add(sphere);
         }
-        cloudGroup.position.set(Math.random()*40-20, 15 + Math.random()*5, Math.random()*40-30);
+        cloudGroup.position.set(Math.random()*80-40, 20 + Math.random()*10, Math.random()*80-40);
         environmentGroup.add(cloudGroup);
       }
     }
@@ -510,11 +586,10 @@
       controls.update();
       
       const time = Date.now() * 0.002;
-      // انیمیشن حیوانات
       dynamicGroup.children.forEach(child => {
         if (child.userData.isAnimal) {
           child.position.y = child.userData.baseY + Math.sin(time + child.userData.offset) * 0.15;
-          child.rotation.y = Math.sin(time * 0.5 + child.userData.offset) * 0.2; // چرخش جزئی
+          child.rotation.y = Math.sin(time * 0.5 + child.userData.offset) * 0.2;
         }
       });
 
@@ -522,7 +597,6 @@
     }
 
     /* ----- مدل‌سازهای پیشرفته ----- */
-
     function createLandMesh(x, z) {
       const geo = new THREE.BoxGeometry(3.5, 0.4, 3.5);
       const mat = new THREE.MeshStandardMaterial({ map: createSoilTexture(), roughness: 1 });
@@ -555,7 +629,6 @@
         const bush = new THREE.Mesh(new THREE.SphereGeometry(0.4, 16, 16), leafMat);
         bush.position.set((Math.random()-0.5)*2, 0.4, (Math.random()-0.5)*2);
         bush.castShadow = true; group.add(bush);
-        // یک میوه قرمز کوچک
         const fruit = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 8), fruitMat);
         fruit.position.set(bush.position.x, 0.7, bush.position.z);
         group.add(fruit);
@@ -570,7 +643,6 @@
       trunk.position.y = 1; trunk.castShadow = true; group.add(trunk);
       
       const leafMat = new THREE.MeshStandardMaterial({ color: 0x27AE60, roughness: 0.8 });
-      // تاج درخت از چند کره
       for(let i=0; i<5; i++) {
         const leaves = new THREE.Mesh(new THREE.SphereGeometry(1 + Math.random()*0.5, 8, 8), leafMat);
         leaves.position.set((Math.random()-0.5)*1.5, 2.2 + Math.random(), (Math.random()-0.5)*1.5);
@@ -595,7 +667,6 @@
       const body = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 1.8, 16), whiteMat);
       body.rotation.z = Math.PI/2; body.position.y = 1.2; body.castShadow = true; group.add(body);
 
-      // لکه‌ها
       for(let i=0; i<4; i++) {
         const spot = new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), blackMat);
         spot.position.set((Math.random()-0.5)*1.5, 1.2 + (Math.random()-0.5)*0.5, (Math.random()-0.5)*0.8);
@@ -608,7 +679,6 @@
       const snout = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.3, 0.5), pinkMat);
       snout.position.set(1.4, 1.2, 0); group.add(snout);
 
-      // پاها
       const legGeo = new THREE.CylinderGeometry(0.15, 0.15, 0.8, 8);
       [-0.6, 0.6].forEach(x => {
         [-0.4, 0.4].forEach(z => {
@@ -624,7 +694,6 @@
       const woolMat = new THREE.MeshStandardMaterial({ color: 0xFDFEFE, roughness: 1 });
       const blackMat = new THREE.MeshStandardMaterial({ color: 0x2C3E50, roughness: 0.8 });
 
-      // بدن پشمی (ترکیب چند کره)
       for(let i=0; i<5; i++) {
         const fluff = new THREE.Mesh(new THREE.SphereGeometry(0.5, 8, 8), woolMat);
         fluff.position.set((Math.random()-0.5)*1, 0.8 + (Math.random()-0.5)*0.3, (Math.random()-0.5)*0.6);
@@ -668,52 +737,38 @@
       return group;
     }
 
-    /* به‌روزرسانی صحنه 3D */
     function update3DScene() {
       if(!scene) return;
-      
-      // پاکسازی اشیاء داینامیک قبلی
-      while(dynamicGroup.children.length > 0){ 
-        dynamicGroup.remove(dynamicGroup.children[0]); 
-      }
+      while(dynamicGroup.children.length > 0){ dynamicGroup.remove(dynamicGroup.children[0]); }
 
-      // ساخت زمین‌ها و محصولات
       const cols = 3;
       state.lands.forEach((land, i) => {
         const x = (i % cols) * 4.5 - 4.5;
         const z = Math.floor(i / cols) * 4.5 - 3;
-        
-        const landMesh = createLandMesh(x, z);
-        dynamicGroup.add(landMesh);
+        dynamicGroup.add(createLandMesh(x, z));
 
         if (land.crop) {
           let cropMesh;
           if (land.crop === 'wheat') cropMesh = createWheatMesh();
           else if (land.crop === 'vegetable') cropMesh = createVegetableMesh();
           else if (land.crop === 'apple') cropMesh = createTreeMesh();
-          
           cropMesh.position.set(x, 0.4, z);
           dynamicGroup.add(cropMesh);
         }
       });
 
-      // ساخت حیوانات
-      let animalX = -7;
-      let animalZ = 7;
-      
+      let animalX = -7, animalZ = 7;
       const addAnimals = (type, count) => {
         for (let i = 0; i < count; i++) {
           let mesh;
           if (type === 'cow') mesh = createCowMesh();
           else if (type === 'sheep') mesh = createSheepMesh();
           else if (type === 'chicken') mesh = createChickenMesh();
-
           mesh.position.set(animalX, 0, animalZ);
           mesh.userData.isAnimal = true;
           mesh.userData.baseY = 0;
           mesh.userData.offset = Math.random() * Math.PI * 2;
           dynamicGroup.add(mesh);
-
           animalX += 2.5;
           if (animalX > 8) { animalX = -7; animalZ += 3; }
         }
@@ -723,7 +778,6 @@
       addAnimals('sheep', state.animals.sheep);
       addAnimals('chicken', state.animals.chicken);
       
-      // درخت سیب اولیه
       if(state.appleTree.exists) {
         const initialTree = createTreeMesh();
         initialTree.position.set(7, 0.4, -6);
@@ -738,13 +792,10 @@
       state = createInitialState(farmName);
       document.getElementById("startScreen").classList.add("hidden");
       document.getElementById("gameUI").classList.remove("hidden");
-      
       init3D();
-      checkDailyBonus();
       update3DScene();
       renderUI();
       save();
-
       if (tickInterval) clearInterval(tickInterval);
       tickInterval = setInterval(() => { processTimers(); renderUI(); }, 1000);
     }
@@ -756,10 +807,8 @@
         document.getElementById("startScreen").classList.add("hidden");
         document.getElementById("gameUI").classList.remove("hidden");
         init3D();
-        checkDailyBonus();
         update3DScene();
         renderUI();
-        
         if (tickInterval) clearInterval(tickInterval);
         tickInterval = setInterval(() => { processTimers(); renderUI(); }, 1000);
       }
@@ -772,6 +821,7 @@
       startGame(name);
     });
 
+    document.getElementById("dailyBtn").addEventListener("click", claimDailyBonus);
     document.getElementById("sellAllBtn").addEventListener("click", sellAll);
     document.getElementById("buyLandBtn").addEventListener("click", buyLand);
     document.getElementById("giftBtn").addEventListener("click", useGiftCode);
