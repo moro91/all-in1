@@ -14,41 +14,43 @@
 
     /* رابط کاربری */
     .ui-layer { position: absolute; z-index: 10; pointer-events: none; }
-    .ui-panel { pointer-events: auto; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); padding: 15px; border: 1px solid rgba(255,255,255,0.5); }
+    .ui-panel { pointer-events: auto; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 15px; border: 1px solid rgba(255,255,255,0.6); }
 
     /* نوار بالا */
     #topBar { top: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; align-items: center; }
-    .farm-name { font-weight: bold; font-size: 20px; color: #27ae60; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
-    .coins { font-weight: bold; font-size: 20px; color: #e67e22; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
+    .farm-name { font-weight: bold; font-size: 22px; color: #27ae60; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
+    .coins { font-weight: bold; font-size: 22px; color: #e67e22; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
 
-    /* منوی کناری (فروشگاه و انبار) */
-    #sidePanel { top: 80px; right: 15px; bottom: 15px; width: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+    /* منوی کناری */
+    #sidePanel { top: 80px; right: 15px; bottom: 15px; width: 330px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
     #sidePanel::-webkit-scrollbar { width: 6px; }
     #sidePanel::-webkit-scrollbar-thumb { background: #bdc3c7; border-radius: 3px; }
     
     .panel h2 { font-size: 16px; margin-bottom: 10px; border-bottom: 2px solid #dfe6e9; padding-bottom: 5px; color: #2c3e50; }
-    .btn { padding: 8px 12px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: 0.2s; color: #fff; font-weight: bold; width: 100%; margin-bottom: 8px; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn { padding: 8px 12px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: 0.2s; color: #fff; font-weight: bold; width: 100%; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
     .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-    .btn-green { background: #27ae60; }
-    .btn-blue { background: #3498db; }
-    .btn-purple { background: #9b59b6; }
-    .btn-seed { background: #16a085; }
-    .btn-buy { background: #e67e22; }
-    .btn-harvest { background: #f39c12; }
+    .btn-green { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+    .btn-blue { background: linear-gradient(135deg, #3498db, #2980b9); }
+    .btn-purple { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+    .btn-seed { background: linear-gradient(135deg, #1abc9c, #16a085); }
+    .btn-buy { background: linear-gradient(135deg, #e67e22, #d35400); }
+    .btn-harvest { background: linear-gradient(135deg, #f1c40f, #f39c12); }
 
     .inv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 14px; }
     .inv-item { background: #ecf0f1; padding: 8px; border-radius: 6px; text-align: center; }
 
     /* صفحه شروع */
-    #startScreen { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 100; pointer-events: auto; }
-    .modal { background: #fff; padding: 30px; border-radius: 16px; text-align: center; width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-    .modal h1 { color: #27ae60; margin-bottom: 15px; }
-    .modal input { width: 100%; padding: 10px; border: 2px solid #bdc3c7; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 16px; }
-    .modal button { padding: 12px; background: #27ae60; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; }
+    #startScreen { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; pointer-events: auto; backdrop-filter: blur(5px); }
+    .modal { background: #fff; padding: 35px; border-radius: 20px; text-align: center; width: 380px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+    .modal h1 { color: #27ae60; margin-bottom: 15px; font-size: 28px; }
+    .modal input { width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 10px; margin-bottom: 20px; text-align: center; font-size: 16px; outline: none; transition: 0.3s; }
+    .modal input:focus { border-color: #27ae60; }
+    .modal button { padding: 14px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 10px; font-size: 18px; cursor: pointer; width: 100%; font-weight: bold; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4); }
+    .modal button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(46, 204, 113, 0.6); }
 
     /* Toast */
-    .toast { position: absolute; top: 80px; left: 50%; transform: translateX(-50%); background: rgba(44, 62, 80, 0.9); color: #fff; padding: 12px 24px; border-radius: 30px; z-index: 1000; font-size: 15px; animation: fadein 0.3s; pointer-events: none; }
+    .toast { position: absolute; top: 80px; left: 50%; transform: translateX(-50%); background: rgba(44, 62, 80, 0.95); color: #fff; padding: 12px 24px; border-radius: 30px; z-index: 1000; font-size: 15px; animation: fadein 0.3s; pointer-events: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
     @keyframes fadein { from { opacity: 0; transform: translate(-50%, -10px); } to { opacity: 1; transform: translate(-50%, 0); } }
   </style>
   <!-- کتابخانه Three.js -->
@@ -59,7 +61,6 @@
 
   <!-- محیط 3D -->
   <div id="canvas-container"></div>
-
   <div id="toast" class="toast hidden"></div>
 
   <!-- رابط کاربری -->
@@ -71,41 +72,43 @@
 
     <div id="sidePanel" class="ui-layer">
       <div class="ui-panel panel">
-        <h2>📦 انبار</h2>
+        <h2>📦 انبار و بازار</h2>
         <div class="inv-grid">
           <div class="inv-item">🍎 سیب: <b id="invApples">0</b></div>
           <div class="inv-item">🥛 شیر: <b id="invMilk">0</b></div>
           <div class="inv-item">🧀 پنیر: <b id="invCheese">0</b></div>
           <div class="inv-item">🥚 تخم‌مرغ: <b id="invEggs">0</b></div>
         </div>
-        <div style="margin-top:10px; font-size:13px; text-align:center;" id="merchantStatus">بازرگان در حال بررسی...</div>
+        <div style="margin-top:12px; font-size:13px; text-align:center; font-weight:bold;" id="merchantStatus">در حال بررسی...</div>
         <button id="sellAllBtn" class="btn btn-green" style="margin-top:8px;">فروش همه محصولات</button>
       </div>
 
       <div class="ui-panel panel">
-        <h2>🌱 زمین‌ها و بذرها</h2>
-        <div style="font-size:13px; margin-bottom:8px;">بذر موجود: 🥬 <b id="seedVeg">0</b> | 🌾 <b id="seedWheat">0</b> | 🍎 <b id="seedApple">0</b></div>
-        <button class="btn btn-seed" data-seed="vegetable">خرید بذر سبزی (5 سکه)</button>
-        <button class="btn btn-seed" data-seed="wheat">خرید بذر گندم (2 سکه)</button>
-        <button class="btn btn-seed" data-seed="apple">خرید بذر سیب (5 سکه)</button>
-        <div id="landsContainer" style="margin-top:10px; display:flex; flex-direction:column; gap:5px;"></div>
+        <h2>🌱 کشاورزی</h2>
+        <div style="font-size:13px; margin-bottom:8px; text-align:center;">بذر موجود: 🥬 <b id="seedVeg">0</b> | 🌾 <b id="seedWheat">0</b> | 🍎 <b id="seedApple">0</b></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
+          <button class="btn btn-seed" data-seed="vegetable">بذر سبزی (5)</button>
+          <button class="btn btn-seed" data-seed="wheat">بذر گندم (2)</button>
+          <button class="btn btn-seed" data-seed="apple" style="grid-column: span 2;">بذر سیب (5)</button>
+        </div>
+        <div id="landsContainer" style="margin-top:10px; display:flex; flex-direction:column; gap:6px;"></div>
         <button id="buyLandBtn" class="btn btn-blue" style="margin-top:10px;">خرید زمین جدید</button>
       </div>
 
       <div class="ui-panel panel">
         <h2>🐾 دامداری</h2>
-        <div style="font-size:13px; margin-bottom:8px;">
+        <div style="font-size:13px; margin-bottom:8px; text-align:center;">
           🐄 گاو: <b id="countCow">0</b> | 🐑 گوسفند: <b id="countSheep">0</b> | 🐔 مرغ: <b id="countChicken">0</b>
         </div>
-        <button class="btn btn-buy" data-buy="sheep">خرید گوسفند (80 سکه)</button>
-        <button class="btn btn-buy" data-buy="chicken">خرید مرغ (30 سکه)</button>
-        <button class="btn btn-buy" data-buy="cow">خرید گاو (90 سکه)</button>
-        <div id="animalsContainer" style="margin-top:10px; display:flex; flex-direction:column; gap:5px;"></div>
+        <button class="btn btn-buy" data-buy="sheep">خرید گوسفند (80)</button>
+        <button class="btn btn-buy" data-buy="chicken">خرید مرغ (30)</button>
+        <button class="btn btn-buy" data-buy="cow">خرید گاو (90)</button>
+        <div id="animalsContainer" style="margin-top:10px; display:flex; flex-direction:column; gap:6px;"></div>
       </div>
 
       <div class="ui-panel panel">
         <h2>🎁 کد هدیه</h2>
-        <input type="text" id="giftInput" placeholder="کد هدیه..." style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-bottom:8px;" />
+        <input type="text" id="giftInput" placeholder="کد هدیه..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-bottom:8px; text-align:center;" />
         <button id="giftBtn" class="btn btn-purple">دریافت جایزه</button>
       </div>
     </div>
@@ -115,7 +118,7 @@
   <div id="startScreen">
     <div class="modal">
       <h1>🌾 مزرعه سه‌بعدی</h1>
-      <p style="margin-bottom:15px; color:#555;">نامی برای مزرعه خود انتخاب کنید:</p>
+      <p style="margin-bottom:20px; color:#555;">برای شروع، نامی برای مزرعه خود انتخاب کنید:</p>
       <input type="text" id="farmNameInput" placeholder="مثال: مزرعه سبز" maxlength="15" />
       <button id="startBtn">ورود به بازی</button>
     </div>
@@ -123,9 +126,9 @@
 
   <script>
     /* =========================================================
-       1. منطق بازی (State Management)
+       1. منطق بازی و مدیریت State
        ========================================================= */
-    const SAVE_KEY = "farmGame3D_v1";
+    const SAVE_KEY = "farmGame3D_v2"; // نسخه جدید برای پاکسازی کش قدیمی
     const CONFIG = {
       START_COINS: 50, DAILY_BONUS: 10,
       SHEEP_PRICE: 80, CHICKEN_PRICE: 30, COW_PRICE: 90, LAND_BASE_PRICE: 100,
@@ -148,25 +151,18 @@
       const s = Math.floor(ms / 1000);
       return `${Math.floor(s / 3600)}س ${Math.floor((s % 3600) / 60)}د`;
     }
-    function localDateStr() {
-      const d = new Date();
-      return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-    }
+    function localDateStr() { const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; }
     function showToast(msg) {
-      const t = document.getElementById("toast");
-      t.textContent = msg; t.classList.remove("hidden");
+      const t = document.getElementById("toast"); t.textContent = msg; t.classList.remove("hidden");
       clearTimeout(t._timer); t._timer = setTimeout(() => t.classList.add("hidden"), 2500);
     }
     function save() { if (state) localStorage.setItem(SAVE_KEY, JSON.stringify(state)); }
-    function load() {
-      const raw = localStorage.getItem(SAVE_KEY);
-      return raw ? JSON.parse(raw) : null;
-    }
+    function load() { const raw = localStorage.getItem(SAVE_KEY); return raw ? JSON.parse(raw) : null; }
 
     function createInitialState(farmName) {
       const t = now();
       return {
-        version: 1, farmName, coins: CONFIG.START_COINS, lastLoginDate: "", usedGiftCodes: [],
+        version: 2, farmName, coins: CONFIG.START_COINS, lastLoginDate: "", usedGiftCodes: [],
         lands: [{ id: 1, crop: null, plantedAt: null, lastHarvestAt: null }], landsPurchased: 0,
         animals: { cow: 1, sheep: 0, chicken: 0 }, lastProduction: { cow: t, sheep: t, chicken: t },
         appleTree: { exists: true, lastHarvest: t }, lastMerchantVisit: t,
@@ -178,13 +174,12 @@
       const today = localDateStr();
       if (state.lastLoginDate !== today) {
         state.coins += CONFIG.DAILY_BONUS; state.lastLoginDate = today; save();
-        setTimeout(() => showToast(`🎁 پاداش ورود روزانه: +${CONFIG.DAILY_BONUS} سکه`), 1000);
+        setTimeout(() => showToast(`🎁 پاداش روزانه: +${CONFIG.DAILY_BONUS} سکه`), 1000);
       }
     }
 
     function processTimers() {
       const t = now(); let changed = false;
-      // تولیدات دامی
       ["cow", "sheep", "chicken"].forEach(key => {
         const count = state.animals[key];
         if (count > 0) {
@@ -199,7 +194,6 @@
           }
         }
       });
-      // درخت سیب اولیه
       if (state.appleTree.exists) {
         const cycles = Math.floor((t - state.appleTree.lastHarvest) / CONFIG.COW_INTERVAL);
         if (cycles > 0) {
@@ -207,20 +201,19 @@
           state.appleTree.lastHarvest += cycles * CONFIG.COW_INTERVAL; changed = true;
         }
       }
-      // مرگ گیاهان
       state.lands.forEach(land => {
         if (land.crop && (t - land.plantedAt) >= CONFIG.CROP_LIFETIME) {
           land.crop = null; land.plantedAt = null; land.lastHarvestAt = null; changed = true;
         }
       });
-      if (changed) { save(); update3DScene(); } // آپدیت 3D اگر تغییری رخ داد
+      if (changed) { save(); renderUI(); } // آپدیت 3D فقط زمان نیاز
     }
 
     function getNextLandPrice() { return CONFIG.LAND_BASE_PRICE * Math.pow(2, state.landsPurchased); }
     function isMerchantPresent() { return (now() - state.lastMerchantVisit) >= CONFIG.MERCHANT_INTERVAL; }
 
     /* =========================================================
-       2. تعاملات UI (دکمه‌ها)
+       2. تعاملات UI
        ========================================================= */
     function sellAll() {
       if (!isMerchantPresent()) { showToast("بازرگان نیامده است!"); return; }
@@ -233,8 +226,7 @@
 
     function buySeed(type) {
       if (state.coins < CONFIG.SEED_PRICES[type]) { showToast("سکه کافی نیست!"); return; }
-      state.coins -= CONFIG.SEED_PRICES[type]; state.seeds[type] += 1; save(); renderUI();
-      showToast("بذر خریداری شد.");
+      state.coins -= CONFIG.SEED_PRICES[type]; state.seeds[type] += 1; save(); renderUI(); showToast("بذر خریداری شد.");
     }
 
     function plantCrop(landId) {
@@ -300,16 +292,13 @@
       document.getElementById("invMilk").textContent = state.inventory.milk;
       document.getElementById("invCheese").textContent = state.inventory.cheese;
       document.getElementById("invEggs").textContent = state.inventory.eggs;
-      
       document.getElementById("seedVeg").textContent = state.seeds.vegetable;
       document.getElementById("seedWheat").textContent = state.seeds.wheat;
       document.getElementById("seedApple").textContent = state.seeds.apple;
-
       document.getElementById("countCow").textContent = state.animals.cow;
       document.getElementById("countSheep").textContent = state.animals.sheep;
       document.getElementById("countChicken").textContent = state.animals.chicken;
 
-      // بازرگان
       const mStatus = document.getElementById("merchantStatus");
       if (isMerchantPresent()) {
         mStatus.innerHTML = "✅ <b>بازرگان حاضر است!</b>";
@@ -321,19 +310,18 @@
         document.getElementById("sellAllBtn").disabled = true;
       }
 
-      // زمین‌ها
       const landsContainer = document.getElementById("landsContainer");
       landsContainer.innerHTML = "";
       state.lands.forEach(land => {
         const div = document.createElement("div");
         div.style.display = "flex"; div.style.justifyContent = "space-between"; div.style.alignItems = "center";
-        div.style.background = "#fff"; div.style.padding = "5px"; div.style.borderRadius = "6px"; div.style.fontSize = "12px";
+        div.style.background = "#fff"; div.style.padding = "6px 10px"; div.style.borderRadius = "8px"; div.style.fontSize = "13px"; div.style.border = "1px solid #eee";
 
         const text = document.createElement("span");
         if (!land.crop) {
           text.textContent = `زمین ${land.id}: خالی`;
           const btn = document.createElement("button");
-          btn.textContent = "کاشت"; btn.className = "btn btn-green"; btn.style.width = "auto"; btn.style.margin = "0"; btn.style.padding = "4px 8px";
+          btn.textContent = "کاشت"; btn.className = "btn btn-green"; btn.style.width = "auto"; btn.style.margin = "0"; btn.style.padding = "4px 12px";
           btn.onclick = () => plantCrop(land.id);
           div.appendChild(text); div.appendChild(btn);
         } else {
@@ -341,7 +329,7 @@
           if (since >= CONFIG.CROP_GROW_TIME) {
             text.textContent = `زمین ${land.id}: آماده`;
             const btn = document.createElement("button");
-            btn.textContent = "برداشت"; btn.className = "btn btn-harvest"; btn.style.width = "auto"; btn.style.margin = "0"; btn.style.padding = "4px 8px";
+            btn.textContent = "برداشت"; btn.className = "btn btn-harvest"; btn.style.width = "auto"; btn.style.margin = "0"; btn.style.padding = "4px 12px";
             btn.onclick = () => harvestCrop(land.id);
             div.appendChild(text); div.appendChild(btn);
           } else {
@@ -355,19 +343,18 @@
       document.getElementById("buyLandBtn").textContent = `خرید زمین (${getNextLandPrice()} سکه)`;
       document.getElementById("buyLandBtn").disabled = state.coins < getNextLandPrice();
 
-      // حیوانات
       const animalsContainer = document.getElementById("animalsContainer");
       animalsContainer.innerHTML = "";
       ["cow", "sheep", "chicken"].forEach(key => {
         if (state.animals[key] > 0) {
           const div = document.createElement("div");
           div.style.display = "flex"; div.style.justifyContent = "space-between"; div.style.alignItems = "center";
-          div.style.background = "#fdf1e6"; div.style.padding = "5px"; div.style.borderRadius = "6px"; div.style.fontSize = "12px";
+          div.style.background = "#fdf1e6"; div.style.padding = "6px 10px"; div.style.borderRadius = "8px"; div.style.fontSize = "13px"; div.style.border = "1px solid #fce4d6";
           const names = { cow: "گاو", sheep: "گوسفند", chicken: "مرغ" };
           div.innerHTML = `<span>${names[key]} (${state.animals[key]})</span>`;
           const btn = document.createElement("button");
           btn.textContent = `کشتن (+${CONFIG.KILL_VALUES[key]})`;
-          btn.className = "btn btn-kill"; btn.style.width = "auto"; btn.style.margin = "0"; btn.style.padding = "4px 8px"; btn.style.background = "#e74c3c";
+          btn.className = "btn btn-kill"; btn.style.width = "auto"; btn.style.margin = "0"; btn.style.padding = "4px 12px"; btn.style.background = "linear-gradient(135deg, #e74c3c, #c0392b)";
           btn.onclick = () => killAnimal(key);
           div.appendChild(btn);
           animalsContainer.appendChild(div);
@@ -376,65 +363,140 @@
     }
 
     /* =========================================================
-       4. محیط سه‌بعدی (Three.js)
+       4. محیط سه‌بعدی پیشرفته (Three.js)
        ========================================================= */
     let scene, camera, renderer, controls;
-    let landMeshes = []; // برای ذخیره مش‌های زمین
-    let animalMeshes = []; // برای ذخیره مش‌های حیوانات
-    let cropMeshes = []; // برای ذخیره گیاهان
+    let environmentGroup = new THREE.Group();
+    let dynamicGroup = new THREE.Group(); // برای زمین‌ها، گیاهان و حیوانات
+
+    // تابع ساخت تکسچر رویه‌ای برای چمن
+    function createGrassTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512; canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#55a630'; // رنگ پایه چمن
+      ctx.fillRect(0, 0, 512, 512);
+      for(let i=0; i<20000; i++) {
+        ctx.fillStyle = Math.random() > 0.5 ? '#80b918' : '#2b9348'; // سایه‌های چمن
+        ctx.fillRect(Math.random()*512, Math.random()*512, 2, 4); // تیغه‌های چمن
+      }
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(10, 10);
+      return tex;
+    }
+
+    // تابع ساخت تکسچر خاک
+    function createSoilTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256; canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#6b4c3a'; ctx.fillRect(0, 0, 256, 256);
+      for(let i=0; i<5000; i++) {
+        ctx.fillStyle = Math.random() > 0.5 ? '#5a3d2e' : '#7a5a48';
+        ctx.fillRect(Math.random()*256, Math.random()*256, 3, 3);
+      }
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping;
+      return tex;
+    }
 
     function init3D() {
       const container = document.getElementById('canvas-container');
-      
-      // صحنه
       scene = new THREE.Scene();
       scene.background = new THREE.Color(0x87CEEB); // آسمان آبی
-      scene.fog = new THREE.Fog(0x87CEEB, 20, 50);
+      scene.fog = new THREE.Fog(0x87CEEB, 25, 60);
 
-      // دوربین
       camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.set(12, 12, 12);
+      camera.position.set(0, 15, 20); // زاویه دید بهتر
 
-      // رندرر
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap; // سایه‌های نرم
       container.appendChild(renderer.domElement);
 
-      // کنترلر دوربین (چرخش با موس)
       controls = new THREE.OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.05;
-      controls.maxPolarAngle = Math.PI / 2 - 0.05; // جلوگیری از رفتن دوربین زیر زمین
-      controls.minDistance = 5;
-      controls.maxDistance = 30;
+      controls.maxPolarAngle = Math.PI / 2 - 0.05;
+      controls.minDistance = 8;
+      controls.maxDistance = 40;
 
       // نورپردازی
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-      scene.add(ambientLight);
+      const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
+      scene.add(hemiLight);
 
-      const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-      dirLight.position.set(10, 20, 10);
+      const dirLight = new THREE.DirectionalLight(0xfff5e6, 1.2); // نور خورشید کمی زرد
+      dirLight.position.set(15, 25, 15);
       dirLight.castShadow = true;
       dirLight.shadow.mapSize.width = 2048;
       dirLight.shadow.mapSize.height = 2048;
-      dirLight.shadow.camera.left = -15;
-      dirLight.shadow.camera.right = 15;
-      dirLight.shadow.camera.top = 15;
-      dirLight.shadow.camera.bottom = -15;
+      dirLight.shadow.camera.left = -20;
+      dirLight.shadow.camera.right = 20;
+      dirLight.shadow.camera.top = 20;
+      dirLight.shadow.camera.bottom = -20;
+      dirLight.shadow.bias = -0.0005;
       scene.add(dirLight);
 
-      // زمین اصلی (چمن)
-      const groundGeo = new THREE.PlaneGeometry(40, 40);
-      const groundMat = new THREE.MeshLambertMaterial({ color: 0x7CFC00 });
-      const ground = new THREE.Mesh(groundGeo, groundMat);
-      ground.rotation.x = -Math.PI / 2;
-      ground.receiveShadow = true;
-      scene.add(ground);
+      buildEnvironment();
+      scene.add(environmentGroup);
+      scene.add(dynamicGroup);
 
       window.addEventListener('resize', onWindowResize, false);
       animate();
+    }
+
+    function buildEnvironment() {
+      // زمین اصلی با تکسچر چمن
+      const groundGeo = new THREE.PlaneGeometry(60, 60);
+      const groundMat = new THREE.MeshStandardMaterial({ map: createGrassTexture(), roughness: 1 });
+      const ground = new THREE.Mesh(groundGeo, groundMat);
+      ground.rotation.x = -Math.PI / 2;
+      ground.receiveShadow = true;
+      environmentGroup.add(ground);
+
+      // ساخت حصار چوبی دور مزرعه
+      const fenceMat = new THREE.MeshStandardMaterial({ color: 0x8B5A2B, roughness: 0.8 });
+      const postGeo = new THREE.BoxGeometry(0.3, 1.5, 0.3);
+      const railGeo = new THREE.BoxGeometry(4, 0.2, 0.1);
+      
+      const fenceSize = 20;
+      for (let i = -fenceSize/2; i <= fenceSize/2; i+=4) {
+        // میله‌های عمودی
+        [-fenceSize/2, fenceSize/2].forEach(x => {
+          const post = new THREE.Mesh(postGeo, fenceMat);
+          post.position.set(x, 0.75, i); post.castShadow = true; environmentGroup.add(post);
+        });
+        [-fenceSize/2, fenceSize/2].forEach(z => {
+          const post = new THREE.Mesh(postGeo, fenceMat);
+          post.position.set(i, 0.75, z); post.castShadow = true; environmentGroup.add(post);
+        });
+        // ریل‌های افقی
+        if (i < fenceSize/2) {
+          [-fenceSize/2, fenceSize/2].forEach(x => {
+            const rail = new THREE.Mesh(railGeo, fenceMat);
+            rail.rotation.y = Math.PI/2; rail.position.set(x, 0.8, i+2); rail.castShadow = true; environmentGroup.add(rail);
+          });
+          [-fenceSize/2, fenceSize/2].forEach(z => {
+            const rail = new THREE.Mesh(railGeo, fenceMat);
+            rail.position.set(i+2, 0.8, z); rail.castShadow = true; environmentGroup.add(rail);
+          });
+        }
+      }
+
+      // ابرها
+      const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.8, roughness: 1 });
+      for(let i=0; i<8; i++) {
+        const cloudGroup = new THREE.Group();
+        for(let j=0; j<4; j++) {
+          const sphere = new THREE.Mesh(new THREE.SphereGeometry(Math.random()*2+1, 7, 7), cloudMat);
+          sphere.position.set(Math.random()*4-2, Math.random()*2, Math.random()*4-2);
+          cloudGroup.add(sphere);
+        }
+        cloudGroup.position.set(Math.random()*40-20, 15 + Math.random()*5, Math.random()*40-30);
+        environmentGroup.add(cloudGroup);
+      }
     }
 
     function onWindowResize() {
@@ -447,209 +509,213 @@
       requestAnimationFrame(animate);
       controls.update();
       
-      // انیمیشن شناور بودن حیوانات (حرکت بالا و پایین)
       const time = Date.now() * 0.002;
-      animalMeshes.forEach((animal, index) => {
-        if (animal.userData.baseY !== undefined) {
-          animal.position.y = animal.userData.baseY + Math.sin(time + index) * 0.1;
+      // انیمیشن حیوانات
+      dynamicGroup.children.forEach(child => {
+        if (child.userData.isAnimal) {
+          child.position.y = child.userData.baseY + Math.sin(time + child.userData.offset) * 0.15;
+          child.rotation.y = Math.sin(time * 0.5 + child.userData.offset) * 0.2; // چرخش جزئی
         }
       });
 
       renderer.render(scene, camera);
     }
 
-    // مدل‌سازها
-    function createLand(x, z) {
-      const geo = new THREE.BoxGeometry(3, 0.2, 3);
-      const mat = new THREE.MeshLambertMaterial({ color: 0x8B4513 }); // قهوه‌ای
+    /* ----- مدل‌سازهای پیشرفته ----- */
+
+    function createLandMesh(x, z) {
+      const geo = new THREE.BoxGeometry(3.5, 0.4, 3.5);
+      const mat = new THREE.MeshStandardMaterial({ map: createSoilTexture(), roughness: 1 });
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(x, 0.1, z);
-      mesh.receiveShadow = true;
-      scene.add(mesh);
+      mesh.position.set(x, 0.2, z);
+      mesh.receiveShadow = true; mesh.castShadow = true;
       return mesh;
     }
 
-    function createWheat() {
+    function createWheatMesh() {
       const group = new THREE.Group();
-      for(let i=0; i<5; i++) {
-        const geo = new THREE.CylinderGeometry(0.05, 0.05, 1, 8);
-        const mat = new THREE.MeshLambertMaterial({ color: 0xE1C699 });
-        const mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set((Math.random()-0.5)*2, 0.5, (Math.random()-0.5)*2);
-        mesh.castShadow = true;
-        group.add(mesh);
+      const stalkMat = new THREE.MeshStandardMaterial({ color: 0xD4AC0D, roughness: 0.9 });
+      const grainMat = new THREE.MeshStandardMaterial({ color: 0xF1C40F, roughness: 0.8 });
+      for(let i=0; i<8; i++) {
+        const stalk = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.2, 6), stalkMat);
+        stalk.position.set((Math.random()-0.5)*2.5, 0.6, (Math.random()-0.5)*2.5);
+        stalk.castShadow = true; group.add(stalk);
+        const grain = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 8), grainMat);
+        grain.scale.y = 2; grain.position.set(stalk.position.x, 1.2, stalk.position.z);
+        grain.castShadow = true; group.add(grain);
       }
       return group;
     }
 
-    function createVegetable() {
+    function createVegetableMesh() {
       const group = new THREE.Group();
-      for(let i=0; i<3; i++) {
-        const geo = new THREE.SphereGeometry(0.3, 16, 16);
-        const mat = new THREE.MeshLambertMaterial({ color: 0x2ECC71 });
-        const mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set((Math.random()-0.5)*2, 0.3, (Math.random()-0.5)*2);
-        mesh.castShadow = true;
-        group.add(mesh);
-      }
-      return group;
-    }
-
-    function createAppleTree() {
-      const group = new THREE.Group();
-      // تنه
-      const trunkGeo = new THREE.CylinderGeometry(0.2, 0.3, 1.5, 8);
-      const trunkMat = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
-      const trunk = new THREE.Mesh(trunkGeo, trunkMat);
-      trunk.position.y = 0.75;
-      trunk.castShadow = true;
-      group.add(trunk);
-      // برگ‌ها
-      const leafGeo = new THREE.IcosahedronGeometry(1, 0);
-      const leafMat = new THREE.MeshLambertMaterial({ color: 0x27AE60 });
-      const leaves = new THREE.Mesh(leafGeo, leafMat);
-      leaves.position.y = 1.8;
-      leaves.castShadow = true;
-      group.add(leaves);
-      // سیب‌ها
-      const appleGeo = new THREE.SphereGeometry(0.15, 8, 8);
-      const appleMat = new THREE.MeshLambertMaterial({ color: 0xE74C3C });
+      const leafMat = new THREE.MeshStandardMaterial({ color: 0x2ECC71, roughness: 0.7 });
+      const fruitMat = new THREE.MeshStandardMaterial({ color: 0xE74C3C, roughness: 0.5 });
       for(let i=0; i<4; i++) {
-        const apple = new THREE.Mesh(appleGeo, appleMat);
-        apple.position.set((Math.random()-0.5)*1.5, 1.5 + Math.random()*0.5, (Math.random()-0.5)*1.5);
-        group.add(apple);
+        const bush = new THREE.Mesh(new THREE.SphereGeometry(0.4, 16, 16), leafMat);
+        bush.position.set((Math.random()-0.5)*2, 0.4, (Math.random()-0.5)*2);
+        bush.castShadow = true; group.add(bush);
+        // یک میوه قرمز کوچک
+        const fruit = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 8), fruitMat);
+        fruit.position.set(bush.position.x, 0.7, bush.position.z);
+        group.add(fruit);
       }
       return group;
     }
 
-    function createCow() {
+    function createTreeMesh() {
       const group = new THREE.Group();
-      // بدن
-      const bodyGeo = new THREE.BoxGeometry(1.6, 0.8, 0.8);
-      const bodyMat = new THREE.MeshLambertMaterial({ color: 0xFFFFFF });
-      const body = new THREE.Mesh(bodyGeo, bodyMat);
-      body.position.y = 0.8; body.castShadow = true; group.add(body);
+      const trunkMat = new THREE.MeshStandardMaterial({ color: 0x5D4037, roughness: 1 });
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.4, 2, 8), trunkMat);
+      trunk.position.y = 1; trunk.castShadow = true; group.add(trunk);
+      
+      const leafMat = new THREE.MeshStandardMaterial({ color: 0x27AE60, roughness: 0.8 });
+      // تاج درخت از چند کره
+      for(let i=0; i<5; i++) {
+        const leaves = new THREE.Mesh(new THREE.SphereGeometry(1 + Math.random()*0.5, 8, 8), leafMat);
+        leaves.position.set((Math.random()-0.5)*1.5, 2.2 + Math.random(), (Math.random()-0.5)*1.5);
+        leaves.castShadow = true; group.add(leaves);
+      }
+      
+      const appleMat = new THREE.MeshStandardMaterial({ color: 0xE74C3C, roughness: 0.4 });
+      for(let i=0; i<5; i++) {
+        const apple = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 8), appleMat);
+        apple.position.set((Math.random()-0.5)*2.5, 1.8 + Math.random()*1.5, (Math.random()-0.5)*2.5);
+        apple.castShadow = true; group.add(apple);
+      }
+      return group;
+    }
+
+    function createCowMesh() {
+      const group = new THREE.Group();
+      const whiteMat = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.9 });
+      const blackMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.9 });
+      const pinkMat = new THREE.MeshStandardMaterial({ color: 0xFFB6C1, roughness: 0.8 });
+
+      const body = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 1.8, 16), whiteMat);
+      body.rotation.z = Math.PI/2; body.position.y = 1.2; body.castShadow = true; group.add(body);
+
       // لکه‌ها
-      const spotGeo = new THREE.BoxGeometry(0.4, 0.4, 0.81);
-      const spotMat = new THREE.MeshLambertMaterial({ color: 0x333333 });
-      const spot = new THREE.Mesh(spotGeo, spotMat);
-      spot.position.set(0.3, 0.9, 0); group.add(spot);
-      // سر
-      const headGeo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-      const head = new THREE.Mesh(headGeo, bodyMat);
-      head.position.set(1.0, 0.9, 0); head.castShadow = true; group.add(head);
+      for(let i=0; i<4; i++) {
+        const spot = new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), blackMat);
+        spot.position.set((Math.random()-0.5)*1.5, 1.2 + (Math.random()-0.5)*0.5, (Math.random()-0.5)*0.8);
+        spot.scale.set(1, 0.3, 1); spot.position.z = 0.8; group.add(spot);
+      }
+
+      const head = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 0.6), whiteMat);
+      head.position.set(1.1, 1.3, 0); head.castShadow = true; group.add(head);
+      
+      const snout = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.3, 0.5), pinkMat);
+      snout.position.set(1.4, 1.2, 0); group.add(snout);
+
       // پاها
-      const legGeo = new THREE.CylinderGeometry(0.1, 0.1, 0.6, 8);
+      const legGeo = new THREE.CylinderGeometry(0.15, 0.15, 0.8, 8);
       [-0.6, 0.6].forEach(x => {
-        [-0.3, 0.3].forEach(z => {
-          const leg = new THREE.Mesh(legGeo, bodyMat);
-          leg.position.set(x, 0.3, z); leg.castShadow = true; group.add(leg);
+        [-0.4, 0.4].forEach(z => {
+          const leg = new THREE.Mesh(legGeo, whiteMat);
+          leg.position.set(x, 0.4, z); leg.castShadow = true; group.add(leg);
         });
       });
       return group;
     }
 
-    function createSheep() {
+    function createSheepMesh() {
       const group = new THREE.Group();
-      // پشم (بدن)
-      const bodyGeo = new THREE.IcosahedronGeometry(0.6, 0);
-      const bodyMat = new THREE.MeshLambertMaterial({ color: 0xFDFEFE });
-      const body = new THREE.Mesh(bodyGeo, bodyMat);
-      body.position.y = 0.8; body.castShadow = true; group.add(body);
-      // سر
-      const headGeo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
-      const headMat = new THREE.MeshLambertMaterial({ color: 0x333333 });
-      const head = new THREE.Mesh(headGeo, headMat);
-      head.position.set(0.6, 0.8, 0); head.castShadow = true; group.add(head);
-      // پاها
-      const legGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.5, 8);
-      [-0.3, 0.3].forEach(x => {
+      const woolMat = new THREE.MeshStandardMaterial({ color: 0xFDFEFE, roughness: 1 });
+      const blackMat = new THREE.MeshStandardMaterial({ color: 0x2C3E50, roughness: 0.8 });
+
+      // بدن پشمی (ترکیب چند کره)
+      for(let i=0; i<5; i++) {
+        const fluff = new THREE.Mesh(new THREE.SphereGeometry(0.5, 8, 8), woolMat);
+        fluff.position.set((Math.random()-0.5)*1, 0.8 + (Math.random()-0.5)*0.3, (Math.random()-0.5)*0.6);
+        fluff.castShadow = true; group.add(fluff);
+      }
+
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), blackMat);
+      head.position.set(0.7, 0.9, 0); head.castShadow = true; group.add(head);
+
+      const legGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.5, 8);
+      [-0.4, 0.4].forEach(x => {
         [-0.2, 0.2].forEach(z => {
-          const leg = new THREE.Mesh(legGeo, headMat);
+          const leg = new THREE.Mesh(legGeo, blackMat);
           leg.position.set(x, 0.25, z); leg.castShadow = true; group.add(leg);
         });
       });
       return group;
     }
 
-    function createChicken() {
+    function createChickenMesh() {
       const group = new THREE.Group();
-      // بدن
-      const bodyGeo = new THREE.SphereGeometry(0.35, 16, 16);
-      const bodyMat = new THREE.MeshLambertMaterial({ color: 0xF1C40F });
-      const body = new THREE.Mesh(bodyGeo, bodyMat);
-      body.position.y = 0.5; body.castShadow = true; group.add(body);
-      // سر و تاج
-      const headGeo = new THREE.SphereGeometry(0.2, 16, 16);
-      const head = new THREE.Mesh(headGeo, bodyMat);
-      head.position.set(0.3, 0.8, 0); head.castShadow = true; group.add(head);
+      const bodyMat = new THREE.MeshStandardMaterial({ color: 0xF1C40F, roughness: 0.6 });
+      const redMat = new THREE.MeshStandardMaterial({ color: 0xE74C3C, roughness: 0.5 });
+      const beakMat = new THREE.MeshStandardMaterial({ color: 0xE67E22, roughness: 0.5 });
+
+      const body = new THREE.Mesh(new THREE.SphereGeometry(0.4, 16, 16), bodyMat);
+      body.scale.set(1, 1.2, 1); body.position.y = 0.5; body.castShadow = true; group.add(body);
       
-      const combGeo = new THREE.ConeGeometry(0.1, 0.2, 8);
-      const combMat = new THREE.MeshLambertMaterial({ color: 0xE74C3C });
-      const comb = new THREE.Mesh(combGeo, combMat);
-      comb.position.set(0.3, 1.0, 0); group.add(comb);
-      // منقار
-      const beakGeo = new THREE.ConeGeometry(0.05, 0.15, 8);
-      const beakMat = new THREE.MeshLambertMaterial({ color: 0xE67E22 });
-      const beak = new THREE.Mesh(beakGeo, beakMat);
-      beak.rotation.z = -Math.PI/2; beak.position.set(0.5, 0.8, 0); group.add(beak);
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.25, 16, 16), bodyMat);
+      head.position.set(0.3, 0.9, 0); head.castShadow = true; group.add(head);
+      
+      const comb = new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.2, 8), redMat);
+      comb.position.set(0.3, 1.15, 0); group.add(comb);
+      
+      const beak = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.15, 8), beakMat);
+      beak.rotation.z = -Math.PI/2; beak.position.set(0.55, 0.9, 0); group.add(beak);
+
+      const tail = new THREE.Mesh(new THREE.ConeGeometry(0.2, 0.5, 8), bodyMat);
+      tail.rotation.z = Math.PI/4; tail.position.set(-0.4, 0.7, 0); group.add(tail);
       
       return group;
     }
 
-    // به‌روزرسانی صحنه 3D بر اساس State
+    /* به‌روزرسانی صحنه 3D */
     function update3DScene() {
       if(!scene) return;
+      
+      // پاکسازی اشیاء داینامیک قبلی
+      while(dynamicGroup.children.length > 0){ 
+        dynamicGroup.remove(dynamicGroup.children[0]); 
+      }
 
-      // پاک کردن مش‌های قبلی
-      landMeshes.forEach(m => scene.remove(m));
-      cropMeshes.forEach(m => scene.remove(m));
-      animalMeshes.forEach(m => scene.remove(m));
-      landMeshes = []; cropMeshes = []; animalMeshes = [];
-
-      // ساخت زمین‌ها
+      // ساخت زمین‌ها و محصولات
       const cols = 3;
       state.lands.forEach((land, i) => {
-        const x = (i % cols) * 4 - 4;
-        const z = Math.floor(i / cols) * 4 - 2;
+        const x = (i % cols) * 4.5 - 4.5;
+        const z = Math.floor(i / cols) * 4.5 - 3;
         
-        const landMesh = createLand(x, z);
-        landMeshes.push(landMesh);
+        const landMesh = createLandMesh(x, z);
+        dynamicGroup.add(landMesh);
 
-        // اگر محصولی کاشته شده
         if (land.crop) {
-          let cropGroup;
-          if (land.crop === 'wheat') cropGroup = createWheat();
-          else if (land.crop === 'vegetable') cropGroup = createVegetable();
-          else if (land.crop === 'apple') cropGroup = createAppleTree();
+          let cropMesh;
+          if (land.crop === 'wheat') cropMesh = createWheatMesh();
+          else if (land.crop === 'vegetable') cropMesh = createVegetableMesh();
+          else if (land.crop === 'apple') cropMesh = createTreeMesh();
           
-          cropGroup.position.set(x, 0.2, z);
-          scene.add(cropGroup);
-          cropMeshes.push(cropGroup);
+          cropMesh.position.set(x, 0.4, z);
+          dynamicGroup.add(cropMesh);
         }
       });
 
       // ساخت حیوانات
-      let animalX = -6;
-      let animalZ = 6;
+      let animalX = -7;
+      let animalZ = 7;
       
       const addAnimals = (type, count) => {
-        if (count <= 0) return;
         for (let i = 0; i < count; i++) {
           let mesh;
-          if (type === 'cow') mesh = createCow();
-          else if (type === 'sheep') mesh = createSheep();
-          else if (type === 'chicken') mesh = createChicken();
+          if (type === 'cow') mesh = createCowMesh();
+          else if (type === 'sheep') mesh = createSheepMesh();
+          else if (type === 'chicken') mesh = createChickenMesh();
 
-          // چیدمان حیوانات
           mesh.position.set(animalX, 0, animalZ);
-          mesh.rotation.y = Math.PI / 2; // رو به روی دوربین
-          mesh.userData.baseY = 0; // برای انیمیشن
-          scene.add(mesh);
-          animalMeshes.push(mesh);
+          mesh.userData.isAnimal = true;
+          mesh.userData.baseY = 0;
+          mesh.userData.offset = Math.random() * Math.PI * 2;
+          dynamicGroup.add(mesh);
 
-          animalX += 2;
-          if (animalX > 6) { animalX = -6; animalZ += 2.5; }
+          animalX += 2.5;
+          if (animalX > 8) { animalX = -7; animalZ += 3; }
         }
       };
 
@@ -657,17 +723,16 @@
       addAnimals('sheep', state.animals.sheep);
       addAnimals('chicken', state.animals.chicken);
       
-      // درخت سیب اولیه در گوشه مزرعه
+      // درخت سیب اولیه
       if(state.appleTree.exists) {
-        const initialTree = createAppleTree();
-        initialTree.position.set(6, 0.2, -4);
-        scene.add(initialTree);
-        cropMeshes.push(initialTree); // برای پاکسازی بعدی
+        const initialTree = createTreeMesh();
+        initialTree.position.set(7, 0.4, -6);
+        dynamicGroup.add(initialTree);
       }
     }
 
     /* =========================================================
-       5. راه‌اندازی
+       5. راه‌اندازی نهایی
        ========================================================= */
     function startGame(farmName) {
       state = createInitialState(farmName);
@@ -681,13 +746,9 @@
       save();
 
       if (tickInterval) clearInterval(tickInterval);
-      tickInterval = setInterval(() => {
-        processTimers();
-        renderUI(); // فقط UI آپدیت شود، 3D در صورت تغییر آپدیت می‌شود
-      }, 1000);
+      tickInterval = setInterval(() => { processTimers(); renderUI(); }, 1000);
     }
 
-    // بارگذاری بازی قبلی
     (function init() {
       const saved = load();
       if (saved && saved.farmName) {
@@ -704,21 +765,18 @@
       }
     })();
 
-    // رویدادها
     document.getElementById("startBtn").addEventListener("click", () => {
       const name = document.getElementById("farmNameInput").value.trim();
       if (!name) { alert("نام مزرعه را وارد کنید!"); return; }
-      localStorage.removeItem(SAVE_KEY); // شروع مجدد
+      localStorage.removeItem(SAVE_KEY);
       startGame(name);
     });
 
     document.getElementById("sellAllBtn").addEventListener("click", sellAll);
     document.getElementById("buyLandBtn").addEventListener("click", buyLand);
     document.getElementById("giftBtn").addEventListener("click", useGiftCode);
-
     document.querySelectorAll("[data-seed]").forEach(btn => btn.addEventListener("click", () => buySeed(btn.dataset.seed)));
     document.querySelectorAll("[data-buy]").forEach(btn => btn.addEventListener("click", () => buyAnimal(btn.dataset.buy)));
-
   </script>
 </body>
 </html>
