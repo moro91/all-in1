@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مزرعه من 🌾</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Tahoma, "Segoe UI", sans-serif; }
+    body { background: linear-gradient(180deg, #a8e6cf 0%, #dcedc1 100%); min-height: 100vh; color: #2d3436; }
+    .hidden { display: none !important; }
+    .screen { min-height: 100vh; }
+
+    #startScreen { display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .modal { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); text-align: center; max-width: 400px; width: 100%; }
+    .modal h1 { margin-bottom: 10px; color: #27ae60; }
+    .modal p { margin-bottom: 15px; color: #555; }
+    .modal input { width: 100%; padding: 10px; border: 2px solid #dfe6e9; border-radius: 8px; margin-bottom: 15px; font-size: 16px; text-align: center; }
+    .modal button { width: 100%; padding: 12px; background: #27ae60; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: 0.2s; }
+    .modal button:hover { background: #219150; }
+
+    .topbar { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 12px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; gap: 10px; }
+    .farm-name { font-weight: bold; font-size: 18px; color: #27ae60; }
+    .coins { font-weight: bold; font-size: 18px; color: #e67e22; }
+    .btn-reset { background: #95a5a6; padding: 6px 10px; font-size: 16px; }
+
+    .container { max-width: 900px; margin: 20px auto; padding: 0 15px; display: grid; gap: 15px; }
+    .panel { background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+    .panel h2 { font-size: 18px; margin-bottom: 12px; color: #2d3436; border-bottom: 2px solid #dfe6e9; padding-bottom: 8px; }
+    .hint { font-size: 13px; color: #636e72; margin-top: 8px; }
+
+    .inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+    .inv-item { background: #f1f2f6; padding: 10px; border-radius: 8px; text-align: center; font-size: 15px; }
+
+    .btn { padding: 10px 16px; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; transition: 0.2s; color: #fff; font-weight: bold; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); }
+    .btn-green { background: #27ae60; }
+    .btn-blue { background: #3498db; }
+    .btn-purple { background: #9b59b6; }
+    .btn-seed { background: #16a085; }
+    .btn-buy { background: #e67e22; }
+    .btn-harvest { background: #f39c12; }
+    .btn-kill { background: #e74c3c; }
+
+    .lands-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px; }
+    .land-card { background: #f9f5d7; border: 2px dashed #b7a86b; border-radius: 10px; padding: 12px; text-align: center; min-height: 120px; display: flex; flex-direction: column; justify-content: space-between; }
+    .land-card.planted { background: #d4f1c5; border-color: #27ae60; border-style: solid; }
+    .land-card.ready { background: #ffeaa7; border-color: #f39c12; }
+    .land-card.dead { background: #ecf0f1; border-color: #95a5a6; }
+    .land-title { font-weight: bold; font-size: 14px; margin-bottom: 6px; }
+    .land-status { font-size: 13px; color: #636e72; }
+    .land-card button { margin-top: 6px; width: 100%; padding: 8px; font-size: 13px; }
+
+    .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+
+    .animals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+    .animal-card { background: #fdf1e6; border: 2px solid #e67e22; border-radius: 10px; padding: 12px; text-align: center; }
+    .animal-card h3 { font-size: 16px; margin-bottom: 6px; }
+    .animal-card p { font-size: 13px; color: #555; margin-bottom: 4px; }
+    .animal-card .btn { margin-top: 8px; width: 100%; padding: 8px; font-size: 14px; }
+
+    #giftInput { width: 100%; padding: 10px; border: 2px solid #dfe6e9; border-radius: 8px; margin: 8px 0; font-size: 15px; text-align: center; }
+
+    .toast { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: #2d3436; color: #fff; padding: 12px 20px; border-radius: 8px; z-index: 999; font-size: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); animation: fadein 0.3s; }
+    @keyframes fadein { from { opacity: 0; transform: translate(-50%, -10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+  </style>
+</head>
+<body>
+
+  <!-- صفحه شروع -->
+  <div id="startScreen" class="screen">
+    <div class="modal">
+      <h1>🌾 به مزرعه خوش آمدید</h1>
+      <p>یک نام برای مزرعه خود انتخاب کنید:</p>
+      <input type="text" id="farmNameInput" placeholder="مثلاً: مزرعه سبز" maxlength="20" />
+      <button id="startBtn">شروع بازی</button>
+    </div>
+  </div>
+
+  <!-- صفحه اصلی بازی -->
+  <div id="gameScreen" class="screen hidden">
+    <header class="topbar">
+      <div class="farm-name">🏡 <span id="farmNameDisplay"></span></div>
+      <div class="coins">💰 سکه: <span id="coinsDisplay">0</span></div>
+      <button id="resetBtn" class="btn btn-reset" title="شروع مجدد">♻️</button>
+    </header>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <main class="container">
+
+      <section class="panel">
+        <h2>📦 انبار</h2>
+        <div class="inventory-grid">
+          <div class="inv-item">🍎 سیب: <span id="invApples">0</span></div>
+          <div class="inv-item">🥛 شیر: <span id="invMilk">0</span></div>
+          <div class="inv-item">🧀 پنیر: <span id="invCheese">0</span></div>
+          <div class="inv-item">🥚 تخم‌مرغ: <span id="invEggs">0</span></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>🧳 بازرگان</h2>
+        <p id="merchantStatus">وضعیت: در حال بررسی...</p>
+        <button id="sellAllBtn" class="btn btn-green">فروش همه محصولات</button>
+      </section>
+
+      <section class="panel">
+        <h2>🌱 زمین‌های من</h2>
+        <div id="landsContainer" class="lands-grid"></div>
+        <button id="buyLandBtn" class="btn btn-blue">خرید زمین جدید</button>
+      </section>
+
+      <section class="panel">
+        <h2>🛒 فروشگاه بذر</h2>
+        <div class="shop-grid">
+          <button class="btn btn-seed" data-seed="vegetable">🥬 بذر سبزی — 5 سکه</button>
+          <button class="btn btn-seed" data-seed="wheat">🌾 بذر گندم — 2 سکه</button>
+          <button class="btn btn-seed" data-seed="apple">🍎 بذر سیب — 5 سکه</button>
+        </div>
+        <p class="hint">بذرهای موجود: 🥬 <span id="seedVeg">0</span> | 🌾 <span id="seedWheat">0</span> | 🍎 <span id="seedApple">0</span></p>
+      </section>
+
+      <section class="panel">
+        <h2>🐾 حیوانات من</h2>
+        <div class="animals-grid" id="animalsContainer"></div>
+      </section>
+
+      <section class="panel">
+        <h2>🏪 فروشگاه حیوانات</h2>
+        <div class="shop-grid">
+          <button class="btn btn-buy" data-buy="sheep">🐑 گوسفند — 80 سکه</button>
+          <button class="btn btn-buy" data-buy="chicken">🐔 مرغ — 30 سکه</button>
+          <button class="btn btn-buy" data-buy="cow">🐄 گاو — 90 سکه</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>🎁 کد هدیه</h2>
+        <p class="hint">کد هدیه را از کانال بله <strong>@factinew</strong> دریافت کنید.</p>
+        <input type="text" id="giftInput" placeholder="کد هدیه را وارد کنید" />
+        <button id="giftBtn" class="btn btn-purple">استفاده از کد</button>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+  /* =========================================================
+     بازی مزرعه‌داری — منطق کامل و بدون باگ
+     ========================================================= */
+
+  const SAVE_KEY = "farmGameSave_v2";
+
+  const CONFIG = {
+    START_COINS: 10,
+    DAILY_BONUS: 10,
+
+    SHEEP_PRICE: 80,
+    CHICKEN_PRICE: 30,
+    COW_PRICE: 90,
+    LAND_BASE_PRICE: 100,
+
+    SEED_PRICES: { vegetable: 5, wheat: 2, apple: 5 },
+    CROP_VALUES: { vegetable: 2, wheat: 1, apple: 2 },
+
+    SELL_PRICES: { apples: 1, milk: 3, cheese: 1, eggs: 3 },
+    KILL_VALUES: { cow: 85, sheep: 75, chicken: 25 },
+
+    COW_INTERVAL: 20 * 60 * 1000,
+    SHEEP_INTERVAL: 20 * 60 * 1000,
+    CHICKEN_INTERVAL: 10 * 60 * 1000,
+    MERCHANT_INTERVAL: 30 * 60 * 1000,
+
+    CROP_GROW_TIME: 2 * 60 * 60 * 1000,
+    CROP_LIFETIME: 24 * 60 * 60 * 1000
+  };
+
+  const GIFT_CODES = {
+    "FACTINEW10": 10,
+    "FARM2026": 25,
+    "WELCOME50": 50,
+    "SHEEPGIFT": 80,
+    "GOLDEN100": 100
+  };
+
+  let state = null;
+  let tickInterval = null;
+  let saveInterval = null;
+
+  function now() { return Date.now(); }
+
+  function formatTime(ms) {
+    if (ms <= 0) return "آماده!";
+    const totalSec = Math.floor(ms / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    return `${h}س ${m}د ${s}ث`;
+  }
+
+  function localDateStr() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.remove("hidden");
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.add("hidden"), 2500);
+  }
+
+  function save() { if (state) localStorage.setItem(SAVE_KEY, JSON.stringify(state)); }
+
+  function load() {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return null;
+    try { return JSON.parse(raw); } catch { return null; }
+  }
+
+  function createInitialState(farmName) {
+    const t = now();
+    return {
+      version: 2,
+      farmName,
+      coins: CONFIG.START_COINS,
+      lastLoginDate: "",
+      usedGiftCodes: [],
+
+      lands: [{ id: 1, crop: null, plantedAt: null, lastHarvestAt: null }],
+      landsPurchased: 0,
+
+      animals: { cow: 1, sheep: 0, chicken: 0 },
+      lastProduction: { cow: t, sheep: t, chicken: t },
+
+      appleTree: { exists: true, lastHarvest: t },
+
+      lastMerchantVisit: t,
+      inventory: { apples: 0, milk: 0, cheese: 0, eggs: 0 },
+      seeds: { vegetable: 0, wheat: 0, apple: 0 }
+    };
+  }
+
+  function checkDailyBonus() {
+    const today = localDateStr();
+    if (state.lastLoginDate !== today) {
+      state.coins += CONFIG.DAILY_BONUS;
+      state.lastLoginDate = today;
+      save();
+      setTimeout(() => showToast(`🎁 پاداش ورود روزانه: +${CONFIG.DAILY_BONUS} سکه`), 500);
+    }
+  }
+
+  function processTimers() {
+    const t = now();
+    let changed = false;
+
+    if (state.animals.cow > 0) {
+      const cycles = Math.floor((t - state.lastProduction.cow) / CONFIG.COW_INTERVAL);
+      if (cycles > 0) {
+        state.inventory.milk += cycles * state.animals.cow;
+        state.lastProduction.cow += cycles * CONFIG.COW_INTERVAL;
+        changed = true;
+      }
+    }
+
+    if (state.animals.sheep > 0) {
+      const cycles = Math.floor((t - state.lastProduction.sheep) / CONFIG.SHEEP_INTERVAL);
+      if (cycles > 0) {
+        const produced = cycles * state.animals.sheep;
+        state.inventory.milk += produced;
+        state.inventory.cheese += produced;
+        state.lastProduction.sheep += cycles * CONFIG.SHEEP_INTERVAL;
+        changed = true;
+      }
+    }
+
+    if (state.animals.chicken > 0) {
+      const cycles = Math.floor((t - state.lastProduction.chicken) / CONFIG.CHICKEN_INTERVAL);
+      if (cycles > 0) {
+        state.inventory.eggs += cycles * state.animals.chicken;
+        state.lastProduction.chicken += cycles * CONFIG.CHICKEN_INTERVAL;
+        changed = true;
+      }
+    }
+
+    if (state.appleTree.exists) {
+      const cycles = Math.floor((t - state.appleTree.lastHarvest) / CONFIG.COW_INTERVAL);
+      if (cycles > 0) {
+        for (let i = 0; i < cycles; i++) {
+          state.inventory.apples += Math.random() < 0.5 ? 3 : 4;
+        }
+        state.appleTree.lastHarvest += cycles * CONFIG.COW_INTERVAL;
+        changed = true;
+      }
+    }
+
+    state.lands.forEach(land => {
+      if (land.crop && (t - land.plantedAt) >= CONFIG.CROP_LIFETIME) {
+        land.crop = null;
+        land.plantedAt = null;
+        land.lastHarvestAt = null;
+        changed = true;
+      }
+    });
+
+    if (changed) save();
+  }
+
+  function getNextLandPrice() {
+    return CONFIG.LAND_BASE_PRICE * Math.pow(2, state.landsPurchased);
+  }
+
+  function isMerchantPresent() {
+    return (now() - state.lastMerchantVisit) >= CONFIG.MERCHANT_INTERVAL;
+  }
+  function getMerchantRemaining() {
+    return Math.max(0, CONFIG.MERCHANT_INTERVAL - (now() - state.lastMerchantVisit));
+  }
+
+  function sellAll() {
+    if (!isMerchantPresent()) { showToast("بازرگان هنوز نیامده است. صبر کنید..."); return; }
+    const inv = state.inventory;
+    const total =
+      inv.apples * CONFIG.SELL_PRICES.apples +
+      inv.milk   * CONFIG.SELL_PRICES.milk +
+      inv.cheese * CONFIG.SELL_PRICES.cheese +
+      inv.eggs   * CONFIG.SELL_PRICES.eggs;
+    if (total === 0) { showToast("انبار شما خالی است!"); return; }
+    state.coins += total;
+    state.inventory = { apples: 0, milk: 0, cheese: 0, eggs: 0 };
+    state.lastMerchantVisit = now();
+    save(); render();
+    showToast(`🧳 فروش انجام شد! +${total} سکه`);
+  }
+
+  function seedName(type) {
+    return { vegetable: "سبزی 🥬", wheat: "گندم 🌾", apple: "سیب 🍎" }[type] || type;
+  }
+
+  function buySeed(type) {
+    const price = CONFIG.SEED_PRICES[type];
+    if (state.coins < price) { showToast("سکه کافی ندارید!"); return; }
+    state.coins -= price;
+    state.seeds[type] += 1;
+    save(); render();
+    showToast(`بذر خریداری شد: ${seedName(type)}`);
+  }
+
+  function plantCrop(landId) {
+    const land = state.lands.find(l => l.id === landId);
+    if (!land || land.crop) return;
+
+    let seedType = null;
+    for (const k of ["vegetable", "wheat", "apple"]) {
+      if (state.seeds[k] > 0) { seedType = k; break; }
+    }
+    if (!seedType) { showToast("بذر ندارید! ابتدا از فروشگاه بذر بخرید."); return; }
+
+    state.seeds[seedType] -= 1;
+    land.crop = seedType;
+    land.plantedAt = now();
+    land.lastHarvestAt = now();
+    save(); render();
+    showToast(`کاشته شد: ${seedName(seedType)}`);
+  }
+
+  function harvestCrop(landId) {
+    const land = state.lands.find(l => l.id === landId);
+    if (!land || !land.crop) return;
+
+    if (now() - land.plantedAt >= CONFIG.CROP_LIFETIME) {
+      land.crop = null; land.plantedAt = null; land.lastHarvestAt = null;
+      save(); render();
+      showToast("بذر خشک شد. دوباره بکارید.");
+      return;
+    }
+
+    if (now() - land.lastHarvestAt < CONFIG.CROP_GROW_TIME) {
+      showToast("محصول هنوز آماده نیست.");
+      return;
+    }
+
+    const value = CONFIG.CROP_VALUES[land.crop];
+    state.coins += value;
+    land.lastHarvestAt = now();
+    save(); render();
+    showToast(`برداشت شد! +${value} سکه`);
+  }
+
+  function buyLand() {
+    const price = getNextLandPrice();
+    if (state.coins < price) { showToast(`سکه کافی نیست! قیمت: ${price}`); return; }
+    state.coins -= price;
+    state.landsPurchased += 1;
+    state.lands.push({
+      id: state.lands.length + 1,
+      crop: null, plantedAt: null, lastHarvestAt: null
+    });
+    save(); render();
+    showToast(`🏞️ زمین جدید خریداری شد! (-${price} سکه)`);
+  }
+
+  function animalName(type) {
+    return { cow: "گاو 🐄", sheep: "گوسفند 🐑", chicken: "مرغ 🐔" }[type] || type;
+  }
+
+  function buyAnimal(type) {
+    const prices = { sheep: CONFIG.SHEEP_PRICE, chicken: CONFIG.CHICKEN_PRICE, cow: CONFIG.COW_PRICE };
+    const price = prices[type];
+    if (state.coins < price) { showToast("سکه کافی ندارید!"); return; }
+
+    processTimers();
+    state.coins -= price;
+    state.animals[type] += 1;
+    state.lastProduction[type] = now();
+    save(); render();
+    showToast(`حیوان خریداری شد: ${animalName(type)}`);
+  }
+
+  function killAnimal(type) {
+    if (state.animals[type] <= 0) { showToast("حیوانی از این نوع ندارید!"); return; }
+
+    processTimers();
+    state.animals[type] -= 1;
+    const value = CONFIG.KILL_VALUES[type];
+    state.coins += value;
+
+    if (state.animals[type] === 0) state.lastProduction[type] = now();
+
+    save(); render();
+    showToast(`حیوان کشته شد. +${value} سکه (گوشت و پوست)`);
+  }
+
+  function useGiftCode() {
+    const input = document.getElementById("giftInput");
+    const code = input.value.trim().toUpperCase();
+    if (!code) { showToast("کد را وارد کنید."); return; }
+    if (!GIFT_CODES[code]) { showToast("کد هدیه نامعتبر است!"); return; }
+    if (state.usedGiftCodes.includes(code)) { showToast("این کد قبلاً استفاده شده است!"); return; }
+    const reward = GIFT_CODES[code];
+    state.coins += reward;
+    state.usedGiftCodes.push(code);
+    input.value = "";
+    save(); render();
+    showToast(`🎁 کد هدیه فعال شد! +${reward} سکه`);
+  }
+
+  function render() {
+    if (!state) return;
+
+    document.getElementById("farmNameDisplay").textContent = state.farmName;
+    document.getElementById("coinsDisplay").textContent = state.coins;
+
+    document.getElementById("invApples").textContent = state.inventory.apples;
+    document.getElementById("invMilk").textContent   = state.inventory.milk;
+    document.getElementById("invCheese").textContent = state.inventory.cheese;
+    document.getElementById("invEggs").textContent   = state.inventory.eggs;
+
+    document.getElementById("seedVeg").textContent   = state.seeds.vegetable;
+    document.getElementById("seedWheat").textContent = state.seeds.wheat;
+    document.getElementById("seedApple").textContent = state.seeds.apple;
+
+    const merchantEl = document.getElementById("merchantStatus");
+    if (isMerchantPresent()) {
+      merchantEl.textContent = "✅ بازرگان حاضر است! می‌توانید بفروشید.";
+      merchantEl.style.color = "#27ae60";
+    } else {
+      merchantEl.textContent = `⏳ بازرگان در ${formatTime(getMerchantRemaining())} می‌آید.`;
+      merchantEl.style.color = "#e67e22";
+    }
+
+    const landsContainer = document.getElementById("landsContainer");
+    landsContainer.innerHTML = "";
+    state.lands.forEach(land => {
+      const card = document.createElement("div");
+      card.className = "land-card";
+
+      const title = document.createElement("div");
+      title.className = "land-title";
+      title.textContent = `زمین ${land.id}`;
+      card.appendChild(title);
+
+      const status = document.createElement("div");
+      status.className = "land-status";
+
+      if (!land.crop) {
+        status.textContent = "خالی — بذر بکارید";
+        card.appendChild(status);
+
+        const totalSeeds = state.seeds.vegetable + state.seeds.wheat + state.seeds.apple;
+        if (totalSeeds > 0) {
+          const btn = document.createElement("button");
+          btn.className = "btn btn-green";
+          btn.textContent = "کاشت";
+          btn.onclick = () => plantCrop(land.id);
+          card.appendChild(btn);
+        }
+      } else {
+        const age = now() - land.plantedAt;
+        if (age >= CONFIG.CROP_LIFETIME) {
+          status.textContent = "بذر خشک شد — دوباره بکارید";
+          card.classList.add("dead");
+          card.appendChild(status);
+        } else {
+          const sinceHarvest = now() - land.lastHarvestAt;
+          if (sinceHarvest >= CONFIG.CROP_GROW_TIME) {
+            status.textContent = `آماده برداشت (${seedName(land.crop)})`;
+            card.classList.add("ready");
+            card.appendChild(status);
+            const btn = document.createElement("button");
+            btn.className = "btn btn-harvest";
+            btn.textContent = `برداشت (+${CONFIG.CROP_VALUES[land.crop]} سکه)`;
+            btn.onclick = () => harvestCrop(land.id);
+            card.appendChild(btn);
+          } else {
+            const remainingGrow = CONFIG.CROP_GROW_TIME - sinceHarvest;
+            const remainingLife = CONFIG.CROP_LIFETIME - age;
+            status.textContent = `${seedName(land.crop)} — رشد: ${formatTime(remainingGrow)} — عمر: ${formatTime(remainingLife)}`;
+            card.classList.add("planted");
+            card.appendChild(status);
+          }
+        }
+      }
+
+      landsContainer.appendChild(card);
+    });
+
+    const buyLandBtn = document.getElementById("buyLandBtn");
+    const nextPrice = getNextLandPrice();
+    buyLandBtn.textContent = `خرید زمین جدید — ${nextPrice} سکه`;
+    buyLandBtn.disabled = state.coins < nextPrice;
+
+    document.getElementById("sellAllBtn").disabled = !isMerchantPresent();
+
+    const animalsContainer = document.getElementById("animalsContainer");
+    animalsContainer.innerHTML = "";
+
+    const animalDefs = [
+      { key: "cow",     label: "گاو 🐄",     interval: CONFIG.COW_INTERVAL,     produce: "شیر 🥛" },
+      { key: "sheep",   label: "گوسفند 🐑",  interval: CONFIG.SHEEP_INTERVAL,   produce: "شیر 🥛 + پنیر 🧀" },
+      { key: "chicken", label: "مرغ 🐔",     interval: CONFIG.CHICKEN_INTERVAL, produce: "تخم‌مرغ 🥚" }
+    ];
+
+    animalDefs.forEach(def => {
+      const count = state.animals[def.key];
+      if (count <= 0) return;
+      const card = document.createElement("div");
+      card.className = "animal-card";
+      const nextIn = Math.max(0, def.interval - (now() - state.lastProduction[def.key]));
+      card.innerHTML = `
+        <h3>${def.label} × ${count}</h3>
+        <p>تولید: ${def.produce}</p>
+        <p>تولید بعدی: ${formatTime(nextIn)}</p>
+      `;
+      const killBtn = document.createElement("button");
+      killBtn.className = "btn btn-kill";
+      killBtn.textContent = `کشتن (${CONFIG.KILL_VALUES[def.key]} سکه)`;
+      killBtn.onclick = () => killAnimal(def.key);
+      card.appendChild(killBtn);
+      animalsContainer.appendChild(card);
+    });
+
+    const buyPrices = { sheep: CONFIG.SHEEP_PRICE, chicken: CONFIG.CHICKEN_PRICE, cow: CONFIG.COW_PRICE };
+    document.querySelectorAll("[data-buy]").forEach(btn => {
+      btn.disabled = state.coins < buyPrices[btn.dataset.buy];
+    });
+
+    document.querySelectorAll("[data-seed]").forEach(btn => {
+      btn.disabled = state.coins < CONFIG.SEED_PRICES[btn.dataset.seed];
+    });
+  }
+
+  function startGameLoop() {
+    if (tickInterval) clearInterval(tickInterval);
+    if (saveInterval) clearInterval(saveInterval);
+
+    checkDailyBonus();
+    processTimers();
+    render();
+    save();
+
+    tickInterval = setInterval(() => { processTimers(); render(); }, 1000);
+    saveInterval = setInterval(save, 10000);
+  }
+
+  function startNewGame(farmName) {
+    state = createInitialState(farmName);
+    document.getElementById("startScreen").classList.add("hidden");
+    document.getElementById("gameScreen").classList.remove("hidden");
+    startGameLoop();
+  }
+
+  function resumeSavedGame(saved) {
+    state = saved;
+    document.getElementById("startScreen").classList.add("hidden");
+    document.getElementById("gameScreen").classList.remove("hidden");
+    startGameLoop();
+  }
+
+  document.getElementById("startBtn").addEventListener("click", () => {
+    const input = document.getElementById("farmNameInput");
+    const name = input.value.trim();
+    if (!name) { alert("لطفاً یک نام برای مزرعه وارد کنید."); return; }
+    startNewGame(name);
+  });
+
+  document.getElementById("sellAllBtn").addEventListener("click", sellAll);
+  document.getElementById("buyLandBtn").addEventListener("click", buyLand);
+  document.getElementById("giftBtn").addEventListener("click", useGiftCode);
+
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    if (confirm("آیا مطمئن هستید؟ تمام پیشرفت شما پاک می‌شود.")) {
+      localStorage.removeItem(SAVE_KEY);
+      location.reload();
+    }
+  });
+
+  document.querySelectorAll("[data-seed]").forEach(btn => {
+    btn.addEventListener("click", () => buySeed(btn.dataset.seed));
+  });
+
+  document.querySelectorAll("[data-buy]").forEach(btn => {
+    btn.addEventListener("click", () => buyAnimal(btn.dataset.buy));
+  });
+
+  (function init() {
+    const saved = load();
+    if (saved && saved.version === 2) {
+      resumeSavedGame(saved);
+    }
+  })();
+  </script>
+</body>
+</html>
