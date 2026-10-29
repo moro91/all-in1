@@ -3,635 +3,722 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>مزرعه من 🌾</title>
+  <title>مزرعه سه‌بعدی من 🌾</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: Tahoma, "Segoe UI", sans-serif; }
-    body { background: linear-gradient(180deg, #a8e6cf 0%, #dcedc1 100%); min-height: 100vh; color: #2d3436; }
+    body { overflow: hidden; background: #87CEEB; color: #2d3436; }
     .hidden { display: none !important; }
-    .screen { min-height: 100vh; }
 
-    #startScreen { display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .modal { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); text-align: center; max-width: 400px; width: 100%; }
-    .modal h1 { margin-bottom: 10px; color: #27ae60; }
-    .modal p { margin-bottom: 15px; color: #555; }
-    .modal input { width: 100%; padding: 10px; border: 2px solid #dfe6e9; border-radius: 8px; margin-bottom: 15px; font-size: 16px; text-align: center; }
-    .modal button { width: 100%; padding: 12px; background: #27ae60; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: 0.2s; }
-    .modal button:hover { background: #219150; }
+    /* محیط 3D */
+    #canvas-container { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; }
 
-    .topbar { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 12px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; gap: 10px; }
-    .farm-name { font-weight: bold; font-size: 18px; color: #27ae60; }
-    .coins { font-weight: bold; font-size: 18px; color: #e67e22; }
-    .btn-reset { background: #95a5a6; padding: 6px 10px; font-size: 16px; }
+    /* رابط کاربری */
+    .ui-layer { position: absolute; z-index: 10; pointer-events: none; }
+    .ui-panel { pointer-events: auto; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); padding: 15px; border: 1px solid rgba(255,255,255,0.5); }
 
-    .container { max-width: 900px; margin: 20px auto; padding: 0 15px; display: grid; gap: 15px; }
-    .panel { background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
-    .panel h2 { font-size: 18px; margin-bottom: 12px; color: #2d3436; border-bottom: 2px solid #dfe6e9; padding-bottom: 8px; }
-    .hint { font-size: 13px; color: #636e72; margin-top: 8px; }
+    /* نوار بالا */
+    #topBar { top: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .farm-name { font-weight: bold; font-size: 20px; color: #27ae60; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
+    .coins { font-weight: bold; font-size: 20px; color: #e67e22; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
 
-    .inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
-    .inv-item { background: #f1f2f6; padding: 10px; border-radius: 8px; text-align: center; font-size: 15px; }
-
-    .btn { padding: 10px 16px; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; transition: 0.2s; color: #fff; font-weight: bold; }
+    /* منوی کناری (فروشگاه و انبار) */
+    #sidePanel { top: 80px; right: 15px; bottom: 15px; width: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+    #sidePanel::-webkit-scrollbar { width: 6px; }
+    #sidePanel::-webkit-scrollbar-thumb { background: #bdc3c7; border-radius: 3px; }
+    
+    .panel h2 { font-size: 16px; margin-bottom: 10px; border-bottom: 2px solid #dfe6e9; padding-bottom: 5px; color: #2c3e50; }
+    .btn { padding: 8px 12px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: 0.2s; color: #fff; font-weight: bold; width: 100%; margin-bottom: 8px; }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn:hover:not(:disabled) { transform: translateY(-2px); }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
     .btn-green { background: #27ae60; }
     .btn-blue { background: #3498db; }
     .btn-purple { background: #9b59b6; }
     .btn-seed { background: #16a085; }
     .btn-buy { background: #e67e22; }
     .btn-harvest { background: #f39c12; }
-    .btn-kill { background: #e74c3c; }
 
-    .lands-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px; }
-    .land-card { background: #f9f5d7; border: 2px dashed #b7a86b; border-radius: 10px; padding: 12px; text-align: center; min-height: 120px; display: flex; flex-direction: column; justify-content: space-between; }
-    .land-card.planted { background: #d4f1c5; border-color: #27ae60; border-style: solid; }
-    .land-card.ready { background: #ffeaa7; border-color: #f39c12; }
-    .land-card.dead { background: #ecf0f1; border-color: #95a5a6; }
-    .land-title { font-weight: bold; font-size: 14px; margin-bottom: 6px; }
-    .land-status { font-size: 13px; color: #636e72; }
-    .land-card button { margin-top: 6px; width: 100%; padding: 8px; font-size: 13px; }
+    .inv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 14px; }
+    .inv-item { background: #ecf0f1; padding: 8px; border-radius: 6px; text-align: center; }
 
-    .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+    /* صفحه شروع */
+    #startScreen { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 100; pointer-events: auto; }
+    .modal { background: #fff; padding: 30px; border-radius: 16px; text-align: center; width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .modal h1 { color: #27ae60; margin-bottom: 15px; }
+    .modal input { width: 100%; padding: 10px; border: 2px solid #bdc3c7; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 16px; }
+    .modal button { padding: 12px; background: #27ae60; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; }
 
-    .animals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
-    .animal-card { background: #fdf1e6; border: 2px solid #e67e22; border-radius: 10px; padding: 12px; text-align: center; }
-    .animal-card h3 { font-size: 16px; margin-bottom: 6px; }
-    .animal-card p { font-size: 13px; color: #555; margin-bottom: 4px; }
-    .animal-card .btn { margin-top: 8px; width: 100%; padding: 8px; font-size: 14px; }
-
-    #giftInput { width: 100%; padding: 10px; border: 2px solid #dfe6e9; border-radius: 8px; margin: 8px 0; font-size: 15px; text-align: center; }
-
-    .toast { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: #2d3436; color: #fff; padding: 12px 20px; border-radius: 8px; z-index: 999; font-size: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); animation: fadein 0.3s; }
+    /* Toast */
+    .toast { position: absolute; top: 80px; left: 50%; transform: translateX(-50%); background: rgba(44, 62, 80, 0.9); color: #fff; padding: 12px 24px; border-radius: 30px; z-index: 1000; font-size: 15px; animation: fadein 0.3s; pointer-events: none; }
     @keyframes fadein { from { opacity: 0; transform: translate(-50%, -10px); } to { opacity: 1; transform: translate(-50%, 0); } }
   </style>
+  <!-- کتابخانه Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
 
-  <!-- صفحه شروع -->
-  <div id="startScreen" class="screen">
-    <div class="modal">
-      <h1>🌾 به مزرعه خوش آمدید</h1>
-      <p>یک نام برای مزرعه خود انتخاب کنید:</p>
-      <input type="text" id="farmNameInput" placeholder="مثلاً: مزرعه سبز" maxlength="20" />
-      <button id="startBtn">شروع بازی</button>
+  <!-- محیط 3D -->
+  <div id="canvas-container"></div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- رابط کاربری -->
+  <div id="gameUI" class="hidden">
+    <div id="topBar" class="ui-panel">
+      <div class="farm-name">🏡 <span id="farmNameDisplay"></span></div>
+      <div class="coins">💰 <span id="coinsDisplay">0</span> سکه</div>
+    </div>
+
+    <div id="sidePanel" class="ui-layer">
+      <div class="ui-panel panel">
+        <h2>📦 انبار</h2>
+        <div class="inv-grid">
+          <div class="inv-item">🍎 سیب: <b id="invApples">0</b></div>
+          <div class="inv-item">🥛 شیر: <b id="invMilk">0</b></div>
+          <div class="inv-item">🧀 پنیر: <b id="invCheese">0</b></div>
+          <div class="inv-item">🥚 تخم‌مرغ: <b id="invEggs">0</b></div>
+        </div>
+        <div style="margin-top:10px; font-size:13px; text-align:center;" id="merchantStatus">بازرگان در حال بررسی...</div>
+        <button id="sellAllBtn" class="btn btn-green" style="margin-top:8px;">فروش همه محصولات</button>
+      </div>
+
+      <div class="ui-panel panel">
+        <h2>🌱 زمین‌ها و بذرها</h2>
+        <div style="font-size:13px; margin-bottom:8px;">بذر موجود: 🥬 <b id="seedVeg">0</b> | 🌾 <b id="seedWheat">0</b> | 🍎 <b id="seedApple">0</b></div>
+        <button class="btn btn-seed" data-seed="vegetable">خرید بذر سبزی (5 سکه)</button>
+        <button class="btn btn-seed" data-seed="wheat">خرید بذر گندم (2 سکه)</button>
+        <button class="btn btn-seed" data-seed="apple">خرید بذر سیب (5 سکه)</button>
+        <div id="landsContainer" style="margin-top:10px; display:flex; flex-direction:column; gap:5px;"></div>
+        <button id="buyLandBtn" class="btn btn-blue" style="margin-top:10px;">خرید زمین جدید</button>
+      </div>
+
+      <div class="ui-panel panel">
+        <h2>🐾 دامداری</h2>
+        <div style="font-size:13px; margin-bottom:8px;">
+          🐄 گاو: <b id="countCow">0</b> | 🐑 گوسفند: <b id="countSheep">0</b> | 🐔 مرغ: <b id="countChicken">0</b>
+        </div>
+        <button class="btn btn-buy" data-buy="sheep">خرید گوسفند (80 سکه)</button>
+        <button class="btn btn-buy" data-buy="chicken">خرید مرغ (30 سکه)</button>
+        <button class="btn btn-buy" data-buy="cow">خرید گاو (90 سکه)</button>
+        <div id="animalsContainer" style="margin-top:10px; display:flex; flex-direction:column; gap:5px;"></div>
+      </div>
+
+      <div class="ui-panel panel">
+        <h2>🎁 کد هدیه</h2>
+        <input type="text" id="giftInput" placeholder="کد هدیه..." style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-bottom:8px;" />
+        <button id="giftBtn" class="btn btn-purple">دریافت جایزه</button>
+      </div>
     </div>
   </div>
 
-  <!-- صفحه اصلی بازی -->
-  <div id="gameScreen" class="screen hidden">
-    <header class="topbar">
-      <div class="farm-name">🏡 <span id="farmNameDisplay"></span></div>
-      <div class="coins">💰 سکه: <span id="coinsDisplay">0</span></div>
-      <button id="resetBtn" class="btn btn-reset" title="شروع مجدد">♻️</button>
-    </header>
-
-    <div id="toast" class="toast hidden"></div>
-
-    <main class="container">
-
-      <section class="panel">
-        <h2>📦 انبار</h2>
-        <div class="inventory-grid">
-          <div class="inv-item">🍎 سیب: <span id="invApples">0</span></div>
-          <div class="inv-item">🥛 شیر: <span id="invMilk">0</span></div>
-          <div class="inv-item">🧀 پنیر: <span id="invCheese">0</span></div>
-          <div class="inv-item">🥚 تخم‌مرغ: <span id="invEggs">0</span></div>
-        </div>
-      </section>
-
-      <section class="panel">
-        <h2>🧳 بازرگان</h2>
-        <p id="merchantStatus">وضعیت: در حال بررسی...</p>
-        <button id="sellAllBtn" class="btn btn-green">فروش همه محصولات</button>
-      </section>
-
-      <section class="panel">
-        <h2>🌱 زمین‌های من</h2>
-        <div id="landsContainer" class="lands-grid"></div>
-        <button id="buyLandBtn" class="btn btn-blue">خرید زمین جدید</button>
-      </section>
-
-      <section class="panel">
-        <h2>🛒 فروشگاه بذر</h2>
-        <div class="shop-grid">
-          <button class="btn btn-seed" data-seed="vegetable">🥬 بذر سبزی — 5 سکه</button>
-          <button class="btn btn-seed" data-seed="wheat">🌾 بذر گندم — 2 سکه</button>
-          <button class="btn btn-seed" data-seed="apple">🍎 بذر سیب — 5 سکه</button>
-        </div>
-        <p class="hint">بذرهای موجود: 🥬 <span id="seedVeg">0</span> | 🌾 <span id="seedWheat">0</span> | 🍎 <span id="seedApple">0</span></p>
-      </section>
-
-      <section class="panel">
-        <h2>🐾 حیوانات من</h2>
-        <div class="animals-grid" id="animalsContainer"></div>
-      </section>
-
-      <section class="panel">
-        <h2>🏪 فروشگاه حیوانات</h2>
-        <div class="shop-grid">
-          <button class="btn btn-buy" data-buy="sheep">🐑 گوسفند — 80 سکه</button>
-          <button class="btn btn-buy" data-buy="chicken">🐔 مرغ — 30 سکه</button>
-          <button class="btn btn-buy" data-buy="cow">🐄 گاو — 90 سکه</button>
-        </div>
-      </section>
-
-      <section class="panel">
-        <h2>🎁 کد هدیه</h2>
-        <p class="hint">کد هدیه را از کانال بله <strong>@factinew</strong> دریافت کنید.</p>
-        <input type="text" id="giftInput" placeholder="کد هدیه را وارد کنید" />
-        <button id="giftBtn" class="btn btn-purple">استفاده از کد</button>
-      </section>
-
-    </main>
+  <!-- صفحه شروع -->
+  <div id="startScreen">
+    <div class="modal">
+      <h1>🌾 مزرعه سه‌بعدی</h1>
+      <p style="margin-bottom:15px; color:#555;">نامی برای مزرعه خود انتخاب کنید:</p>
+      <input type="text" id="farmNameInput" placeholder="مثال: مزرعه سبز" maxlength="15" />
+      <button id="startBtn">ورود به بازی</button>
+    </div>
   </div>
 
   <script>
-  /* =========================================================
-     بازی مزرعه‌داری — منطق کامل و بدون باگ
-     ========================================================= */
-
-  const SAVE_KEY = "farmGameSave_v2";
-
-  const CONFIG = {
-    START_COINS: 10,
-    DAILY_BONUS: 10,
-
-    SHEEP_PRICE: 80,
-    CHICKEN_PRICE: 30,
-    COW_PRICE: 90,
-    LAND_BASE_PRICE: 100,
-
-    SEED_PRICES: { vegetable: 5, wheat: 2, apple: 5 },
-    CROP_VALUES: { vegetable: 2, wheat: 1, apple: 2 },
-
-    SELL_PRICES: { apples: 1, milk: 3, cheese: 1, eggs: 3 },
-    KILL_VALUES: { cow: 85, sheep: 75, chicken: 25 },
-
-    COW_INTERVAL: 20 * 60 * 1000,
-    SHEEP_INTERVAL: 20 * 60 * 1000,
-    CHICKEN_INTERVAL: 10 * 60 * 1000,
-    MERCHANT_INTERVAL: 30 * 60 * 1000,
-
-    CROP_GROW_TIME: 2 * 60 * 60 * 1000,
-    CROP_LIFETIME: 24 * 60 * 60 * 1000
-  };
-
-  const GIFT_CODES = {
-    "FACTINEW10": 10,
-    "FARM2026": 25,
-    "WELCOME50": 50,
-    "SHEEPGIFT": 80,
-    "GOLDEN100": 100
-  };
-
-  let state = null;
-  let tickInterval = null;
-  let saveInterval = null;
-
-  function now() { return Date.now(); }
-
-  function formatTime(ms) {
-    if (ms <= 0) return "آماده!";
-    const totalSec = Math.floor(ms / 1000);
-    const h = Math.floor(totalSec / 3600);
-    const m = Math.floor((totalSec % 3600) / 60);
-    const s = totalSec % 60;
-    return `${h}س ${m}د ${s}ث`;
-  }
-
-  function localDateStr() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  }
-
-  function showToast(msg) {
-    const t = document.getElementById("toast");
-    t.textContent = msg;
-    t.classList.remove("hidden");
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => t.classList.add("hidden"), 2500);
-  }
-
-  function save() { if (state) localStorage.setItem(SAVE_KEY, JSON.stringify(state)); }
-
-  function load() {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if (!raw) return null;
-    try { return JSON.parse(raw); } catch { return null; }
-  }
-
-  function createInitialState(farmName) {
-    const t = now();
-    return {
-      version: 2,
-      farmName,
-      coins: CONFIG.START_COINS,
-      lastLoginDate: "",
-      usedGiftCodes: [],
-
-      lands: [{ id: 1, crop: null, plantedAt: null, lastHarvestAt: null }],
-      landsPurchased: 0,
-
-      animals: { cow: 1, sheep: 0, chicken: 0 },
-      lastProduction: { cow: t, sheep: t, chicken: t },
-
-      appleTree: { exists: true, lastHarvest: t },
-
-      lastMerchantVisit: t,
-      inventory: { apples: 0, milk: 0, cheese: 0, eggs: 0 },
-      seeds: { vegetable: 0, wheat: 0, apple: 0 }
+    /* =========================================================
+       1. منطق بازی (State Management)
+       ========================================================= */
+    const SAVE_KEY = "farmGame3D_v1";
+    const CONFIG = {
+      START_COINS: 50, DAILY_BONUS: 10,
+      SHEEP_PRICE: 80, CHICKEN_PRICE: 30, COW_PRICE: 90, LAND_BASE_PRICE: 100,
+      SEED_PRICES: { vegetable: 5, wheat: 2, apple: 5 },
+      CROP_VALUES: { vegetable: 2, wheat: 1, apple: 2 },
+      SELL_PRICES: { apples: 1, milk: 3, cheese: 1, eggs: 3 },
+      KILL_VALUES: { cow: 85, sheep: 75, chicken: 25 },
+      COW_INTERVAL: 20 * 60 * 1000, SHEEP_INTERVAL: 20 * 60 * 1000, CHICKEN_INTERVAL: 10 * 60 * 1000,
+      MERCHANT_INTERVAL: 30 * 60 * 1000,
+      CROP_GROW_TIME: 2 * 60 * 60 * 1000, CROP_LIFETIME: 24 * 60 * 60 * 1000
     };
-  }
+    const GIFT_CODES = { "FACTINEW10": 10, "FARM2026": 25, "WELCOME50": 50, "SHEEPGIFT": 80, "GOLDEN100": 100 };
 
-  function checkDailyBonus() {
-    const today = localDateStr();
-    if (state.lastLoginDate !== today) {
-      state.coins += CONFIG.DAILY_BONUS;
-      state.lastLoginDate = today;
-      save();
-      setTimeout(() => showToast(`🎁 پاداش ورود روزانه: +${CONFIG.DAILY_BONUS} سکه`), 500);
+    let state = null;
+    let tickInterval = null;
+
+    function now() { return Date.now(); }
+    function formatTime(ms) {
+      if (ms <= 0) return "آماده";
+      const s = Math.floor(ms / 1000);
+      return `${Math.floor(s / 3600)}س ${Math.floor((s % 3600) / 60)}د`;
     }
-  }
+    function localDateStr() {
+      const d = new Date();
+      return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    }
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg; t.classList.remove("hidden");
+      clearTimeout(t._timer); t._timer = setTimeout(() => t.classList.add("hidden"), 2500);
+    }
+    function save() { if (state) localStorage.setItem(SAVE_KEY, JSON.stringify(state)); }
+    function load() {
+      const raw = localStorage.getItem(SAVE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    }
 
-  function processTimers() {
-    const t = now();
-    let changed = false;
+    function createInitialState(farmName) {
+      const t = now();
+      return {
+        version: 1, farmName, coins: CONFIG.START_COINS, lastLoginDate: "", usedGiftCodes: [],
+        lands: [{ id: 1, crop: null, plantedAt: null, lastHarvestAt: null }], landsPurchased: 0,
+        animals: { cow: 1, sheep: 0, chicken: 0 }, lastProduction: { cow: t, sheep: t, chicken: t },
+        appleTree: { exists: true, lastHarvest: t }, lastMerchantVisit: t,
+        inventory: { apples: 0, milk: 0, cheese: 0, eggs: 0 }, seeds: { vegetable: 0, wheat: 0, apple: 0 }
+      };
+    }
 
-    if (state.animals.cow > 0) {
-      const cycles = Math.floor((t - state.lastProduction.cow) / CONFIG.COW_INTERVAL);
-      if (cycles > 0) {
-        state.inventory.milk += cycles * state.animals.cow;
-        state.lastProduction.cow += cycles * CONFIG.COW_INTERVAL;
-        changed = true;
+    function checkDailyBonus() {
+      const today = localDateStr();
+      if (state.lastLoginDate !== today) {
+        state.coins += CONFIG.DAILY_BONUS; state.lastLoginDate = today; save();
+        setTimeout(() => showToast(`🎁 پاداش ورود روزانه: +${CONFIG.DAILY_BONUS} سکه`), 1000);
       }
     }
 
-    if (state.animals.sheep > 0) {
-      const cycles = Math.floor((t - state.lastProduction.sheep) / CONFIG.SHEEP_INTERVAL);
-      if (cycles > 0) {
-        const produced = cycles * state.animals.sheep;
-        state.inventory.milk += produced;
-        state.inventory.cheese += produced;
-        state.lastProduction.sheep += cycles * CONFIG.SHEEP_INTERVAL;
-        changed = true;
-      }
-    }
-
-    if (state.animals.chicken > 0) {
-      const cycles = Math.floor((t - state.lastProduction.chicken) / CONFIG.CHICKEN_INTERVAL);
-      if (cycles > 0) {
-        state.inventory.eggs += cycles * state.animals.chicken;
-        state.lastProduction.chicken += cycles * CONFIG.CHICKEN_INTERVAL;
-        changed = true;
-      }
-    }
-
-    if (state.appleTree.exists) {
-      const cycles = Math.floor((t - state.appleTree.lastHarvest) / CONFIG.COW_INTERVAL);
-      if (cycles > 0) {
-        for (let i = 0; i < cycles; i++) {
-          state.inventory.apples += Math.random() < 0.5 ? 3 : 4;
-        }
-        state.appleTree.lastHarvest += cycles * CONFIG.COW_INTERVAL;
-        changed = true;
-      }
-    }
-
-    state.lands.forEach(land => {
-      if (land.crop && (t - land.plantedAt) >= CONFIG.CROP_LIFETIME) {
-        land.crop = null;
-        land.plantedAt = null;
-        land.lastHarvestAt = null;
-        changed = true;
-      }
-    });
-
-    if (changed) save();
-  }
-
-  function getNextLandPrice() {
-    return CONFIG.LAND_BASE_PRICE * Math.pow(2, state.landsPurchased);
-  }
-
-  function isMerchantPresent() {
-    return (now() - state.lastMerchantVisit) >= CONFIG.MERCHANT_INTERVAL;
-  }
-  function getMerchantRemaining() {
-    return Math.max(0, CONFIG.MERCHANT_INTERVAL - (now() - state.lastMerchantVisit));
-  }
-
-  function sellAll() {
-    if (!isMerchantPresent()) { showToast("بازرگان هنوز نیامده است. صبر کنید..."); return; }
-    const inv = state.inventory;
-    const total =
-      inv.apples * CONFIG.SELL_PRICES.apples +
-      inv.milk   * CONFIG.SELL_PRICES.milk +
-      inv.cheese * CONFIG.SELL_PRICES.cheese +
-      inv.eggs   * CONFIG.SELL_PRICES.eggs;
-    if (total === 0) { showToast("انبار شما خالی است!"); return; }
-    state.coins += total;
-    state.inventory = { apples: 0, milk: 0, cheese: 0, eggs: 0 };
-    state.lastMerchantVisit = now();
-    save(); render();
-    showToast(`🧳 فروش انجام شد! +${total} سکه`);
-  }
-
-  function seedName(type) {
-    return { vegetable: "سبزی 🥬", wheat: "گندم 🌾", apple: "سیب 🍎" }[type] || type;
-  }
-
-  function buySeed(type) {
-    const price = CONFIG.SEED_PRICES[type];
-    if (state.coins < price) { showToast("سکه کافی ندارید!"); return; }
-    state.coins -= price;
-    state.seeds[type] += 1;
-    save(); render();
-    showToast(`بذر خریداری شد: ${seedName(type)}`);
-  }
-
-  function plantCrop(landId) {
-    const land = state.lands.find(l => l.id === landId);
-    if (!land || land.crop) return;
-
-    let seedType = null;
-    for (const k of ["vegetable", "wheat", "apple"]) {
-      if (state.seeds[k] > 0) { seedType = k; break; }
-    }
-    if (!seedType) { showToast("بذر ندارید! ابتدا از فروشگاه بذر بخرید."); return; }
-
-    state.seeds[seedType] -= 1;
-    land.crop = seedType;
-    land.plantedAt = now();
-    land.lastHarvestAt = now();
-    save(); render();
-    showToast(`کاشته شد: ${seedName(seedType)}`);
-  }
-
-  function harvestCrop(landId) {
-    const land = state.lands.find(l => l.id === landId);
-    if (!land || !land.crop) return;
-
-    if (now() - land.plantedAt >= CONFIG.CROP_LIFETIME) {
-      land.crop = null; land.plantedAt = null; land.lastHarvestAt = null;
-      save(); render();
-      showToast("بذر خشک شد. دوباره بکارید.");
-      return;
-    }
-
-    if (now() - land.lastHarvestAt < CONFIG.CROP_GROW_TIME) {
-      showToast("محصول هنوز آماده نیست.");
-      return;
-    }
-
-    const value = CONFIG.CROP_VALUES[land.crop];
-    state.coins += value;
-    land.lastHarvestAt = now();
-    save(); render();
-    showToast(`برداشت شد! +${value} سکه`);
-  }
-
-  function buyLand() {
-    const price = getNextLandPrice();
-    if (state.coins < price) { showToast(`سکه کافی نیست! قیمت: ${price}`); return; }
-    state.coins -= price;
-    state.landsPurchased += 1;
-    state.lands.push({
-      id: state.lands.length + 1,
-      crop: null, plantedAt: null, lastHarvestAt: null
-    });
-    save(); render();
-    showToast(`🏞️ زمین جدید خریداری شد! (-${price} سکه)`);
-  }
-
-  function animalName(type) {
-    return { cow: "گاو 🐄", sheep: "گوسفند 🐑", chicken: "مرغ 🐔" }[type] || type;
-  }
-
-  function buyAnimal(type) {
-    const prices = { sheep: CONFIG.SHEEP_PRICE, chicken: CONFIG.CHICKEN_PRICE, cow: CONFIG.COW_PRICE };
-    const price = prices[type];
-    if (state.coins < price) { showToast("سکه کافی ندارید!"); return; }
-
-    processTimers();
-    state.coins -= price;
-    state.animals[type] += 1;
-    state.lastProduction[type] = now();
-    save(); render();
-    showToast(`حیوان خریداری شد: ${animalName(type)}`);
-  }
-
-  function killAnimal(type) {
-    if (state.animals[type] <= 0) { showToast("حیوانی از این نوع ندارید!"); return; }
-
-    processTimers();
-    state.animals[type] -= 1;
-    const value = CONFIG.KILL_VALUES[type];
-    state.coins += value;
-
-    if (state.animals[type] === 0) state.lastProduction[type] = now();
-
-    save(); render();
-    showToast(`حیوان کشته شد. +${value} سکه (گوشت و پوست)`);
-  }
-
-  function useGiftCode() {
-    const input = document.getElementById("giftInput");
-    const code = input.value.trim().toUpperCase();
-    if (!code) { showToast("کد را وارد کنید."); return; }
-    if (!GIFT_CODES[code]) { showToast("کد هدیه نامعتبر است!"); return; }
-    if (state.usedGiftCodes.includes(code)) { showToast("این کد قبلاً استفاده شده است!"); return; }
-    const reward = GIFT_CODES[code];
-    state.coins += reward;
-    state.usedGiftCodes.push(code);
-    input.value = "";
-    save(); render();
-    showToast(`🎁 کد هدیه فعال شد! +${reward} سکه`);
-  }
-
-  function render() {
-    if (!state) return;
-
-    document.getElementById("farmNameDisplay").textContent = state.farmName;
-    document.getElementById("coinsDisplay").textContent = state.coins;
-
-    document.getElementById("invApples").textContent = state.inventory.apples;
-    document.getElementById("invMilk").textContent   = state.inventory.milk;
-    document.getElementById("invCheese").textContent = state.inventory.cheese;
-    document.getElementById("invEggs").textContent   = state.inventory.eggs;
-
-    document.getElementById("seedVeg").textContent   = state.seeds.vegetable;
-    document.getElementById("seedWheat").textContent = state.seeds.wheat;
-    document.getElementById("seedApple").textContent = state.seeds.apple;
-
-    const merchantEl = document.getElementById("merchantStatus");
-    if (isMerchantPresent()) {
-      merchantEl.textContent = "✅ بازرگان حاضر است! می‌توانید بفروشید.";
-      merchantEl.style.color = "#27ae60";
-    } else {
-      merchantEl.textContent = `⏳ بازرگان در ${formatTime(getMerchantRemaining())} می‌آید.`;
-      merchantEl.style.color = "#e67e22";
-    }
-
-    const landsContainer = document.getElementById("landsContainer");
-    landsContainer.innerHTML = "";
-    state.lands.forEach(land => {
-      const card = document.createElement("div");
-      card.className = "land-card";
-
-      const title = document.createElement("div");
-      title.className = "land-title";
-      title.textContent = `زمین ${land.id}`;
-      card.appendChild(title);
-
-      const status = document.createElement("div");
-      status.className = "land-status";
-
-      if (!land.crop) {
-        status.textContent = "خالی — بذر بکارید";
-        card.appendChild(status);
-
-        const totalSeeds = state.seeds.vegetable + state.seeds.wheat + state.seeds.apple;
-        if (totalSeeds > 0) {
-          const btn = document.createElement("button");
-          btn.className = "btn btn-green";
-          btn.textContent = "کاشت";
-          btn.onclick = () => plantCrop(land.id);
-          card.appendChild(btn);
-        }
-      } else {
-        const age = now() - land.plantedAt;
-        if (age >= CONFIG.CROP_LIFETIME) {
-          status.textContent = "بذر خشک شد — دوباره بکارید";
-          card.classList.add("dead");
-          card.appendChild(status);
-        } else {
-          const sinceHarvest = now() - land.lastHarvestAt;
-          if (sinceHarvest >= CONFIG.CROP_GROW_TIME) {
-            status.textContent = `آماده برداشت (${seedName(land.crop)})`;
-            card.classList.add("ready");
-            card.appendChild(status);
-            const btn = document.createElement("button");
-            btn.className = "btn btn-harvest";
-            btn.textContent = `برداشت (+${CONFIG.CROP_VALUES[land.crop]} سکه)`;
-            btn.onclick = () => harvestCrop(land.id);
-            card.appendChild(btn);
-          } else {
-            const remainingGrow = CONFIG.CROP_GROW_TIME - sinceHarvest;
-            const remainingLife = CONFIG.CROP_LIFETIME - age;
-            status.textContent = `${seedName(land.crop)} — رشد: ${formatTime(remainingGrow)} — عمر: ${formatTime(remainingLife)}`;
-            card.classList.add("planted");
-            card.appendChild(status);
+    function processTimers() {
+      const t = now(); let changed = false;
+      // تولیدات دامی
+      ["cow", "sheep", "chicken"].forEach(key => {
+        const count = state.animals[key];
+        if (count > 0) {
+          const interval = key === "chicken" ? CONFIG.CHICKEN_INTERVAL : (key === "cow" ? CONFIG.COW_INTERVAL : CONFIG.SHEEP_INTERVAL);
+          const cycles = Math.floor((t - state.lastProduction[key]) / interval);
+          if (cycles > 0) {
+            const produced = cycles * count;
+            if (key === "cow") state.inventory.milk += produced;
+            if (key === "sheep") { state.inventory.milk += produced; state.inventory.cheese += produced; }
+            if (key === "chicken") state.inventory.eggs += produced;
+            state.lastProduction[key] += cycles * interval; changed = true;
           }
         }
+      });
+      // درخت سیب اولیه
+      if (state.appleTree.exists) {
+        const cycles = Math.floor((t - state.appleTree.lastHarvest) / CONFIG.COW_INTERVAL);
+        if (cycles > 0) {
+          for (let i = 0; i < cycles; i++) state.inventory.apples += Math.random() < 0.5 ? 3 : 4;
+          state.appleTree.lastHarvest += cycles * CONFIG.COW_INTERVAL; changed = true;
+        }
+      }
+      // مرگ گیاهان
+      state.lands.forEach(land => {
+        if (land.crop && (t - land.plantedAt) >= CONFIG.CROP_LIFETIME) {
+          land.crop = null; land.plantedAt = null; land.lastHarvestAt = null; changed = true;
+        }
+      });
+      if (changed) { save(); update3DScene(); } // آپدیت 3D اگر تغییری رخ داد
+    }
+
+    function getNextLandPrice() { return CONFIG.LAND_BASE_PRICE * Math.pow(2, state.landsPurchased); }
+    function isMerchantPresent() { return (now() - state.lastMerchantVisit) >= CONFIG.MERCHANT_INTERVAL; }
+
+    /* =========================================================
+       2. تعاملات UI (دکمه‌ها)
+       ========================================================= */
+    function sellAll() {
+      if (!isMerchantPresent()) { showToast("بازرگان نیامده است!"); return; }
+      const inv = state.inventory;
+      const total = inv.apples * CONFIG.SELL_PRICES.apples + inv.milk * CONFIG.SELL_PRICES.milk + inv.cheese * CONFIG.SELL_PRICES.cheese + inv.eggs * CONFIG.SELL_PRICES.eggs;
+      if (total === 0) { showToast("انبار خالی است!"); return; }
+      state.coins += total; state.inventory = { apples: 0, milk: 0, cheese: 0, eggs: 0 };
+      state.lastMerchantVisit = now(); save(); renderUI(); showToast(`فروش انجام شد! +${total} سکه`);
+    }
+
+    function buySeed(type) {
+      if (state.coins < CONFIG.SEED_PRICES[type]) { showToast("سکه کافی نیست!"); return; }
+      state.coins -= CONFIG.SEED_PRICES[type]; state.seeds[type] += 1; save(); renderUI();
+      showToast("بذر خریداری شد.");
+    }
+
+    function plantCrop(landId) {
+      const land = state.lands.find(l => l.id === landId);
+      if (!land || land.crop) return;
+      let seedType = null;
+      for (const k of ["vegetable", "wheat", "apple"]) { if (state.seeds[k] > 0) { seedType = k; break; } }
+      if (!seedType) { showToast("بذر ندارید! از فروشگاه بخرید."); return; }
+      state.seeds[seedType] -= 1; land.crop = seedType; land.plantedAt = now(); land.lastHarvestAt = now();
+      save(); renderUI(); update3DScene(); showToast("کاشته شد!");
+    }
+
+    function harvestCrop(landId) {
+      const land = state.lands.find(l => l.id === landId);
+      if (!land || !land.crop) return;
+      if (now() - land.lastHarvestAt < CONFIG.CROP_GROW_TIME) { showToast("هنوز آماده نیست."); return; }
+      const value = CONFIG.CROP_VALUES[land.crop];
+      state.coins += value; land.lastHarvestAt = now(); save(); renderUI(); update3DScene();
+      showToast(`برداشت شد! +${value} سکه`);
+    }
+
+    function buyLand() {
+      const price = getNextLandPrice();
+      if (state.coins < price) { showToast(`سکه کافی نیست! نیاز: ${price}`); return; }
+      state.coins -= price; state.landsPurchased += 1;
+      state.lands.push({ id: state.lands.length + 1, crop: null, plantedAt: null, lastHarvestAt: null });
+      save(); renderUI(); update3DScene(); showToast("زمین جدید خریداری شد!");
+    }
+
+    function buyAnimal(type) {
+      const prices = { sheep: CONFIG.SHEEP_PRICE, chicken: CONFIG.CHICKEN_PRICE, cow: CONFIG.COW_PRICE };
+      if (state.coins < prices[type]) { showToast("سکه کافی نیست!"); return; }
+      processTimers();
+      state.coins -= prices[type]; state.animals[type] += 1; state.lastProduction[type] = now();
+      save(); renderUI(); update3DScene(); showToast("حیوان خریداری شد!");
+    }
+
+    function killAnimal(type) {
+      if (state.animals[type] <= 0) { showToast("حیوانی ندارید!"); return; }
+      processTimers();
+      state.animals[type] -= 1; state.coins += CONFIG.KILL_VALUES[type];
+      if (state.animals[type] === 0) state.lastProduction[type] = now();
+      save(); renderUI(); update3DScene(); showToast(`حیوان کشته شد. +${CONFIG.KILL_VALUES[type]} سکه`);
+    }
+
+    function useGiftCode() {
+      const input = document.getElementById("giftInput");
+      const code = input.value.trim().toUpperCase();
+      if (!GIFT_CODES[code]) { showToast("کد نامعتبر است!"); return; }
+      if (state.usedGiftCodes.includes(code)) { showToast("قبلاً استفاده شده!"); return; }
+      state.coins += GIFT_CODES[code]; state.usedGiftCodes.push(code);
+      input.value = ""; save(); renderUI(); showToast(`🎁 +${GIFT_CODES[code]} سکه`);
+    }
+
+    /* =========================================================
+       3. رندر UI
+       ========================================================= */
+    function renderUI() {
+      if (!state) return;
+      document.getElementById("farmNameDisplay").textContent = state.farmName;
+      document.getElementById("coinsDisplay").textContent = state.coins;
+      document.getElementById("invApples").textContent = state.inventory.apples;
+      document.getElementById("invMilk").textContent = state.inventory.milk;
+      document.getElementById("invCheese").textContent = state.inventory.cheese;
+      document.getElementById("invEggs").textContent = state.inventory.eggs;
+      
+      document.getElementById("seedVeg").textContent = state.seeds.vegetable;
+      document.getElementById("seedWheat").textContent = state.seeds.wheat;
+      document.getElementById("seedApple").textContent = state.seeds.apple;
+
+      document.getElementById("countCow").textContent = state.animals.cow;
+      document.getElementById("countSheep").textContent = state.animals.sheep;
+      document.getElementById("countChicken").textContent = state.animals.chicken;
+
+      // بازرگان
+      const mStatus = document.getElementById("merchantStatus");
+      if (isMerchantPresent()) {
+        mStatus.innerHTML = "✅ <b>بازرگان حاضر است!</b>";
+        mStatus.style.color = "#27ae60";
+        document.getElementById("sellAllBtn").disabled = false;
+      } else {
+        mStatus.innerHTML = `⏳ بازرگان در ${formatTime(CONFIG.MERCHANT_INTERVAL - (now() - state.lastMerchantVisit))} می‌آید.`;
+        mStatus.style.color = "#e67e22";
+        document.getElementById("sellAllBtn").disabled = true;
       }
 
-      landsContainer.appendChild(card);
-    });
+      // زمین‌ها
+      const landsContainer = document.getElementById("landsContainer");
+      landsContainer.innerHTML = "";
+      state.lands.forEach(land => {
+        const div = document.createElement("div");
+        div.style.display = "flex"; div.style.justifyContent = "space-between"; div.style.alignItems = "center";
+        div.style.background = "#fff"; div.style.padding = "5px"; div.style.borderRadius = "6px"; div.style.fontSize = "12px";
 
-    const buyLandBtn = document.getElementById("buyLandBtn");
-    const nextPrice = getNextLandPrice();
-    buyLandBtn.textContent = `خرید زمین جدید — ${nextPrice} سکه`;
-    buyLandBtn.disabled = state.coins < nextPrice;
+        const text = document.createElement("span");
+        if (!land.crop) {
+          text.textContent = `زمین ${land.id}: خالی`;
+          const btn = document.createElement("button");
+          btn.textContent = "کاشت"; btn.className = "btn btn-green"; btn.style.width = "auto"; btn.style.margin = "0"; btn.style.padding = "4px 8px";
+          btn.onclick = () => plantCrop(land.id);
+          div.appendChild(text); div.appendChild(btn);
+        } else {
+          const since = now() - land.lastHarvestAt;
+          if (since >= CONFIG.CROP_GROW_TIME) {
+            text.textContent = `زمین ${land.id}: آماده`;
+            const btn = document.createElement("button");
+            btn.textContent = "برداشت"; btn.className = "btn btn-harvest"; btn.style.width = "auto"; btn.style.margin = "0"; btn.style.padding = "4px 8px";
+            btn.onclick = () => harvestCrop(land.id);
+            div.appendChild(text); div.appendChild(btn);
+          } else {
+            text.textContent = `زمین ${land.id}: رشد (${formatTime(CONFIG.CROP_GROW_TIME - since)})`;
+            div.appendChild(text);
+          }
+        }
+        landsContainer.appendChild(div);
+      });
 
-    document.getElementById("sellAllBtn").disabled = !isMerchantPresent();
+      document.getElementById("buyLandBtn").textContent = `خرید زمین (${getNextLandPrice()} سکه)`;
+      document.getElementById("buyLandBtn").disabled = state.coins < getNextLandPrice();
 
-    const animalsContainer = document.getElementById("animalsContainer");
-    animalsContainer.innerHTML = "";
-
-    const animalDefs = [
-      { key: "cow",     label: "گاو 🐄",     interval: CONFIG.COW_INTERVAL,     produce: "شیر 🥛" },
-      { key: "sheep",   label: "گوسفند 🐑",  interval: CONFIG.SHEEP_INTERVAL,   produce: "شیر 🥛 + پنیر 🧀" },
-      { key: "chicken", label: "مرغ 🐔",     interval: CONFIG.CHICKEN_INTERVAL, produce: "تخم‌مرغ 🥚" }
-    ];
-
-    animalDefs.forEach(def => {
-      const count = state.animals[def.key];
-      if (count <= 0) return;
-      const card = document.createElement("div");
-      card.className = "animal-card";
-      const nextIn = Math.max(0, def.interval - (now() - state.lastProduction[def.key]));
-      card.innerHTML = `
-        <h3>${def.label} × ${count}</h3>
-        <p>تولید: ${def.produce}</p>
-        <p>تولید بعدی: ${formatTime(nextIn)}</p>
-      `;
-      const killBtn = document.createElement("button");
-      killBtn.className = "btn btn-kill";
-      killBtn.textContent = `کشتن (${CONFIG.KILL_VALUES[def.key]} سکه)`;
-      killBtn.onclick = () => killAnimal(def.key);
-      card.appendChild(killBtn);
-      animalsContainer.appendChild(card);
-    });
-
-    const buyPrices = { sheep: CONFIG.SHEEP_PRICE, chicken: CONFIG.CHICKEN_PRICE, cow: CONFIG.COW_PRICE };
-    document.querySelectorAll("[data-buy]").forEach(btn => {
-      btn.disabled = state.coins < buyPrices[btn.dataset.buy];
-    });
-
-    document.querySelectorAll("[data-seed]").forEach(btn => {
-      btn.disabled = state.coins < CONFIG.SEED_PRICES[btn.dataset.seed];
-    });
-  }
-
-  function startGameLoop() {
-    if (tickInterval) clearInterval(tickInterval);
-    if (saveInterval) clearInterval(saveInterval);
-
-    checkDailyBonus();
-    processTimers();
-    render();
-    save();
-
-    tickInterval = setInterval(() => { processTimers(); render(); }, 1000);
-    saveInterval = setInterval(save, 10000);
-  }
-
-  function startNewGame(farmName) {
-    state = createInitialState(farmName);
-    document.getElementById("startScreen").classList.add("hidden");
-    document.getElementById("gameScreen").classList.remove("hidden");
-    startGameLoop();
-  }
-
-  function resumeSavedGame(saved) {
-    state = saved;
-    document.getElementById("startScreen").classList.add("hidden");
-    document.getElementById("gameScreen").classList.remove("hidden");
-    startGameLoop();
-  }
-
-  document.getElementById("startBtn").addEventListener("click", () => {
-    const input = document.getElementById("farmNameInput");
-    const name = input.value.trim();
-    if (!name) { alert("لطفاً یک نام برای مزرعه وارد کنید."); return; }
-    startNewGame(name);
-  });
-
-  document.getElementById("sellAllBtn").addEventListener("click", sellAll);
-  document.getElementById("buyLandBtn").addEventListener("click", buyLand);
-  document.getElementById("giftBtn").addEventListener("click", useGiftCode);
-
-  document.getElementById("resetBtn").addEventListener("click", () => {
-    if (confirm("آیا مطمئن هستید؟ تمام پیشرفت شما پاک می‌شود.")) {
-      localStorage.removeItem(SAVE_KEY);
-      location.reload();
+      // حیوانات
+      const animalsContainer = document.getElementById("animalsContainer");
+      animalsContainer.innerHTML = "";
+      ["cow", "sheep", "chicken"].forEach(key => {
+        if (state.animals[key] > 0) {
+          const div = document.createElement("div");
+          div.style.display = "flex"; div.style.justifyContent = "space-between"; div.style.alignItems = "center";
+          div.style.background = "#fdf1e6"; div.style.padding = "5px"; div.style.borderRadius = "6px"; div.style.fontSize = "12px";
+          const names = { cow: "گاو", sheep: "گوسفند", chicken: "مرغ" };
+          div.innerHTML = `<span>${names[key]} (${state.animals[key]})</span>`;
+          const btn = document.createElement("button");
+          btn.textContent = `کشتن (+${CONFIG.KILL_VALUES[key]})`;
+          btn.className = "btn btn-kill"; btn.style.width = "auto"; btn.style.margin = "0"; btn.style.padding = "4px 8px"; btn.style.background = "#e74c3c";
+          btn.onclick = () => killAnimal(key);
+          div.appendChild(btn);
+          animalsContainer.appendChild(div);
+        }
+      });
     }
-  });
 
-  document.querySelectorAll("[data-seed]").forEach(btn => {
-    btn.addEventListener("click", () => buySeed(btn.dataset.seed));
-  });
+    /* =========================================================
+       4. محیط سه‌بعدی (Three.js)
+       ========================================================= */
+    let scene, camera, renderer, controls;
+    let landMeshes = []; // برای ذخیره مش‌های زمین
+    let animalMeshes = []; // برای ذخیره مش‌های حیوانات
+    let cropMeshes = []; // برای ذخیره گیاهان
 
-  document.querySelectorAll("[data-buy]").forEach(btn => {
-    btn.addEventListener("click", () => buyAnimal(btn.dataset.buy));
-  });
+    function init3D() {
+      const container = document.getElementById('canvas-container');
+      
+      // صحنه
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x87CEEB); // آسمان آبی
+      scene.fog = new THREE.Fog(0x87CEEB, 20, 50);
 
-  (function init() {
-    const saved = load();
-    if (saved && saved.version === 2) {
-      resumeSavedGame(saved);
+      // دوربین
+      camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(12, 12, 12);
+
+      // رندرر
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      container.appendChild(renderer.domElement);
+
+      // کنترلر دوربین (چرخش با موس)
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.maxPolarAngle = Math.PI / 2 - 0.05; // جلوگیری از رفتن دوربین زیر زمین
+      controls.minDistance = 5;
+      controls.maxDistance = 30;
+
+      // نورپردازی
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambientLight);
+
+      const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      dirLight.position.set(10, 20, 10);
+      dirLight.castShadow = true;
+      dirLight.shadow.mapSize.width = 2048;
+      dirLight.shadow.mapSize.height = 2048;
+      dirLight.shadow.camera.left = -15;
+      dirLight.shadow.camera.right = 15;
+      dirLight.shadow.camera.top = 15;
+      dirLight.shadow.camera.bottom = -15;
+      scene.add(dirLight);
+
+      // زمین اصلی (چمن)
+      const groundGeo = new THREE.PlaneGeometry(40, 40);
+      const groundMat = new THREE.MeshLambertMaterial({ color: 0x7CFC00 });
+      const ground = new THREE.Mesh(groundGeo, groundMat);
+      ground.rotation.x = -Math.PI / 2;
+      ground.receiveShadow = true;
+      scene.add(ground);
+
+      window.addEventListener('resize', onWindowResize, false);
+      animate();
     }
-  })();
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      
+      // انیمیشن شناور بودن حیوانات (حرکت بالا و پایین)
+      const time = Date.now() * 0.002;
+      animalMeshes.forEach((animal, index) => {
+        if (animal.userData.baseY !== undefined) {
+          animal.position.y = animal.userData.baseY + Math.sin(time + index) * 0.1;
+        }
+      });
+
+      renderer.render(scene, camera);
+    }
+
+    // مدل‌سازها
+    function createLand(x, z) {
+      const geo = new THREE.BoxGeometry(3, 0.2, 3);
+      const mat = new THREE.MeshLambertMaterial({ color: 0x8B4513 }); // قهوه‌ای
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(x, 0.1, z);
+      mesh.receiveShadow = true;
+      scene.add(mesh);
+      return mesh;
+    }
+
+    function createWheat() {
+      const group = new THREE.Group();
+      for(let i=0; i<5; i++) {
+        const geo = new THREE.CylinderGeometry(0.05, 0.05, 1, 8);
+        const mat = new THREE.MeshLambertMaterial({ color: 0xE1C699 });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set((Math.random()-0.5)*2, 0.5, (Math.random()-0.5)*2);
+        mesh.castShadow = true;
+        group.add(mesh);
+      }
+      return group;
+    }
+
+    function createVegetable() {
+      const group = new THREE.Group();
+      for(let i=0; i<3; i++) {
+        const geo = new THREE.SphereGeometry(0.3, 16, 16);
+        const mat = new THREE.MeshLambertMaterial({ color: 0x2ECC71 });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set((Math.random()-0.5)*2, 0.3, (Math.random()-0.5)*2);
+        mesh.castShadow = true;
+        group.add(mesh);
+      }
+      return group;
+    }
+
+    function createAppleTree() {
+      const group = new THREE.Group();
+      // تنه
+      const trunkGeo = new THREE.CylinderGeometry(0.2, 0.3, 1.5, 8);
+      const trunkMat = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+      const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+      trunk.position.y = 0.75;
+      trunk.castShadow = true;
+      group.add(trunk);
+      // برگ‌ها
+      const leafGeo = new THREE.IcosahedronGeometry(1, 0);
+      const leafMat = new THREE.MeshLambertMaterial({ color: 0x27AE60 });
+      const leaves = new THREE.Mesh(leafGeo, leafMat);
+      leaves.position.y = 1.8;
+      leaves.castShadow = true;
+      group.add(leaves);
+      // سیب‌ها
+      const appleGeo = new THREE.SphereGeometry(0.15, 8, 8);
+      const appleMat = new THREE.MeshLambertMaterial({ color: 0xE74C3C });
+      for(let i=0; i<4; i++) {
+        const apple = new THREE.Mesh(appleGeo, appleMat);
+        apple.position.set((Math.random()-0.5)*1.5, 1.5 + Math.random()*0.5, (Math.random()-0.5)*1.5);
+        group.add(apple);
+      }
+      return group;
+    }
+
+    function createCow() {
+      const group = new THREE.Group();
+      // بدن
+      const bodyGeo = new THREE.BoxGeometry(1.6, 0.8, 0.8);
+      const bodyMat = new THREE.MeshLambertMaterial({ color: 0xFFFFFF });
+      const body = new THREE.Mesh(bodyGeo, bodyMat);
+      body.position.y = 0.8; body.castShadow = true; group.add(body);
+      // لکه‌ها
+      const spotGeo = new THREE.BoxGeometry(0.4, 0.4, 0.81);
+      const spotMat = new THREE.MeshLambertMaterial({ color: 0x333333 });
+      const spot = new THREE.Mesh(spotGeo, spotMat);
+      spot.position.set(0.3, 0.9, 0); group.add(spot);
+      // سر
+      const headGeo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+      const head = new THREE.Mesh(headGeo, bodyMat);
+      head.position.set(1.0, 0.9, 0); head.castShadow = true; group.add(head);
+      // پاها
+      const legGeo = new THREE.CylinderGeometry(0.1, 0.1, 0.6, 8);
+      [-0.6, 0.6].forEach(x => {
+        [-0.3, 0.3].forEach(z => {
+          const leg = new THREE.Mesh(legGeo, bodyMat);
+          leg.position.set(x, 0.3, z); leg.castShadow = true; group.add(leg);
+        });
+      });
+      return group;
+    }
+
+    function createSheep() {
+      const group = new THREE.Group();
+      // پشم (بدن)
+      const bodyGeo = new THREE.IcosahedronGeometry(0.6, 0);
+      const bodyMat = new THREE.MeshLambertMaterial({ color: 0xFDFEFE });
+      const body = new THREE.Mesh(bodyGeo, bodyMat);
+      body.position.y = 0.8; body.castShadow = true; group.add(body);
+      // سر
+      const headGeo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+      const headMat = new THREE.MeshLambertMaterial({ color: 0x333333 });
+      const head = new THREE.Mesh(headGeo, headMat);
+      head.position.set(0.6, 0.8, 0); head.castShadow = true; group.add(head);
+      // پاها
+      const legGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.5, 8);
+      [-0.3, 0.3].forEach(x => {
+        [-0.2, 0.2].forEach(z => {
+          const leg = new THREE.Mesh(legGeo, headMat);
+          leg.position.set(x, 0.25, z); leg.castShadow = true; group.add(leg);
+        });
+      });
+      return group;
+    }
+
+    function createChicken() {
+      const group = new THREE.Group();
+      // بدن
+      const bodyGeo = new THREE.SphereGeometry(0.35, 16, 16);
+      const bodyMat = new THREE.MeshLambertMaterial({ color: 0xF1C40F });
+      const body = new THREE.Mesh(bodyGeo, bodyMat);
+      body.position.y = 0.5; body.castShadow = true; group.add(body);
+      // سر و تاج
+      const headGeo = new THREE.SphereGeometry(0.2, 16, 16);
+      const head = new THREE.Mesh(headGeo, bodyMat);
+      head.position.set(0.3, 0.8, 0); head.castShadow = true; group.add(head);
+      
+      const combGeo = new THREE.ConeGeometry(0.1, 0.2, 8);
+      const combMat = new THREE.MeshLambertMaterial({ color: 0xE74C3C });
+      const comb = new THREE.Mesh(combGeo, combMat);
+      comb.position.set(0.3, 1.0, 0); group.add(comb);
+      // منقار
+      const beakGeo = new THREE.ConeGeometry(0.05, 0.15, 8);
+      const beakMat = new THREE.MeshLambertMaterial({ color: 0xE67E22 });
+      const beak = new THREE.Mesh(beakGeo, beakMat);
+      beak.rotation.z = -Math.PI/2; beak.position.set(0.5, 0.8, 0); group.add(beak);
+      
+      return group;
+    }
+
+    // به‌روزرسانی صحنه 3D بر اساس State
+    function update3DScene() {
+      if(!scene) return;
+
+      // پاک کردن مش‌های قبلی
+      landMeshes.forEach(m => scene.remove(m));
+      cropMeshes.forEach(m => scene.remove(m));
+      animalMeshes.forEach(m => scene.remove(m));
+      landMeshes = []; cropMeshes = []; animalMeshes = [];
+
+      // ساخت زمین‌ها
+      const cols = 3;
+      state.lands.forEach((land, i) => {
+        const x = (i % cols) * 4 - 4;
+        const z = Math.floor(i / cols) * 4 - 2;
+        
+        const landMesh = createLand(x, z);
+        landMeshes.push(landMesh);
+
+        // اگر محصولی کاشته شده
+        if (land.crop) {
+          let cropGroup;
+          if (land.crop === 'wheat') cropGroup = createWheat();
+          else if (land.crop === 'vegetable') cropGroup = createVegetable();
+          else if (land.crop === 'apple') cropGroup = createAppleTree();
+          
+          cropGroup.position.set(x, 0.2, z);
+          scene.add(cropGroup);
+          cropMeshes.push(cropGroup);
+        }
+      });
+
+      // ساخت حیوانات
+      let animalX = -6;
+      let animalZ = 6;
+      
+      const addAnimals = (type, count) => {
+        if (count <= 0) return;
+        for (let i = 0; i < count; i++) {
+          let mesh;
+          if (type === 'cow') mesh = createCow();
+          else if (type === 'sheep') mesh = createSheep();
+          else if (type === 'chicken') mesh = createChicken();
+
+          // چیدمان حیوانات
+          mesh.position.set(animalX, 0, animalZ);
+          mesh.rotation.y = Math.PI / 2; // رو به روی دوربین
+          mesh.userData.baseY = 0; // برای انیمیشن
+          scene.add(mesh);
+          animalMeshes.push(mesh);
+
+          animalX += 2;
+          if (animalX > 6) { animalX = -6; animalZ += 2.5; }
+        }
+      };
+
+      addAnimals('cow', state.animals.cow);
+      addAnimals('sheep', state.animals.sheep);
+      addAnimals('chicken', state.animals.chicken);
+      
+      // درخت سیب اولیه در گوشه مزرعه
+      if(state.appleTree.exists) {
+        const initialTree = createAppleTree();
+        initialTree.position.set(6, 0.2, -4);
+        scene.add(initialTree);
+        cropMeshes.push(initialTree); // برای پاکسازی بعدی
+      }
+    }
+
+    /* =========================================================
+       5. راه‌اندازی
+       ========================================================= */
+    function startGame(farmName) {
+      state = createInitialState(farmName);
+      document.getElementById("startScreen").classList.add("hidden");
+      document.getElementById("gameUI").classList.remove("hidden");
+      
+      init3D();
+      checkDailyBonus();
+      update3DScene();
+      renderUI();
+      save();
+
+      if (tickInterval) clearInterval(tickInterval);
+      tickInterval = setInterval(() => {
+        processTimers();
+        renderUI(); // فقط UI آپدیت شود، 3D در صورت تغییر آپدیت می‌شود
+      }, 1000);
+    }
+
+    // بارگذاری بازی قبلی
+    (function init() {
+      const saved = load();
+      if (saved && saved.farmName) {
+        state = saved;
+        document.getElementById("startScreen").classList.add("hidden");
+        document.getElementById("gameUI").classList.remove("hidden");
+        init3D();
+        checkDailyBonus();
+        update3DScene();
+        renderUI();
+        
+        if (tickInterval) clearInterval(tickInterval);
+        tickInterval = setInterval(() => { processTimers(); renderUI(); }, 1000);
+      }
+    })();
+
+    // رویدادها
+    document.getElementById("startBtn").addEventListener("click", () => {
+      const name = document.getElementById("farmNameInput").value.trim();
+      if (!name) { alert("نام مزرعه را وارد کنید!"); return; }
+      localStorage.removeItem(SAVE_KEY); // شروع مجدد
+      startGame(name);
+    });
+
+    document.getElementById("sellAllBtn").addEventListener("click", sellAll);
+    document.getElementById("buyLandBtn").addEventListener("click", buyLand);
+    document.getElementById("giftBtn").addEventListener("click", useGiftCode);
+
+    document.querySelectorAll("[data-seed]").forEach(btn => btn.addEventListener("click", () => buySeed(btn.dataset.seed)));
+    document.querySelectorAll("[data-buy]").forEach(btn => btn.addEventListener("click", () => buyAnimal(btn.dataset.buy)));
+
   </script>
 </body>
 </html>
